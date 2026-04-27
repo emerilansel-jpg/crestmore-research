@@ -1,5 +1,5 @@
 ---
-// research.astro — Research index page (all articles)
+// research.astro â Research index page (all articles)
 import BaseLayout from '../layouts/BaseLayout.astro';
 import ArticleCard from '../components/ArticleCard.astro';
 import { getCollection } from 'astro:content';
@@ -25,7 +25,7 @@ const posts = allPosts.sort(
           {posts.map(post => (
             <ArticleCard
               title={post.data.title}
-              slug={post.slug}
+              slug={post.id}
               category={post.data.category}
               description={post.data.description}
               author={post.data.author}
