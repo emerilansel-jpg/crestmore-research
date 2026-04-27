@@ -1,5 +1,5 @@
 ---
-// index.astro â Homepage: Hero + Research article grid
+// index.astro — Homepage: Hero + Research article grid
 import BaseLayout from '../layouts/BaseLayout.astro';
 import ArticleCard from '../components/ArticleCard.astro';
 import { getCollection } from 'astro:content';
@@ -12,17 +12,20 @@ const posts = allPosts.sort(
 ---
 
 <BaseLayout
-  title="Crestmore Research â Strategic Market Intelligence"
+  title="Crestmore Research — Strategic Market Intelligence"
   description="Independent research and analysis across key market verticals. Crestmore Research delivers rigorous, data-backed insights for informed decision-making."
   pageType="homepage"
 >
   <!-- Hero -->
   <section class="hero" aria-label="Site introduction">
     <div class="container">
+      <p class="hero__eyebrow">Independent Analysis &amp; Research</p>
       <h1 class="hero__title">Strategic Market Intelligence</h1>
       <p class="hero__subtitle">
-        Independent research and analysis across key market verticals
+        Data-backed research across key market verticals — commodities, emerging markets,
+        and global capital flows — for informed decision-making.
       </p>
+      <a href="/research" class="hero__cta">View Research</a>
     </div>
   </section>
 
@@ -45,13 +48,4 @@ const posts = allPosts.sort(
               date={post.data.date}
               featured_image={post.data.featured_image}
             />
-          ))}
-        </div>
-      ) : (
-        <p style="color: var(--text-muted); font-family: 'Inter', sans-serif;">
-          No research articles published yet.
-        </p>
-      )}
-    </div>
-  </section>
-</BaseLayout>
+       
