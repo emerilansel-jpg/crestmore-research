@@ -36,7 +36,7 @@ const { pathname } = Astro.url;
       {navLinks.map(link => (
         <a
           href={link.href}
-          aria-current={pathname === link.href || (link.href !== '/' && pathname.startsWith(link.href)) ? 'page' : undefined}
+          aria-current={pathname === link.href || (link.href !== "/" && pathname.startsWith(link.href)) ? "page" : undefined}
         >
           {link.label}
         </a>
@@ -46,7 +46,11 @@ const { pathname } = Astro.url;
 </header>
 
 <script>
-  const toggle = document.getElementById('nav-toggle');
-  const nav = document.getElementById('main-nav');
+  const toggle = document.getElementById("nav-toggle");
+  const nav = document.getElementById("main-nav");
 
-  toggle?.addEventListener('
+  toggle?.addEventListener("click", () => {
+    const isOpen = nav?.classList.toggle("is-open");
+    toggle.setAttribute("aria-expanded", String(isOpen));
+  });
+</script>
