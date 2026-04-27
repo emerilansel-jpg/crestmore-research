@@ -1,0 +1,148 @@
+---
+// ArticleLayout.astro — Full article page layout with schema, breadcrumbs, meta, AuthorBox
+import BaseLayout from './BaseLayout.astro';
+import AuthorBox from '../components/AuthorBox.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  author: string;
+  date: Date;
+  category: string;
+  featured_image?: string;
+  slug: string;
+  readingTime: number;
+}
+
+const {
+  title,
+  description,
+  author,
+  date,
+  category,
+  featured_image,
+  slug,
+  readingTime,
+} = Astro.props;
+
+const formattedDate = new Intl.DateTimeFormat('en-US', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+}).format(date);
+
+const isoDate = date.toISOString();
+const canonicalUrl = `https://crestmoreresearch.com/research/${slug}`;
+const ogImage = featured_image
+  ? `https://crestmoreresearch.com${featured_image}`
+  : 'https://crestmoreresearch.com/images/og-default.jpg';
+
+// Article schema
+const articleSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: title,
+  description,
+  author: {
+    '@type': 'Person',
+    name: author.split(',')[0].trim(),
+  },
+  datePublished: isoDate,
+  image: ogImage,
+  publisher: {
+    '@type': 'Organization',
+    name: 'Crestmore Research',
+    url: 'https://crestmoreresearch.com',
+  },
+};
+
+// Breadcrumb schema
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://crestmoreresearch.com' },
+    { '@type': 'ListItem', position: 2, name: 'Research', item: 'https://crestmoreresearch.com/research' },
+    { '@type': 'ListItem', position: 3, name: title },
+  ],
+};
+---
+
+<BaseLayout
+  title={`${title} | Crestmore Research`}
+  description={description}
+  pageType="article"
+  canonicalUrl={canonicalUrl}
+  ogImage={ogImage}
+>
+  <!-- Inject Article + Breadcrumb schema into <head> -->
+  <Fragment slot="schema">
+    <script type="application/ld+json" set:html={JSON.stringify(articleSchema)} />
+    <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
+  </Fragment>
+
+  <article class="article-page">
+    <!-- Breadcrumb -->
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="/">Home</a>
+      <span class="breadcrumb__sep" aria-hidden="true">›</span>
+      <a href="/research">Research</a>
+      <span class="breadcrumb__sep" aria-hidden="true">›</span>
+      <span aria-current="page">{title}</span>
+    </nav>
+
+    <!-- Category badge -->
+    <span class="article-page__category">{category}</span>
+
+    <!-- Title -->
+    <h1 class="article-page__title">{title}</h1>
+
+    <!-- Meta row -->
+    <div class="article-page__meta">
+      <div class="article-page__meta-item">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+          <circle cx="12" cy="7" r="4"/>
+        </svg>
+        <strong>{author.split(',')[0].trim()}</strong>
+      </div>
+      <div class="article-page__meta-item">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+          <line x1="16" y1="2" x2="16" y2="6"/>
+          <line x1="8" y1="2" x2="8" y2="6"/>
+          <line x1="3" y1="10" x2="21" y2="10"/>
+        </svg>
+        <time datetime={isoDate}>{formattedDate}</time>
+      </div>
+      <div class="article-page__meta-item">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <circle cx="12" cy="12" r="10"/>
+          <polyline points="12 6 12 12 16 14"/>
+        </svg>
+        <span>{readingTime} min read</span>
+      </div>
+      <span class="article-page__category" style="margin-bottom:0">{category}</span>
+    </div>
+
+    <!-- Featured image -->
+    {featured_image && (
+      <img
+        class="article-page__featured-image"
+        src={featured_image}
+        alt={title}
+        width="760"
+        height="428"
+        loading="eager"
+      />
+    )}
+
+    <!-- Article body (rendered markdown) -->
+    <div class="article-body">
+      <slot />
+    </div>
+
+    <!-- Author box -->
+    <AuthorBox author={author} />
+  </article>
+</BaseLayout>

@@ -1,0 +1,57 @@
+---
+// index.astro — Homepage: Hero + Research article grid
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ArticleCard from '../components/ArticleCard.astro';
+import { getCollection } from 'astro:content';
+
+// Fetch all research articles, sorted newest first
+const allPosts = await getCollection('research');
+const posts = allPosts.sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
+);
+---
+
+<BaseLayout
+  title="Crestmore Research — Strategic Market Intelligence"
+  description="Independent research and analysis across key market verticals. Crestmore Research delivers rigorous, data-backed insights for informed decision-making."
+  pageType="homepage"
+>
+  <!-- Hero -->
+  <section class="hero" aria-label="Site introduction">
+    <div class="container">
+      <h1 class="hero__title">Strategic Market Intelligence</h1>
+      <p class="hero__subtitle">
+        Independent research and analysis across key market verticals
+      </p>
+    </div>
+  </section>
+
+  <!-- Research grid -->
+  <section class="section" aria-labelledby="research-section-title">
+    <div class="container">
+      <div class="section__header">
+        <h2 class="section__title" id="research-section-title">Research &amp; Analysis</h2>
+      </div>
+
+      {posts.length > 0 ? (
+        <div class="article-grid">
+          {posts.map(post => (
+            <ArticleCard
+              title={post.data.title}
+              slug={post.slug}
+              category={post.data.category}
+              description={post.data.description}
+              author={post.data.author}
+              date={post.data.date}
+              featured_image={post.data.featured_image}
+            />
+          ))}
+        </div>
+      ) : (
+        <p style="color: var(--text-muted); font-family: 'Inter', sans-serif;">
+          No research articles published yet.
+        </p>
+      )}
+    </div>
+  </section>
+</BaseLayout>

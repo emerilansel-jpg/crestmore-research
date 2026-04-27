@@ -1,0 +1,36 @@
+---
+// AuthorBox.astro — Author attribution block at bottom of articles
+interface Props {
+  author: string;
+}
+
+const { author } = Astro.props;
+
+// Split "Name, Title" format into components
+const [authorName, authorTitle = 'Senior Research Analyst'] = author.split(',').map((s: string) => s.trim());
+
+// Initials for avatar
+const initials = authorName
+  .split(' ')
+  .map((n: string) => n[0])
+  .slice(0, 2)
+  .join('');
+
+// Bio keyed to analyst name (expandable as more analysts are added)
+const bios: Record<string, string> = {
+  'James Whitfield': 'James Whitfield leads independent market research at Crestmore Research, with a focus on technology, cybersecurity, and enterprise software. He has evaluated over 200 products across key market verticals and contributes rigorous, data-backed analysis to help consumers and professionals make informed decisions.',
+  'default': `${authorName} is a senior research analyst at Crestmore Research, specializing in independent product evaluation and strategic market intelligence. Their work spans technology, financial services, and enterprise software sectors.`,
+};
+
+const bio = bios[authorName] ?? bios['default'];
+---
+
+<aside class="author-box" aria-label="About the author">
+  <div class="author-box__avatar" aria-hidden="true">{initials}</div>
+  <div class="author-box__info">
+    <p class="author-box__label">Written by</p>
+    <p class="author-box__name">{authorName}</p>
+    <p class="author-box__title">{authorTitle}</p>
+    <p class="author-box__bio">{bio}</p>
+  </div>
+</aside>

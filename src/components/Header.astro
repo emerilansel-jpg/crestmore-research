@@ -1,0 +1,50 @@
+---
+// Header.astro — Sticky dark navy header
+const navLinks = [
+  { href: '/', label: 'Home' },
+  { href: '/research', label: 'Research' },
+  { href: '/about', label: 'About' },
+];
+const { pathname } = Astro.url;
+---
+
+<header class="site-header" role="banner">
+  <div class="site-header__inner">
+    <a href="/" class="site-header__logo" aria-label="Crestmore Research home">
+      Crestmore Research
+    </a>
+
+    <button
+      class="site-header__toggle"
+      aria-label="Toggle navigation"
+      aria-expanded="false"
+      aria-controls="main-nav"
+      id="nav-toggle"
+    >
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+
+    <nav class="site-header__nav" id="main-nav" role="navigation" aria-label="Main navigation">
+      {navLinks.map(link => (
+        <a
+          href={link.href}
+          aria-current={pathname === link.href || (link.href !== '/' && pathname.startsWith(link.href)) ? 'page' : undefined}
+        >
+          {link.label}
+        </a>
+      ))}
+    </nav>
+  </div>
+</header>
+
+<script>
+  const toggle = document.getElementById('nav-toggle');
+  const nav = document.getElementById('main-nav');
+
+  toggle?.addEventListener('click', () => {
+    const isOpen = nav?.classList.toggle('is-open');
+    toggle.setAttribute('aria-expanded', String(isOpen));
+  });
+</script>

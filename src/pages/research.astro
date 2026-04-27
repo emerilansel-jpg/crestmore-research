@@ -1,0 +1,44 @@
+---
+// research.astro — Research index page (all articles)
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ArticleCard from '../components/ArticleCard.astro';
+import { getCollection } from 'astro:content';
+
+const allPosts = await getCollection('research');
+const posts = allPosts.sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
+);
+---
+
+<BaseLayout
+  title="Research & Analysis | Crestmore Research"
+  description="Browse all independent research articles and market analysis from Crestmore Research."
+>
+  <section class="section" aria-labelledby="research-page-title">
+    <div class="container">
+      <div class="section__header">
+        <h1 class="section__title" id="research-page-title">Research &amp; Analysis</h1>
+      </div>
+
+      {posts.length > 0 ? (
+        <div class="article-grid">
+          {posts.map(post => (
+            <ArticleCard
+              title={post.data.title}
+              slug={post.slug}
+              category={post.data.category}
+              description={post.data.description}
+              author={post.data.author}
+              date={post.data.date}
+              featured_image={post.data.featured_image}
+            />
+          ))}
+        </div>
+      ) : (
+        <p style="color: var(--text-muted); font-family: 'Inter', sans-serif;">
+          No research articles published yet.
+        </p>
+      )}
+    </div>
+  </section>
+</BaseLayout>

@@ -1,0 +1,31 @@
+backend:
+  name: github
+  repo: emerilansel-jpg/crestmore-research
+  branch: main
+
+# Local backend for development — uncomment to test locally without GitHub OAuth
+# backend:
+#   name: git-gateway
+
+media_folder: public/images
+public_folder: /images
+
+# Optional: enable editorial workflow (draft → review → publish)
+# publish_mode: editorial_workflow
+
+collections:
+  - name: research
+    label: Research Articles
+    folder: src/content/research
+    create: true
+    slug: "{{slug}}"
+    preview_path: "/research/{{slug}}"
+    fields:
+      - { label: Title, name: title, widget: string }
+      - { label: Publish Date, name: date, widget: datetime, date_format: "YYYY-MM-DD", time_format: false, format: "YYYY-MM-DD" }
+      - { label: Author, name: author, widget: string, default: "James Whitfield, Senior Research Analyst" }
+      - { label: Category, name: category, widget: string }
+      - { label: Tags, name: tags, widget: list }
+      - { label: Meta Description, name: description, widget: string, hint: "150-160 characters for best SEO results" }
+      - { label: Featured Image, name: featured_image, widget: image, required: false, hint: "Recommended: 1200×675px (16:9 ratio)" }
+      - { label: Body, name: body, widget: markdown }

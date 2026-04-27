@@ -1,0 +1,80 @@
+---
+// BaseLayout.astro — Base HTML shell for all pages
+// Includes Google Fonts, global CSS, schema.org JSON-LD (Organization for homepage)
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description?: string;
+  /** 'homepage' injects Organization schema; 'article' injects Article + Breadcrumb schema (via slot) */
+  pageType?: 'homepage' | 'article' | 'default';
+  canonicalUrl?: string;
+  ogImage?: string;
+}
+
+const {
+  title,
+  description = 'Independent strategic market research and intelligence across key industry verticals.',
+  pageType = 'default',
+  canonicalUrl = Astro.url.href,
+  ogImage = '/images/og-default.jpg',
+} = Astro.props;
+
+const organizationSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: 'Crestmore Research',
+  url: 'https://crestmoreresearch.com',
+  description: 'Independent strategic market research and intelligence across key industry verticals.',
+  logo: 'https://crestmoreresearch.com/images/logo.png',
+};
+---
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    <!-- Primary Meta -->
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalUrl} />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content={pageType === 'article' ? 'article' : 'website'} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:site_name" content="Crestmore Research" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+
+    <!-- Favicon (placeholder — replace with actual) -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <!-- Schema.org: Organization (all pages) -->
+    <script type="application/ld+json" set:html={JSON.stringify(organizationSchema)} />
+
+    <!-- Per-page additional schema injected via slot -->
+    <slot name="schema" />
+  </head>
+
+  <body>
+    <Header />
+
+    <main id="main-content">
+      <slot />
+    </main>
+
+    <Footer />
+  </body>
+</html>

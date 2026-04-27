@@ -1,0 +1,32 @@
+---
+// Footer.astro — Dark navy footer, 3-column layout
+const currentYear = new Date().getFullYear();
+---
+
+<footer class="site-footer" role="contentinfo">
+  <div class="site-footer__inner">
+    <!-- Left: Brand -->
+    <div class="site-footer__brand">
+      <p class="site-footer__name">Crestmore Research</p>
+      <p class="site-footer__tagline">
+        Independent strategic market research<br />and intelligence across key industry verticals.
+      </p>
+    </div>
+
+    <!-- Center: Nav -->
+    <nav class="site-footer__nav" aria-label="Footer navigation">
+      <a href="/">Home</a>
+      <a href="/research">Research</a>
+      <a href="/about">About</a>
+    </nav>
+
+    <!-- Right: Copyright -->
+    <div class="site-footer__copy">
+      <span>© {currentYear} Crestmore Research.</span>
+      <span>All rights reserved.</span>
+    </div>
+  </div>
+  <div class="container">
+    <div class="site-footer__divider"></div>
+  </div>
+</footer>
