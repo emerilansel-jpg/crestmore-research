@@ -1,5 +1,5 @@
 ---
-// index.astro — Homepage: Hero + Research article grid
+// index.astro â Homepage: Hero + Research article grid
 import BaseLayout from '../layouts/BaseLayout.astro';
 import ArticleCard from '../components/ArticleCard.astro';
 import { getCollection } from 'astro:content';
@@ -12,7 +12,7 @@ const posts = allPosts.sort(
 ---
 
 <BaseLayout
-  title="Crestmore Research — Strategic Market Intelligence"
+  title="Crestmore Research â Strategic Market Intelligence"
   description="Independent research and analysis across key market verticals. Crestmore Research delivers rigorous, data-backed insights for informed decision-making."
   pageType="homepage"
 >
@@ -38,7 +38,7 @@ const posts = allPosts.sort(
           {posts.map(post => (
             <ArticleCard
               title={post.data.title}
-              slug={post.slug}
+              slug={post.id}
               category={post.data.category}
               description={post.data.description}
               author={post.data.author}
