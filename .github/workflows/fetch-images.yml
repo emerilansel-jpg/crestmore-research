@@ -1,0 +1,25 @@
+name: Fetch ChatGPT Images
+on:
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download VPN cybersecurity thumbnail
+        run: |
+          curl -L -A "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36" \
+            -H "Referer: https://chatgpt.com/s/m_69ef888d18c0819199fcc93bcf85295c" \
+            -o public/images/vpn-research.jpg \
+            "https://chatgpt.com/backend-api/estuary/public_content/enc/eyJpZCI6Im1fNjllZjg4OGQxOGMwODE5MTk5ZmNjOTNiY2Y4NTI5NWM6ZmlsZV8wMDAwMDAwMDEwNWM3MjBiOTNhZDNmNjdhZmY3ZWRiMSIsInRzIjoiMjA1NzAiLCJwIjoicHlpIiwiY2lkIjoiMSIsInNpZyI6IjFlOTA1ZThhYzA5Mzg3ZjMwMjNkNGU4ZThjY2UwMTI0ZGE3ZDQ0MmFmYjNmMjQ0Yzk1ZWQzOTkwNmJmYzZlMmYiLCJ2IjoiMCIsImdpem1vX2lkIjpudWxsLCJjcyI6bnVsbCwiY2RuIjpudWxsLCJjcCI6bnVsbCwibWEiOm51bGx9"
+          file public/images/vpn-research.jpg
+          ls -lh public/images/vpn-research.jpg
+      - name: Commit and push
+        run: |
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git config user.name "GitHub Actions"
+          git add public/images/vpn-research.jpg
+          git commit -m "feat: replace placeholder with ChatGPT DALL-E cybersecurity thumbnail" || echo "No changes"
+          git push
