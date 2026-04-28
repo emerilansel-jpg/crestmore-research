@@ -1,0 +1,689 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const pressReleases = [
+  {
+    date: 'January 2026',
+    category: 'Company',
+    title: 'Crestmore Research Publishes 2025 Annual Forecast Accuracy Review',
+    summary: 'Crestmore's annual forecast accuracy review demonstrates 78% directional accuracy across commodity price predictions and 85% accuracy in emerging market risk assessments. The report details methodology, performance by asset class, and lessons learned from a volatile 2025 market environment.',
+    slug: 'annual-forecast-accuracy-2025',
+  },
+  {
+    date: 'November 2025',
+    category: 'People',
+    title: 'Crestmore Expands Singapore Office, Adds Three Senior Asia-Pacific Analysts',
+    summary: 'Crestmore Research opens a new Singapore research hub with three senior analyst hires focusing on Southeast Asian commodity markets, critical minerals supply chains, and regional capital flows. The expansion supports growing institutional demand for primary research coverage across ASEAN markets.',
+    slug: 'singapore-expansion-2025',
+  },
+  {
+    date: 'October 2025',
+    category: 'Research',
+    title: 'Crestmore Research Named Top-Rated Independent Research Provider by Buy-Side Survey',
+    summary: 'Crestmore ranked first among independent research providers in an institutional buy-side survey of 180+ asset managers, hedge funds, and corporate treasury teams. Recognition highlights independence, analytical depth, and analyst responsiveness as key differentiators.',
+    slug: 'buyside-survey-ranking-2025',
+  },
+  {
+    date: 'September 2025',
+    category: 'Research',
+    title: 'New Research: Critical Minerals Supply Chains and the Road to 2030',
+    summary: 'Crestmore releases a 140-page deep-dive report on critical minerals supply chains, battery material bottlenecks, and net-zero policy implications. The report includes supply-demand forecasts to 2030, risk assessments of major producing regions, and strategic recommendations for institutional investors.',
+    slug: 'critical-minerals-2025',
+  },
+  {
+    date: 'July 2025',
+    category: 'Company',
+    title: 'Crestmore Launches Dedicated Energy Transition Research Practice',
+    summary: 'Crestmore Research launches a new dedicated Energy Transition research practice, bringing together commodity market expertise, clean technology analysis, and policy assessment. The practice supports institutional investors navigating the energy transition and critical minerals supply dynamics.',
+    slug: 'energy-transition-practice-2025',
+  },
+  {
+    date: 'March 2025',
+    category: 'Company',
+    title: 'Crestmore Research Marks 18 Years of Independent Market Intelligence',
+    summary: 'Since 2007, Crestmore Research has served institutional decision-makers with independent, conflict-free market intelligence. Today, the firm operates three global research offices, covers 47 markets, and maintains relationships with over 120 institutional clients across 30 countries.',
+    slug: 'eighteen-years-milestone-2025',
+  },
+  {
+    date: 'February 2025',
+    category: 'Company',
+    title: 'New Research Portal Launched for Institutional Subscriber Access',
+    summary: 'Crestmore launches a redesigned client portal offering streamlined access to the full archive of published research, real-time data alerts, analyst briefing scheduling, and custom report commissioning. The platform improves institutional client experience and research discovery.',
+    slug: 'research-portal-launch-2025',
+  },
+  {
+    date: 'January 2025',
+    category: 'Research',
+    title: 'Crestmore Research Expands Country Risk Coverage to 47 Markets',
+    summary: 'Crestmore Research expands its country risk assessment coverage to 47 markets across Sub-Saharan Africa, Latin America, MENA, Central Europe, and Southeast Asia. The expansion delivers detailed sovereign risk, regulatory environment, and political economy analysis across frontier and emerging markets.',
+    slug: 'country-risk-expansion-2025',
+  },
+];
+
+const mediaOutlets = [
+  {
+    publication: 'Financial Times',
+    logoInitials: 'FT',
+    quote: '"Crestmore Research has become essential reading for institutional investors seeking conflict-free commodity market analysis. Their forecasts carry weight in the investment community."',
+    date: 'December 2025',
+  },
+  {
+    publication: 'Bloomberg',
+    logoInitials: 'BBG',
+    quote: '"The firm delivers the kind of primary research depth on emerging market sovereign risk that institutional investors cannot source from sell-side providers."',
+    date: 'November 2025',
+  },
+  {
+    publication: 'Reuters',
+    logoInitials: 'RTS',
+    quote: '"Crestmore analysts are frequently cited as credible third-party sources on critical minerals supply chains and African mining operations."',
+    date: 'October 2025',
+  },
+  {
+    publication: 'The Economist',
+    logoInitials: 'ECO',
+    quote: '"The firm's independenceânot dependent on investment banking or asset managementâgives them unique credibility in analyzing market structure and regulatory risk."',
+    date: 'September 2025',
+  },
+  {
+    publication: 'S&P Global Market Intelligence',
+    logoInitials: 'S&P',
+    quote: '"Crestmore Research provides institutional-grade analysis that complements our coverage across commodity markets and emerging market risk."',
+    date: 'August 2025',
+  },
+  {
+    publication: 'Mining Journal',
+    logoInitials: 'MJ',
+    quote: '"Their deep African mining expertise and country risk frameworks make Crestmore an important resource for mining industry investors and operators."',
+    date: 'July 2025',
+  },
+];
+
+const executiveContacts = [
+  {
+    name: 'Dr. Sarah Whitmore',
+    title: 'Head of Research',
+    expertise: 'Commodity markets, critical minerals, emerging market risk',
+    email: 'sarah.whitmore@crestmoreresearch.com',
+  },
+  {
+    name: 'Marcus Chen CFA',
+    title: 'Emerging Markets Director',
+    expertise: 'MENA, Southeast Asia, capital flows, sovereign debt',
+    email: 'marcus.chen@crestmoreresearch.com',
+  },
+];
+
+const keyFacts = [
+  { value: 'Est. 2007', label: 'Founded' },
+  { value: '18+', label: 'Years' },
+  { value: '3 Offices', label: 'NY / London / Singapore' },
+  { value: '12', label: 'Senior Analysts' },
+  { value: '320+', label: 'Reports' },
+];
+---
+
+<BaseLayout
+  title="Press & Media â Crestmore Research"
+  description="Press room and media resources for independent market research firm Crestmore. Download media kit, press releases, executive bios, and logos."
+  pageType="default"
+>
+
+  <!-- Page Hero -->
+  <section class="page-hero">
+    <div class="container">
+      <div class="page-hero__content">
+        <p class="section__eyebrow section__eyebrow--gold">Press Room</p>
+        <h1 class="page-hero__title">Press & Media</h1>
+        <p class="page-hero__sub">Journalists, researchers, and media professionals are welcome. Request press materials, schedule interviews with our senior team, or access our archive of published research and analysis.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Media Kit Section -->
+  <section class="section">
+    <div class="container">
+      <div class="media-kit-card">
+        <div class="media-kit-card__content">
+          <h2 class="media-kit-card__title">Download Media Kit</h2>
+          <p class="media-kit-card__desc">Essential resources for journalists and media professionals covering market research, institutional investment, and commodity markets.</p>
+          <div class="media-kit-card__items">
+            <div class="media-kit-item">
+              <span class="media-kit-item__icon">ð</span>
+              <span class="media-kit-item__text">Executive Bios</span>
+            </div>
+            <div class="media-kit-item">
+              <span class="media-kit-item__icon">ð</span>
+              <span class="media-kit-item__text">Company Fact Sheet</span>
+            </div>
+            <div class="media-kit-item">
+              <span class="media-kit-item__icon">ð¼ï¸</span>
+              <span class="media-kit-item__text">Logo Files (RGB/CMYK)</span>
+            </div>
+            <div class="media-kit-item">
+              <span class="media-kit-item__icon">ð¸</span>
+              <span class="media-kit-item__text">Office & Team Photos</span>
+            </div>
+          </div>
+        </div>
+        <a href="/media/crestmore-media-kit.pdf" class="btn btn--gold btn--lg">Download Media Kit (PDF)</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Press Releases -->
+  <section class="section section--bg-soft">
+    <div class="container">
+      <div class="press-releases-header">
+        <h2 class="section__title">Latest Press Releases</h2>
+        <p class="section__subtitle">Recent announcements from Crestmore Research</p>
+      </div>
+
+      <div class="press-releases-grid">
+        {pressReleases.map((release) => (
+          <div class="press-release-card">
+            <div class="press-release-card__meta">
+              <span class="press-release-card__date">{release.date}</span>
+              <span class="press-release-card__badge press-release-card__badge--${release.category.toLowerCase()}`}>
+                {release.category}
+              </span>
+            </div>
+            <h3 class="press-release-card__title">{release.title}</h3>
+            <p class="press-release-card__summary">{release.summary}</p>
+            <a href={`/press/${release.slug}`} class="press-release-card__link">
+              Read More â
+            </a>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Media Mentions -->
+  <section class="section">
+    <div class="container">
+      <div class="media-mentions-header">
+        <h2 class="section__title">Where We're Cited</h2>
+        <p class="section__subtitle">Crestmore analysts featured in leading institutional and financial media</p>
+      </div>
+
+      <div class="media-mentions-grid">
+        {mediaOutlets.map((outlet) => (
+          <div class="media-mention-card">
+            <div class="media-mention-card__logo">
+              {outlet.logoInitials}
+            </div>
+            <div class="media-mention-card__content">
+              <p class="media-mention-card__publication">{outlet.publication}</p>
+              <blockquote class="media-mention-card__quote">
+                {outlet.quote}
+              </blockquote>
+              <p class="media-mention-card__date">{outlet.date}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Key Facts -->
+  <section class="section section--bg-soft">
+    <div class="container">
+      <div class="key-facts">
+        {keyFacts.map((fact) => (
+          <div class="key-fact-item">
+            <div class="key-fact-item__value">{fact.value}</div>
+            <div class="key-fact-item__label">{fact.label}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Executive Contacts -->
+  <section class="section">
+    <div class="container">
+      <div class="executive-contacts-header">
+        <h2 class="section__title">Media Contacts</h2>
+        <p class="section__subtitle">For interview requests and media inquiries</p>
+      </div>
+
+      <div class="executive-contacts-grid">
+        {executiveContacts.map((exec) => (
+          <div class="executive-contact-card">
+            <div class="executive-contact-card__avatar">{exec.name.charAt(0)}{exec.name.split(' ').pop().charAt(0)}</div>
+            <h3 class="executive-contact-card__name">{exec.name}</h3>
+            <p class="executive-contact-card__title">{exec.title}</p>
+            <p class="executive-contact-card__expertise">Available for comment on: <strong>{exec.expertise}</strong></p>
+            <a href={`mailto:${exec.email}`} class="executive-contact-card__email">
+              {exec.email}
+            </a>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="section section--cta-banner">
+    <div class="container">
+      <div class="cta-banner">
+        <div class="cta-banner__text">
+          <p class="section__eyebrow section__eyebrow--gold">Get in Touch</p>
+          <h2 class="cta-banner__title">Media Inquiries</h2>
+          <p class="cta-banner__sub">For press inquiries, interview requests, or media materials, contact our communications team.</p>
+        </div>
+        <div class="cta-banner__actions">
+          <a href="mailto:press@crestmoreresearch.com" class="btn btn--gold btn--lg">Email Press Team</a>
+          <a href="/contact" class="btn btn--outline-light btn--lg">General Inquiries â</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style scoped>
+/* Media Kit Card */
+.media-kit-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 56px;
+  padding: 56px;
+  background: linear-gradient(135deg, var(--navy-dark) 0%, rgba(15, 27, 55, 0.95) 100%);
+  border-radius: 8px;
+  border: 1px solid rgba(255, 199, 0, 0.15);
+}
+
+.media-kit-card__content {
+  flex: 1;
+}
+
+.media-kit-card__title {
+  font-family: 'Playfair Display', serif;
+  font-size: 32px;
+  font-weight: 700;
+  color: white;
+  margin-bottom: 12px;
+  line-height: 1.2;
+}
+
+.media-kit-card__desc {
+  font-family: 'Inter', sans-serif;
+  font-size: 16px;
+  color: rgba(255, 255, 255, 0.8);
+  margin-bottom: 32px;
+  line-height: 1.6;
+}
+
+.media-kit-card__items {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px 32px;
+  margin-bottom: 32px;
+}
+
+.media-kit-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.9);
+  font-weight: 500;
+}
+
+.media-kit-item__icon {
+  font-size: 20px;
+  line-height: 1;
+}
+
+.media-kit-card .btn {
+  align-self: flex-start;
+}
+
+/* Press Releases */
+.press-releases-header,
+.media-mentions-header,
+.executive-contacts-header {
+  text-align: center;
+  margin-bottom: 48px;
+}
+
+
+.section__subtitle {
+  font-family: 'Inter', sans-serif;
+  font-size: 16px;
+  color: var(--text-secondary);
+  margin-top: 8px;
+}
+
+.press-releases-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 24px;
+}
+
+.press-release-card {
+  display: flex;
+  flex-direction: column;
+  padding: 32px;
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.press-release-card:hover {
+  border-color: var(--gold);
+  box-shadow: 0 12px 32px rgba(255, 199, 0, 0.12);
+  transform: translateY(-2px);
+}
+
+
+.press-release-card__meta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+
+.press-release-card__date {
+  font-family: 'Inter', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+}
+
+.press-release-card__badge {
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 4px 12px;
+  border-radius: 3px;
+  white-space: nowrap;
+}
+
+.press-release-card__badge--company {
+  background: rgba(41, 98, 186, 0.1);
+  color: rgb(41, 98, 186);
+}
+
+.press-release-card__badge--research {
+  background: rgba(255, 199, 0, 0.1);
+  color: var(--gold);
+}
+
+.press-release-card__badge--people {
+  background: rgba(76, 175, 80, 0.1);
+  color: rgb(76, 175, 80);
+}
+
+.press-release-card__title {
+  font-family: 'Playfair Display', serif;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--navy-dark);
+  line-height: 1.4;
+  margin-bottom: 12px;
+}
+
+.press-release-card__summary {
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin-bottom: 20px;
+  flex-grow: 1;
+}
+
+.press-release-card__link {
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--gold);
+  text-decoration: none;
+  transition: all 0.2s ease;
+  display: inline-block;
+}
+
+.press-release-card__link:hover {
+  color: var(--accent);
+}
+
+/* Media Mentions */
+.edia-mentions-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 28px;
+}
+
+.media-mention-card {
+  display: grid;
+  grid-template-columns: 80px 1fr;
+  gap: 24px;
+  padding: 32px;
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.media-mention-card:hover {
+  border-color: var(--gold);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.08);
+}
+
+.media-mention-card__logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 80px;
+  height: 80px;
+  background: linear-gradient(135deg, var(--navy-light), var(--navy));
+  border-radius: 8px;
+  font-family: 'Playfair Display', serif;
+  font-size: 13px;
+  font-weight: 700;
+  color: white;
+  text-align: center;
+  padding: 8px;
+  line-height: 1.2;
+}
+
+.media-mention-card__content {
+  display: flex;
+  flex-direction: column;
+}
+
+.media-mention-card__publication {
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--navy-dark);
+  margin-bottom: 12px;
+}
+
+.media-mention-card__quote {
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  font-style: italic;
+  margin: 0 0 12px 0;
+  padding: 0;
+  border: none;
+}
+
+.media-mention-card__date {
+  font-family: 'Inter', sans-serif;
+  font-size: 12px;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+/* Key Facts Bar */
+.key-facts {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 32px;
+  padding: 48px 0;
+  text-align: center;
+}
+
+.key-fact-item {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.key-fact-item__value {
+  font-family: 'Playfair Display', serif;
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--gold);
+  line-height: 1;
+}
+
+
+.key-fact-item__label {
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+}
+
+/* Executive Contacts */
+.executive-contacts-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 32px;
+}
+
+.executive-contact-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40px 32px;
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  text-align: center;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.executive-contact-card:hover {
+  border-color: var(--gold);
+  box-shadow: 0 12px 32px rgba(255, 199, 0, 0.1);
+}
+
+.executive-contact-card__avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  background: linear-gradient(135deg, var(--gold), rgba(255, 199, 0, 0.8));
+  border-radius: 50%;
+  font-family: 'Inter', sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--navy-dark);
+  margin-bottom: 16px;
+}
+
+.executive-contact-card__name {
+  font-family: 'Playfair Display', serif;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--navy-dark);
+  margin-bottom: 4px;
+}
+
+.executive-contact-card__title {
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 16px;
+}
+
+.executive-contact-card__expertise {
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+
+.executive-contact-card__expertise strong {
+  color: var(--navy-dark);
+  font-weight: 600;
+}
+
+.executive-contact-card__email {
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--gold);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.executive-contact-card__email:hover {
+  color: var(--accent);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .media-kit-card {
+    flex-direction: column;
+    gap: 32px;
+    padding: 40px 32px;
+  }
+
+  .media-kit-card__items {
+    grid-template-columns: 1fr;
+  }
+
+  .media-kit-card__title {
+    font-size: 24px;
+  }
+
+  .press-releases-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .media-mentions-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .media-mention-card {
+    grid-template-columns: 1fr;
+  }
+
+  .media-mention-card__logo {
+    width: 60px;
+    height: 60px;
+    font-size: 11px;
+  }
+
+  .key-facts {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+    padding: 32px 0;
+  }
+
+  .key-fact-item__value {
+    font-size: 24px;
+  }
+}
+</style>
