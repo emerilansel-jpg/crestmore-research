@@ -141,14 +141,14 @@ const careers = [
     .about-hero::before {
       content: '';
       position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background:
-        radial-gradient(circle at 20% 50%, rgba(212, 175, 55, 0.08) 0%, transparent 50%),
-        radial-gradient(circle at 80% 50%, rgba(212, 175, 55, 0.05) 0%, transparent 50%);
+      inset: 0;
+      background: linear-gradient(
+        135deg,
+        rgba(8, 16, 30, 0.82) 0%,
+        rgba(10, 22, 40, 0.68) 100%
+      );
       pointer-events: none;
+      z-index: 0;
     }
 
     .about-hero-content {
@@ -159,7 +159,7 @@ const careers = [
     }
 
     .hero-eyebrow {
-      color: #d4af37;
+      color: #D4A843;
       font-size: 14px;
       font-weight: 600;
       letter-spacing: 3px;
@@ -179,14 +179,14 @@ const careers = [
     .hero-subtitle {
       font-size: 20px;
       line-height: 1.6;
-      color: #e0e0e0;
+      color: rgba(255, 255, 255, 0.88);
       font-weight: 300;
     }
 
     /* Mission Section */
     .mission-section {
       padding: 100px 40px;
-      background: #f5f5f5;
+      background: #f7fafc;
       max-width: 1200px;
       margin: 0 auto;
     }
@@ -194,7 +194,7 @@ const careers = [
     .mission-section-title {
       font-size: 42px;
       font-weight: 700;
-      color: #1a1a1a;
+      color: #0a1628;
       margin-bottom: 60px;
       text-align: center;
     }
@@ -209,7 +209,7 @@ const careers = [
     .mission-para {
       font-size: 16px;
       line-height: 1.8;
-      color: #444;
+      color: #4a5568;
     }
 
     .mission-pull-quote {
@@ -220,7 +220,7 @@ const careers = [
       font-size: 28px;
       font-style: italic;
       line-height: 1.6;
-      color: #1a1a1a;
+      color: #0a1628;
       text-align: center;
       margin: 40px 0;
       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
@@ -237,7 +237,7 @@ const careers = [
     .timeline-title {
       font-size: 42px;
       font-weight: 700;
-      color: #1a1a1a;
+      color: #0a1628;
       margin-bottom: 80px;
       text-align: center;
     }
@@ -253,7 +253,7 @@ const careers = [
       top: 0;
       bottom: 0;
       width: 2px;
-      background: #d4af37;
+      background: #C9991A;
       transform: translateX(-1px);
     }
 
@@ -279,7 +279,7 @@ const careers = [
       top: 0;
       width: 16px;
       height: 16px;
-      background: #d4af37;
+      background: #C9991A;
       border: 4px solid white;
       border-radius: 50%;
       transform: translateX(-50%);
@@ -288,7 +288,7 @@ const careers = [
 
     .timeline-content {
       padding: 30px;
-      background: #f5f5f5;
+      background: #f7fafc;
       border-radius: 4px;
     }
 
@@ -302,20 +302,20 @@ const careers = [
     .timeline-headline {
       font-size: 18px;
       font-weight: 600;
-      color: #1a1a1a;
+      color: #0a1628;
       margin-bottom: 15px;
     }
 
     .timeline-description {
       font-size: 15px;
       line-height: 1.7;
-      color: #666;
+      color: #5a6478;
     }
 
     /* Values Grid */
     .values-section {
       padding: 100px 40px;
-      background: #f5f5f5;
+      background: #f7fafc;
       max-width: 1200px;
       margin: 0 auto;
     }
@@ -323,7 +323,7 @@ const careers = [
     .values-title {
       font-size: 42px;
       font-weight: 700;
-      color: #1a1a1a;
+      color: #0a1628;
       margin-bottom: 60px;
       text-align: center;
     }
@@ -350,14 +350,14 @@ const careers = [
     .value-title {
       font-size: 22px;
       font-weight: 700;
-      color: #1a1a1a;
+      color: #0a1628;
       margin-bottom: 20px;
     }
 
     .value-text {
       font-size: 15px;
       line-height: 1.8;
-      color: #666;
+      color: #5a6478;
       margin-bottom: 15px;
     }
 
@@ -376,7 +376,7 @@ const careers = [
     .offices-title {
       font-size: 42px;
       font-weight: 700;
-      color: #1a1a1a;
+      color: #0a1628;
       margin-bottom: 60px;
       text-align: center;
     }
@@ -388,7 +388,7 @@ const careers = [
     }
 
     .office-card {
-      background: #f5f5f5;
+      background: #f7fafc;
       padding: 40px;
       border-radius: 4px;
       border-top: 4px solid #d4af37;
@@ -397,13 +397,13 @@ const careers = [
     .office-city {
       font-size: 20px;
       font-weight: 700;
-      color: #1a1a1a;
+      color: #0a1628;
       margin-bottom: 20px;
     }
 
     .office-address {
       font-size: 14px;
-      color: #666;
+      color: #5a6478;
       line-height: 1.6;
       margin-bottom: 20px;
     }
@@ -426,7 +426,7 @@ const careers = [
     .office-description {
       font-size: 14px;
       line-height: 1.7;
-      color: #666;
+      color: #5a6478;
       margin-top: 20px;
       padding-top: 20px;
       border-top: 1px solid #ddd;
@@ -435,7 +435,7 @@ const careers = [
     /* ESG Section */
     .esg-section {
       padding: 100px 40px;
-      background: #f5f5f5;
+      background: #f7fafc;
       max-width: 1200px;
       margin: 0 auto;
     }
@@ -443,7 +443,7 @@ const careers = [
     .esg-title {
       font-size: 42px;
       font-weight: 700;
-      color: #1a1a1a;
+      color: #0a1628;
       margin-bottom: 50px;
       text-align: center;
     }
@@ -457,13 +457,13 @@ const careers = [
     .esg-text {
       font-size: 16px;
       line-height: 1.8;
-      color: #444;
+      color: #4a5568;
     }
 
     .esg-text h3 {
       font-size: 20px;
       font-weight: 700;
-      color: #1a1a1a;
+      color: #0a1628;
       margin-top: 30px;
       margin-bottom: 15px;
     }
@@ -549,8 +549,8 @@ const careers = [
 
     .careers-button {
       display: inline-block;
-      background: #d4af37;
-      color: #1a1a1a;
+      background: #C9991A;
+      color: #0a1628;
       padding: 14px 40px;
       border-radius: 4px;
       text-decoration: none;
@@ -604,8 +604,8 @@ const careers = [
     }
 
     .cta-button-primary {
-      background: #d4af37;
-      color: #1a1a1a;
+      background: #C9991A;
+      color: #0a1628;
     }
 
     .cta-button-primary:hover {
@@ -620,8 +620,8 @@ const careers = [
     }
 
     .cta-button-secondary:hover {
-      background: #d4af37;
-      color: #1a1a1a;
+      background: #C9991A;
+      color: #0a1628;
     }
 
     /* Responsive */
