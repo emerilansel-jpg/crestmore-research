@@ -1,0 +1,137 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="Contact — Crestmore Research"
+  description="Request a research brief, enquire about our services, or get in touch with the Crestmore Research team."
+  pageType="default"
+>
+  <section class="page-hero">
+    <div class="container">
+      <div class="page-hero__content">
+        <p class="section__eyebrow section__eyebrow--gold">Get In Touch</p>
+        <h1 class="page-hero__title">Contact Us</h1>
+        <p class="page-hero__sub">We respond to all institutional enquiries within one business day. For urgent requests, please call our New York office directly.</p>
+      </div>
+    </div>
+  </section>
+  <section class="section">
+    <div class="container">
+      <div class="contact-grid">
+        <div class="contact-form-col">
+          <h2 class="contact-section-title">Request a Research Brief</h2>
+          <p class="contact-section-sub">Tell us about your research need and we will propose the right service structure. All enquiries are treated in strict confidence.</p>
+          <form class="contact-form" action="/contact-success" method="POST" novalidate>
+            <div class="form-row form-row--2">
+              <div class="form-field">
+                <label for="first-name" class="form-label">First Name <span aria-hidden="true">*</span></label>
+                <input type="text" id="first-name" name="first_name" class="form-input" required autocomplete="given-name" />
+              </div>
+              <div class="form-field">
+                <label for="last-name" class="form-label">Last Name <span aria-hidden="true">*</span></label>
+                <input type="text" id="last-name" name="last_name" class="form-input" required autocomplete="family-name" />
+              </div>
+            </div>
+            <div class="form-field">
+              <label for="email" class="form-label">Institutional Email <span aria-hidden="true">*</span></label>
+              <input type="email" id="email" name="email" class="form-input" required autocomplete="email" placeholder="you@organisation.com" />
+            </div>
+            <div class="form-row form-row--2">
+              <div class="form-field">
+                <label for="organisation" class="form-label">Organisation <span aria-hidden="true">*</span></label>
+                <input type="text" id="organisation" name="organisation" class="form-input" required autocomplete="organization" />
+              </div>
+              <div class="form-field">
+                <label for="title" class="form-label">Job Title</label>
+                <input type="text" id="title" name="job_title" class="form-input" autocomplete="organization-title" />
+              </div>
+            </div>
+            <div class="form-field">
+              <label for="service" class="form-label">Area of Interest</label>
+              <select id="service" name="service" class="form-input form-select">
+                <option value="">Select a service area...</option>
+                <option>Market Intelligence (ongoing coverage)</option>
+                <option>Due Diligence Support</option>
+                <option>Country Risk Assessment</option>
+                <option>Sector Deep-Dive</option>
+                <option>Advisory Retainer</option>
+                <option>Custom Research</option>
+                <option>General Enquiry</option>
+              </select>
+            </div>
+            <div class="form-field">
+              <label for="message" class="form-label">Research Brief or Enquiry <span aria-hidden="true">*</span></label>
+              <textarea id="message" name="message" class="form-input form-textarea" required rows="6" placeholder="Describe your research need, timeline, and any specific markets or sectors of interest..."></textarea>
+            </div>
+            <div class="form-field">
+              <label class="form-checkbox">
+                <input type="checkbox" name="consent" required />
+                <span>I agree to Crestmore Research's <a href="/privacy">Privacy Policy</a> and consent to being contacted in relation to my enquiry.</span>
+              </label>
+            </div>
+            <button type="submit" class="btn btn--gold btn--lg form-submit">Submit Enquiry</button>
+            <p class="form-note">We respond within one business day. All enquiries are confidential.</p>
+          </form>
+        </div>
+        <div class="contact-info-col">
+          <div class="contact-info-block">
+            <h3 class="contact-info-block__title">New York (Headquarters)</h3>
+            <address class="contact-address">
+              <p>245 Park Avenue, Suite 3900<br />New York, NY 10167<br />United States</p>
+              <p><strong>T:</strong> +1 (212) 555-0190<br /><strong>E:</strong> <a href="mailto:research@crestmoreresearch.com">research@crestmoreresearch.com</a></p>
+              <p class="contact-hours">Monday - Friday: 8:00am - 6:00pm EST</p>
+            </address>
+          </div>
+          <div class="contact-info-block">
+            <h3 class="contact-info-block__title">London</h3>
+            <address class="contact-address">
+              <p>1 Canada Square, Level 28<br />Canary Wharf<br />London E14 5AB, United Kingdom</p>
+              <p><strong>T:</strong> +44 (20) 7946-0188<br /><strong>E:</strong> <a href="mailto:london@crestmoreresearch.com">london@crestmoreresearch.com</a></p>
+            </address>
+          </div>
+          <div class="contact-info-block">
+            <h3 class="contact-info-block__title">Singapore</h3>
+            <address class="contact-address">
+              <p>1 Raffles Quay, #38-02<br />North Tower<br />Singapore 048583</p>
+              <p><strong>T:</strong> +65 6890-4400<br /><strong>E:</strong> <a href="mailto:apac@crestmoreresearch.com">apac@crestmoreresearch.com</a></p>
+            </address>
+          </div>
+          <div class="contact-info-block contact-info-block--dark">
+            <h3 class="contact-info-block__title" style="color: var(--gold);">Existing Client Support</h3>
+            <p>Retainer and subscription clients have access to our dedicated client portal and direct analyst lines. Contact your account manager or email <a href="mailto:support@crestmoreresearch.com" style="color: var(--gold-light);">support@crestmoreresearch.com</a></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+.contact-grid { display: grid; grid-template-columns: 1fr 340px; gap: 72px; align-items: flex-start; }
+.contact-section-title { font-family: 'Playfair Display', serif; font-size: 28px; font-weight: 700; color: var(--navy-dark); margin-bottom: 12px; }
+.contact-section-sub { font-family: 'Inter', sans-serif; font-size: 15px; color: var(--text-secondary); line-height: 1.7; margin-bottom: 36px; }
+.contact-form { display: flex; flex-direction: column; gap: 20px; }
+.form-row--2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.form-field { display: flex; flex-direction: column; gap: 6px; }
+.form-label { font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-body); }
+.form-label span { color: var(--accent); }
+.form-input { font-family: 'Inter', sans-serif; font-size: 15px; color: var(--text-body); background: #ffffff; border: 1.5px solid var(--border); border-radius: var(--radius); padding: 12px 16px; transition: border-color var(--transition), box-shadow var(--transition); outline: none; width: 100%; }
+.form-input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(29,111,164,0.1); }
+.form-select { appearance: none; background-repeat: no-repeat; background-position: right 14px center; padding-right: 40px; cursor: pointer; }
+.form-textarea { resize: vertical; min-height: 140px; }
+.form-checkbox { display: flex; align-items: flex-start; gap: 12px; cursor: pointer; font-family: 'Inter', sans-serif; font-size: 13px; color: var(--text-secondary); line-height: 1.5; }
+.form-submit { align-self: flex-start; }
+.form-note { font-family: 'Inter', sans-serif; font-size: 12px; color: var(--text-muted); margin: 0; }
+.contact-info-col { display: flex; flex-direction: column; gap: 0; position: sticky; top: 120px; }
+.contact-info-block { padding: 24px; border-bottom: 1px solid var(--border); }
+.contact-info-block:first-child { border-top: 1px solid var(--border); }
+.contact-info-block--dark { background: var(--navy-dark); border-color: transparent; border-radius: 0 0 var(--radius-md) var(--radius-md); }
+.contact-info-block__title { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; color: var(--text-muted); margin-bottom: 12px; }
+.contact-address { font-style: normal; display: flex; flex-direction: column; gap: 10px; }
+.contact-address p { font-family: 'Inter', sans-serif; font-size: 14px; color: var(--text-secondary); line-height: 1.6; margin: 0; }
+.contact-address a { color: var(--accent); }
+.contact-hours { font-size: 12px !important; color: var(--text-muted) !important; }
+.contact-info-block--dark p { font-family: 'Inter', sans-serif; font-size: 13.5px; color: rgba(255,255,255,0.6); line-height: 1.65; margin: 0; }
+@media (max-width: 900px) { .contact-grid { grid-template-columns: 1fr; gap: 48px; } .contact-info-col { position: static; } .form-row--2 { grid-template-columns: 1fr; } }
+</style>
