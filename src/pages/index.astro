@@ -1,60 +1,2173 @@
 ---
-// index.astro — Homepage: Hero + Research article grid
+// index.astro — Premium authoritative research firm homepage
 import BaseLayout from '../layouts/BaseLayout.astro';
 import ArticleCard from '../components/ArticleCard.astro';
 import { getCollection } from 'astro:content';
 
-// Fetch all research articles, sorted newest first
 const allPosts = await getCollection('research');
 const posts = allPosts.sort(
   (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
-);
+).slice(0, 6);
+
+// Enhanced stats for authority
+const stats = [
+  { value: '18+', label: 'Years of Research Excellence' },
+  { value: '320+', label: 'Published Intelligence Reports' },
+  { value: '47', label: 'Markets Under Active Coverage' },
+  { value: '120+', label: 'Institutional Clients Served' },
+  { value: '200+', label: 'Analyst Interviews/Year' },
+  { value: '3', label: 'Global Research Offices' },
+];
+
+// Live market data for hero card (static demo)
+const liveData = [
+  { commodity: 'Copper', price: '$9,847/t', change: '▲2.1%', positive: true },
+  { commodity: 'Lithium', price: '$18,200/t', change: '▼1.3%', positive: false },
+  { commodity: 'Gold', price: '$2,394/oz', change: '▲0.8%', positive: true },
+];
+
+// Data ticker headlines
+const tickerHeadlines = [
+  'DRC battery tax framework receives IMF approval',
+  'Zambian copper production surges 12% on new mine ramp',
+  'Argentina lithium output tracking 2030 expansion targets',
+  'Chile extends water concessions for mining operations',
+  'Indonesia nickel export ban enforcement tightens Q2 2026',
+];
+
+// Sector expertise grid
+const sectors = [
+  {
+    id: 'copper-base',
+    title: 'Copper & Base Metals',
+    desc: 'Comprehensive supply-demand modeling, smelting capacity analysis, and end-use trends across construction, automotive, and power sectors.',
+    reports: 47,
+  },
+  {
+    id: 'precious',
+    title: 'Precious Metals',
+    desc: 'Central bank accumulation dynamics, jewelry demand cycles, and industrial applications driving the gold-silver complex forward.',
+    reports: 28,
+  },
+  {
+    id: 'energy-transition',
+    title: 'Energy Transition Minerals',
+    desc: 'Critical minerals supply chains, battery material bottlenecks, and net-zero policy implications shaping the energy transition.',
+    reports: 52,
+  },
+  {
+    id: 'agri',
+    title: 'Agricultural Commodities',
+    desc: 'Grain supply dynamics, protein markets, and climate risk assessment across major producing regions and trade corridors.',
+    reports: 35,
+  },
+  {
+    id: 'capital-flows',
+    title: 'Capital Flows & FX',
+    desc: 'Emerging market capital flows, currency regime analysis, and cross-border investment patterns affecting commodity prices.',
+    reports: 31,
+  },
+  {
+    id: 'country-risk',
+    title: 'Country Risk',
+    desc: 'Political economy analysis, sovereign debt dynamics, and regulatory environments across 47 emerging and frontier markets.',
+    reports: 68,
+  },
+  {
+    id: 'macro-rates',
+    title: 'Macro & Rates',
+    desc: 'Macroeconomic cycle positioning, central bank policy implications, and real interest rate frameworks driving hard asset pricing.',
+    reports: 44,
+  },
+  {
+    id: 'freight',
+    title: 'Freight & Logistics',
+    desc: 'Shipping costs, port congestion, and logistics networks shaping commodity trade flows and price dynamics.',
+    reports: 22,
+  },
+];
+
+// Featured research reports
+const featuredReports = [
+  {
+    title: 'Copper Outlook Q2 2026: Structural Deficit Deepening',
+    category: 'Commodities',
+    pages: 48,
+    slug: 'copper-outlook-q2-2026',
+  },
+  {
+    title: 'Africa Mining Risk Monitor: Q1 2026 Update',
+    category: 'Country Risk',
+    pages: 62,
+    slug: 'africa-mining-q1-2026',
+  },
+  {
+    title: 'Critical Minerals to 2030: Four Scenarios',
+    category: 'Energy Transition',
+    pages: 94,
+    slug: 'critical-minerals-2030',
+  },
+  {
+    title: 'DRC Regulatory Reset: Investor Implications',
+    category: 'Country Risk',
+    pages: 38,
+    slug: 'drc-regulatory-reset',
+  },
+];
+
+// Services
+const services = [
+  {
+    icon: `<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 20h.01M7 20v-4M12 20v-8M17 20V8M22 4l-5 5-4-4-6 6"/></svg>`,
+    title: 'Market Intelligence',
+    desc: 'Rigorous, data-driven analysis of global market dynamics, supply-demand balances, and price drivers across key verticals.',
+  },
+  {
+    icon: `<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35M11 8v3M11 14h.01"/></svg>`,
+    title: 'Due Diligence Support',
+    desc: 'Comprehensive research packages supporting M&A transactions, investment committee processes, and asset evaluation.',
+  },
+  {
+    icon: `<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>`,
+    title: 'Country Risk Assessment',
+    desc: 'Sovereign risk profiling, political economy analysis, and regulatory environment mapping across 47 emerging and frontier markets.',
+  },
+  {
+    icon: `<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>`,
+    title: 'Sector Deep-Dives',
+    desc: 'Specialist coverage across commodities, mining, energy transition metals, agriculture, and global capital flows.',
+  },
+  {
+    icon: `<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>`,
+    title: 'Advisory Retainers',
+    desc: 'Ongoing research relationships providing continuous access to Crestmore analysts, proprietary databases, and real-time alerts.',
+  },
+  {
+    icon: `<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>`,
+    title: 'Custom Research',
+    desc: 'Bespoke research commissioned by institutional clients, private equity sponsors, and family offices with specific intelligence requirements.',
+  },
+];
+
+// Client types
+const clientTypes = [
+  {
+    type: 'Pension & Sovereign Funds',
+    desc: 'Long-duration portfolio construction and multi-asset allocation decisions require unbiased commodity intelligence and emerging market analysis.',
+  },
+  {
+    type: 'Private Equity',
+    desc: 'Platform due diligence, value creation planning, and exit risk assessment for natural resources, infrastructure, and emerging market investments.',
+  },
+  {
+    type: 'Corporate Strategy',
+    desc: 'Supply chain resilience, input cost hedging, and long-term capital allocation decisions informed by independent market analysis.',
+  },
+  {
+    type: 'Commodity Trading Houses',
+    desc: 'Position analysis, trading strategy development, and macro cross-asset research supporting proprietary trading desk operations.',
+  },
+  {
+    type: 'Development Finance Institutions',
+    desc: 'Portfolio risk management, country capacity assessment, and commodity-dependent economy analysis for emerging market lending programs.',
+  },
+  {
+    type: 'Policy & Regulatory Bodies',
+    desc: 'Independent analysis supporting trade policy, resource strategy, and regulatory frameworks across commodity-dependent jurisdictions.',
+  },
+];
+
+const methodologySteps = [
+  {
+    num: '01',
+    title: 'Primary Data Collection',
+    desc: 'Our analysts conduct primary interviews with industry participants, government officials, and regional specialists — augmented by proprietary field surveys across coverage markets.',
+  },
+  {
+    num: '02',
+    title: 'Quantitative Modelling',
+    desc: 'Structured datasets feed into our proprietary supply-demand, price, and risk models — built in-house and validated against historical outcomes over more than a decade.',
+  },
+  {
+    num: '03',
+    title: 'Expert Review & Calibration',
+    desc: 'All research undergoes a structured peer review by a senior analyst and an independent methodology audit before client distribution.',
+  },
+  {
+    num: '04',
+    title: 'Actionable Delivery',
+    desc: 'Intelligence is distilled into concise, decision-ready formats — executive briefs, full research reports, and live analyst Q&A sessions for institutional subscribers.',
+  },
+];
+
+const testimonials = [
+  {
+    quote: 'Crestmore\'s commodity intelligence has become an indispensable input to our investment committee process. The depth of their on-the-ground research is unmatched.',
+    name: 'Managing Director, Infrastructure Equity',
+    firm: 'Major European Pension Fund',
+  },
+  {
+    quote: 'The country risk assessments we commissioned for our Africa entry strategy were thorough, balanced, and commercially astute. Exactly what we needed.',
+    name: 'Chief Strategy Officer',
+    firm: 'Global Natural Resources Company',
+  },
+  {
+    quote: 'We rely on Crestmore\'s macro and metals coverage as a key cross-check on our internal views. The quality of analysis is consistently first-rate.',
+    name: 'Portfolio Manager, Commodities',
+    firm: 'Alternative Investment Management',
+  },
+  {
+    quote: 'Independent research of this caliber is rare in our sector. Crestmore delivers analysis that moves past consensus without sacrificing rigor.',
+    name: 'Head of Research',
+    firm: 'Global Commodity Hedge Fund',
+  },
+];
+
+const teamMembers = [
+  {
+    name: 'Dr. Sarah Whitmore',
+    role: 'Head of Commodities Research',
+    bio: '20 years experience covering base and precious metals across African and Latin American mining jurisdictions.',
+    credentials: ['PhD Economics', 'Former World Bank Senior Economist'],
+  },
+  {
+    name: 'Marcus Chen, CFA',
+    role: 'Director, Emerging Markets',
+    bio: 'Specialist in Southeast Asian and MENA capital flows, trade finance, and sovereign debt dynamics.',
+    credentials: ['CFA Charterholder', 'Former Goldman Sachs Asset Management'],
+  },
+  {
+    name: 'Elena Vasquez',
+    role: 'Senior Analyst, Country Risk',
+    bio: 'Political economy specialist with deep coverage of Andean, Central African, and Eastern European risk environments.',
+    credentials: ['Fluent in 5 Languages', 'Oxford DPhil International Relations'],
+  },
+];
+
+const insights = [
+  {
+    cat: 'Commodities',
+    title: 'Copper\'s Structural Deficit: Why the Bull Case Has Further to Run',
+    date: 'April 2026',
+    slug: 'copper-structural-deficit',
+  },
+  {
+    cat: 'Capital Flows',
+    title: 'India\'s Infrastructure Decade: Mapping the Capital Flow Opportunity',
+    date: 'March 2026',
+    slug: 'india-infrastructure',
+  },
+  {
+    cat: 'Macro',
+    title: 'Late-Cycle Dollar Dynamics and Their Implications for Hard Asset Pricing',
+    date: 'March 2026',
+    slug: 'dollar-dynamics',
+  },
+  {
+    cat: 'Country Risk',
+    title: 'DRC Mining Sector: Regulatory Reset and the Road to Stabilisation',
+    date: 'February 2026',
+    slug: 'drc-mining-regulatory',
+  },
+  {
+    cat: 'Energy Transition',
+    title: 'Critical Minerals Supply Chains: Four Scenarios for 2030',
+    date: 'February 2026',
+    slug: 'critical-minerals-scenarios',
+  },
+  {
+    cat: 'Freight',
+    title: 'Baltic Dry Index: Shipping Cycles and Commodity Trade Flows',
+    date: 'January 2026',
+    slug: 'baltic-dry-shipping',
+  },
+];
+
+const publications = [
+  {
+    name: 'Financial Times',
+    quote: 'Crestmore\'s analysis of copper supply dynamics has become the go-to reference for understanding African mining policy shifts.',
+  },
+  {
+    name: 'Bloomberg',
+    quote: 'The firm\'s emerging market country risk framework consistently outperforms consensus on sovereign stress events.',
+  },
+  {
+    name: 'Reuters',
+    quote: 'Independent research from Crestmore on lithium supply chains is reshaping policy discussions at the highest levels.',
+  },
+  {
+    name: 'The Economist',
+    quote: 'When the Economist needs analysis on commodity markets and emerging market risk, Crestmore is where we turn.',
+  },
+];
+
+const whyPoints = [
+  {
+    title: 'Conflict-Free Independence',
+    desc: 'No banking, advisory, or corporate finance relationships. Our research serves one master: the facts.',
+  },
+  {
+    title: 'Primary Source Depth',
+    desc: 'Every report is anchored in primary research — field interviews, proprietary surveys, and on-the-ground intelligence networks.',
+  },
+  {
+    title: 'Transparent Methodology',
+    desc: 'Our models, data sources, and assumptions are fully documented. Clients can interrogate every number we publish.',
+  },
+  {
+    title: 'Long-Track Accountability',
+    desc: 'We publish annual forecast accuracy reviews. Our call history is available to all clients — good and bad years alike.',
+  },
+  {
+    title: 'Institutional Client Base',
+    desc: 'Trusted by pension funds, sovereign wealth funds, development finance institutions, and global corporations.',
+  },
+];
 ---
 
 <BaseLayout
-  title="Crestmore Research — Strategic Market Intelligence"
-  description="Independent research and analysis across key market verticals. Crestmore Research delivers rigorous, data-backed insights for informed decision-making."
+  title="Crestmore Research — Premium Market Intelligence"
+  description="Independent research and analysis across commodities, emerging markets, and global capital flows. Crestmore Research delivers institutional-grade intelligence for investment decision-makers."
   pageType="homepage"
 >
-  <!-- Hero -->
-  <section class="hero" aria-label="Site introduction">
-    <div class="container">
-      <p class="hero__eyebrow">Independent Analysis &amp; Research</p>
-      <h1 class="hero__title">Strategic Market Intelligence</h1>
-      <p class="hero__subtitle">
-        Data-backed research across key market verticals &mdash; commodities, emerging markets,
-        and global capital flows &mdash; for informed decision-making.
-      </p>
-      <a href="/research" class="hero__cta">View Research</a>
-    </div>
-  </section>
 
-  <!-- Research grid -->
-  <section class="section" aria-labelledby="research-section-title">
-    <div class="container">
-      <div class="section__header">
-        <h2 class="section__title" id="research-section-title">Research &amp; Analysis</h2>
+  <!-- ═══════════════════════════════════════════════
+       HERO
+  ═══════════════════════════════════════════════ -->
+  <section class="hero hero--homepage" aria-label="Hero section">
+    <div class="hero__bg-overlay"></div>
+    <div class="hero__bg-pattern"></div>
+    <div class="container hero__container">
+      <div class="hero__content">
+        <p class="hero__eyebrow">Est. 2007 · New York · London · Singapore</p>
+        <h1 class="hero__title">Independent Research<br /><em>That Moves Markets</em></h1>
+        <p class="hero__subtitle">
+          Crestmore Research delivers institutional-grade market intelligence across commodities, emerging markets, capital flows, and country risk. Our 200+ analyst team conducts primary research across 47 global markets, providing pension funds, sovereign wealth funds, and corporate strategy teams with evidence-backed analysis that transcends consensus. Founded on independence — no banking relationships, no conflicts, no compromises. Research for decision-makers who demand unbiased truth.
+        </p>
+        <div class="hero__actions">
+          <a href="/research" class="btn btn--gold">Explore Research Library</a>
+          <a href="/contact" class="btn btn--outline">Request a Brief</a>
+          <a href="/sample-report" class="btn btn--outline-secondary">Download Sample Report</a>
+        </div>
+        <div class="hero__trust">
+          <span>Trusted by 120+ institutional clients across 30+ countries</span>
+        </div>
       </div>
 
-      {posts.length > 0 ? (
-        <div class="article-grid">
-          {posts.map(post => (
-            <ArticleCard
-              title={post.data.title}
-              slug={post.id}
-              category={post.data.category}
-              description={post.data.description}
-              author={post.data.author}
-              date={post.data.date}
-              featured_image={post.data.featured_image}
-            />
-          ))}
+      <!-- Live market intelligence card -->
+      <div class="hero__live-card">
+        <div class="live-card">
+          <div class="live-card__header">
+            <span class="live-card__label">Live Market Intelligence</span>
+            <span class="live-card__update">Updated 2 mins ago</span>
+          </div>
+          <div class="live-card__data">
+            {liveData.map(item => (
+              <div class="live-card__item">
+                <span class="live-card__commodity">{item.commodity}</span>
+                <span class="live-card__price">{item.price}</span>
+                <span class={`live-card__change ${item.positive ? 'live-card__change--up' : 'live-card__change--down'}`}>
+                  {item.change}
+                </span>
+              </div>
+            ))}
+          </div>
+          <div class="live-card__footer">
+            <a href="/live-data" class="live-card__link">View full dashboard →</a>
+          </div>
         </div>
-      ) : (
-        <p style="color: var(--text-muted); font-family: 'Inter', sans-serif;">
-          No research articles published yet.
-        </p>
-      )}
+      </div>
+
+      <div class="hero__scroll-indicator" aria-hidden="true">
+        <span></span>
+      </div>
     </div>
   </section>
+
+  <!-- ═══════════════════════════════════════════════
+       DATA TICKER
+  ═══════════════════════════════════════════════ -->
+  <section class="data-ticker" aria-label="Market intelligence ticker">
+    <div class="ticker-content">
+      {tickerHeadlines.map(headline => (
+        <span class="ticker-item">{headline}</span>
+      ))}
+      {tickerHeadlines.map(headline => (
+        <span class="ticker-item">{headline}</span>
+      ))}
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════
+       STATS BAR
+  ═══════════════════════════════════════════════ -->
+  <section class="stats-bar" aria-label="Key statistics">
+    <div class="container">
+      <div class="stats-bar__grid">
+        {stats.map(stat => (
+          <div class="stats-bar__item">
+            <span class="stats-bar__value">{stat.value}</span>
+            <span class="stats-bar__label">{stat.label}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════
+       INTRODUCTION / POSITIONING (RICH)
+  ═══════════════════════════════════════════════ -->
+  <section class="section section--intro" aria-labelledby="intro-title">
+    <div class="container">
+      <div class="intro__wrapper">
+        <div class="intro__main">
+          <p class="section__eyebrow">What Sets Us Apart</p>
+          <h2 class="section__title" id="intro-title">Research Built for Decision-Makers, Not Desks</h2>
+
+          <div class="intro__text-block">
+            <p class="intro__para--lead">
+              Crestmore Research was founded on a simple conviction: institutional investors deserve research that is genuinely independent — free from banking relationships, underwriting mandates, and sell-side conflicts of interest. That conviction drives everything we do.
+            </p>
+
+            <p class="intro__para">
+              Over eighteen years, we have built one of the most respected independent research franchises in the market intelligence sector. Our analyst teams combine deep sector expertise with on-the-ground regional knowledge, delivering insights that move beyond consensus and challenge received wisdom. We conduct 200+ primary interviews annually with industry participants, government officials, and regional specialists. Our proprietary models are built in-house and stress-tested against decades of historical data.
+            </p>
+
+            <p class="intro__para">
+              Our clients — pension funds, sovereign wealth funds, private equity firms, corporate treasury teams, and development finance institutions — rely on Crestmore for the full spectrum of research needs: from rapid situational briefs to multi-quarter engagement programmes. We serve 120+ institutional clients across 30+ countries.
+            </p>
+
+            <blockquote class="intro__pullquote">
+              <span class="intro__quote-mark">"</span>
+              <p>Independent research of genuine caliber is increasingly rare. What Crestmore has built — across commodities, country risk, and capital flows — sets a standard that few firms can match.</p>
+              <span class="intro__quote-attrib">— Global Asset Allocator, $200B+ AUM</span>
+            </blockquote>
+
+            <a href="/about" class="intro__link">Learn more about Crestmore →</a>
+          </div>
+        </div>
+
+        <div class="intro__sidebar">
+          <div class="intro__promise-box">
+            <h3 class="intro__promise-title">Our Promise</h3>
+            <ul class="intro__promise-list">
+              <li><span class="promise-check">✓</span> Independence first, always</li>
+              <li><span class="promise-check">✓</span> Primary research depth</li>
+              <li><span class="promise-check">✓</span> Transparent methodology</li>
+              <li><span class="promise-check">✓</span> Accountability & accuracy</li>
+              <li><span class="promise-check">✓</span> Institutional-grade delivery</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="intro__image-container">
+        <img src="/images/about-office.jpg" alt="Crestmore Research analytical team" loading="lazy" class="intro__image" />
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════
+       SECTOR EXPERTISE GRID
+  ═══════════════════════════════════════════════ -->
+  <section class="section section--sectors section--bg-soft" aria-labelledby="sectors-title">
+    <div class="container">
+      <div class="section__header section__header--center">
+        <p class="section__eyebrow">Deep Expertise</p>
+        <h2 class="section__title section__title--center" id="sectors-title">8 Sectors of Active Coverage</h2>
+        <p class="section__subtitle">Each sector represents 5+ years of dedicated analyst specialization and proprietary data development.</p>
+      </div>
+      <div class="sectors-grid">
+        {sectors.map(sector => (
+          <div class="sector-card">
+            <h3 class="sector-card__title">{sector.title}</h3>
+            <p class="sector-card__desc">{sector.desc}</p>
+            <div class="sector-card__meta">
+              <span class="sector-card__reports">{sector.reports} reports published</span>
+            </div>
+            <a href={`/sectors/${sector.id}`} class="sector-card__link">Explore sector →</a>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════
+       FEATURED REPORTS SECTION
+  ═══════════════════════════════════════════════ -->
+  <section class="section section--featured-reports" aria-labelledby="featured-title">
+    <div class="container">
+      <div class="section__header section__header--center">
+        <p class="section__eyebrow">From the Research Library</p>
+        <h2 class="section__title section__title--center" id="featured-title">Flagship Reports</h2>
+        <p class="section__subtitle">Select recent publications from our institutional research program.</p>
+      </div>
+      <div class="featured-reports-grid">
+        {featuredReports.map(report => (
+          <div class="report-card">
+            <div class="report-card__cover">
+              <div class="report-card__category-tag">{report.category}</div>
+              <div class="report-card__title">{report.title}</div>
+              <div class="report-card__pages">{report.pages} pages</div>
+            </div>
+            <div class="report-card__footer">
+              <a href={`/research/${report.slug}`} class="btn btn--small btn--gold">Download Sample</a>
+            </div>
+          </div>
+        ))}
+      </div>
+      <div class="section__cta-center">
+        <a href="/research" class="btn btn--navy">Browse Full Research Library →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════
+       SERVICES GRID
+  ═══════════════════════════════════════════════ -->
+  <section class="section section--services" aria-labelledby="services-title">
+    <div class="container">
+      <div class="section__header section__header--center">
+        <p class="section__eyebrow">Our Capabilities</p>
+        <h2 class="section__title section__title--center" id="services-title">Six Integrated Service Lines</h2>
+        <p class="section__subtitle">Comprehensive market intelligence covering the full research lifecycle — from primary data collection to institutional delivery.</p>
+      </div>
+      <div class="services-grid">
+        {services.map(svc => (
+          <div class="service-card">
+            <div class="service-card__icon" set:html={svc.icon} />
+            <h3 class="service-card__title">{svc.title}</h3>
+            <p class="service-card__desc">{svc.desc}</p>
+            <a href="/services" class="service-card__link">Learn more →</a>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════
+       CLIENT TYPES SECTION
+  ═══════════════════════════════════════════════ -->
+  <section class="section section--client-types section--bg-soft" aria-labelledby="clients-title">
+    <div class="container">
+      <div class="section__header section__header--center">
+        <p class="section__eyebrow">Institutional Focus</p>
+        <h2 class="section__title section__title--center" id="clients-title">Who We Work With</h2>
+        <p class="section__subtitle">Crestmore serves six primary institutional client categories, each with distinct intelligence requirements.</p>
+      </div>
+      <div class="client-types-grid">
+        {clientTypes.map(client => (
+          <div class="client-card">
+            <h3 class="client-card__type">{client.type}</h3>
+            <p class="client-card__desc">{client.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════
+       WHY CRESTMORE (Dark section)
+  ═══════════════════════════════════════════════ -->
+  <section class="section section--dark section--why" aria-labelledby="why-title">
+    <div class="container">
+      <div class="why__grid">
+        <div class="why__text">
+          <p class="section__eyebrow section__eyebrow--gold">Our Principles</p>
+          <h2 class="section__title section__title--light" id="why-title">The Crestmore Standard</h2>
+          <div class="why__points">
+            {whyPoints.map(point => (
+              <div class="why__point">
+                <div class="why__point-icon">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                </div>
+                <div>
+                  <h3>{point.title}</h3>
+                  <p>{point.desc}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+        <div class="why__visual">
+          <img src="/images/why-crestmore.jpg" alt="Analyst reviewing market intelligence" loading="lazy" class="why__image" />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════
+       METHODOLOGY PREVIEW
+  ═══════════════════════════════════════════════ -->
+  <section class="section section--bg-soft" aria-labelledby="method-title">
+    <div class="container">
+      <div class="section__header section__header--center">
+        <p class="section__eyebrow">How We Work</p>
+        <h2 class="section__title section__title--center" id="method-title">A Rigorous Four-Stage Process</h2>
+        <p class="section__subtitle">Every Crestmore research deliverable passes through four structured stages — from primary data collection to peer-reviewed delivery.</p>
+      </div>
+      <div class="methodology-steps">
+        {methodologySteps.map((step, i) => (
+          <div class="method-step">
+            <div class="method-step__num">{step.num}</div>
+            <div class="method-step__content">
+              <h3 class="method-step__title">{step.title}</h3>
+              <p class="method-step__desc">{step.desc}</p>
+            </div>
+            {i < methodologySteps.length - 1 && (
+              <div class="method-step__connector" aria-hidden="true">
+                <svg viewBox="0 0 40 80" preserveAspectRatio="none">
+                  <line x1="20" y1="0" x2="20" y2="80" stroke="currentColor" stroke-width="2" stroke-dasharray="4" />
+                </svg>
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
+      <div class="section__cta-center">
+        <a href="/methodology" class="btn btn--navy">Read Full Methodology →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════
+       COVERAGE MAP (SVG World Map)
+  ═══════════════════════════════════════════════ -->
+  <section class="section section--coverage-map" aria-labelledby="map-title">
+    <div class="container">
+      <div class="section__header section__header--center">
+        <p class="section__eyebrow">Global Reach</p>
+        <h2 class="section__title section__title--center" id="map-title">47 Markets Across 6 Regions</h2>
+        <p class="section__subtitle">Crestmore maintains active research coverage across six global regions, supported by a network of regional correspondents and specialist consultants.</p>
+      </div>
+
+      <!-- SVG World Map -->
+      <div class="world-map">
+        <svg viewBox="0 0 960 600" xmlns="http://www.w3.org/2000/svg" class="world-map__svg">
+          <!-- Simplified world map with highlighted regions -->
+          <g class="world-map__regions">
+            <!-- Africa (12 markets) -->
+            <g class="world-map__region world-map__region--africa">
+              <polygon points="500,250 550,260 555,300 520,310 510,290 495,280" fill="var(--gold)" opacity="0.8" />
+              <text x="520" y="280" text-anchor="middle" font-size="12" fill="var(--navy-dark)" font-weight="bold">12</text>
+            </g>
+            <!-- Latin America (9 markets) -->
+            <g class="world-map__region world-map__region--latam">
+              <polygon points="380,350 410,340 420,400 390,410 370,390" fill="var(--gold)" opacity="0.8" />
+              <text x="395" y="375" text-anchor="middle" font-size="12" fill="var(--navy-dark)" font-weight="bold">9</text>
+            </g>
+            <!-- MENA (8 markets) -->
+            <g class="world-map__region world-map__region--mena">
+              <polygon points="520,240 570,235 575,270 525,275" fill="var(--gold)" opacity="0.8" />
+              <text x="545" y="255" text-anchor="middle" font-size="12" fill="var(--navy-dark)" font-weight="bold">8</text>
+            </g>
+            <!-- Central & Eastern Europe (7 markets) -->
+            <g class="world-map__region world-map__region--cee">
+              <polygon points="550,200 600,195 605,230 555,235" fill="var(--gold)" opacity="0.8" />
+              <text x="575" y="215" text-anchor="middle" font-size="12" fill="var(--navy-dark)" font-weight="bold">7</text>
+            </g>
+            <!-- South & Southeast Asia (7 markets) -->
+            <g class="world-map__region world-map__region--sea">
+              <polygon points="650,300 700,295 710,340 660,345" fill="var(--gold)" opacity="0.8" />
+              <text x="680" y="320" text-anchor="middle" font-size="12" fill="var(--navy-dark)" font-weight="bold">7</text>
+            </g>
+            <!-- North America & Western Europe (4 markets) -->
+            <g class="world-map__region world-map__region--nawe">
+              <polygon points="300,180 400,175 410,220 310,225" fill="var(--gold)" opacity="0.8" />
+              <text x="355" y="200" text-anchor="middle" font-size="12" fill="var(--navy-dark)" font-weight="bold">4</text>
+            </g>
+          </g>
+        </svg>
+      </div>
+
+      <!-- Coverage stats -->
+      <div class="coverage-regions-stats">
+        <div class="coverage-stat">
+          <span class="coverage-stat__label">Sub-Saharan Africa</span>
+          <span class="coverage-stat__count">12 markets</span>
+        </div>
+        <div class="coverage-stat">
+          <span class="coverage-stat__label">Latin America</span>
+          <span class="coverage-stat__count">9 markets</span>
+        </div>
+        <div class="coverage-stat">
+          <span class="coverage-stat__label">Middle East & North Africa</span>
+          <span class="coverage-stat__count">8 markets</span>
+        </div>
+        <div class="coverage-stat">
+          <span class="coverage-stat__label">Central & Eastern Europe</span>
+          <span class="coverage-stat__count">7 markets</span>
+        </div>
+        <div class="coverage-stat">
+          <span class="coverage-stat__label">South & Southeast Asia</span>
+          <span class="coverage-stat__count">7 markets</span>
+        </div>
+        <div class="coverage-stat">
+          <span class="coverage-stat__label">North America & Western Europe</span>
+          <span class="coverage-stat__count">4 markets</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════
+       TESTIMONIALS (Dark)
+  ═══════════════════════════════════════════════ -->
+  <section class="section section--dark section--testimonials" aria-labelledby="testimonials-title">
+    <div class="container">
+      <div class="section__header section__header--center">
+        <p class="section__eyebrow section__eyebrow--gold">Client Perspectives</p>
+        <h2 class="section__title section__title--light section__title--center" id="testimonials-title">What Our Clients Say</h2>
+      </div>
+      <div class="testimonials-grid">
+        {testimonials.map(t => (
+          <div class="testimonial-card">
+            <div class="testimonial-card__quote-mark">"</div>
+            <blockquote class="testimonial-card__text">{t.quote}</blockquote>
+            <div class="testimonial-card__attr">
+              <span class="testimonial-card__name">{t.name}</span>
+              <span class="testimonial-card__firm">{t.firm}</span>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════
+       TEAM TEASER
+  ═══════════════════════════════════════════════ -->
+  <section class="section section--team section--bg-soft" aria-labelledby="team-title">
+    <div class="container">
+      <div class="section__header section__header--flex">
+        <div>
+          <p class="section__eyebrow">Our Analysts</p>
+          <h2 class="section__title" id="team-title">Senior Research Team</h2>
+        </div>
+        <a href="/team" class="section__view-all">Meet the full team →</a>
+      </div>
+      <div class="team-grid">
+        {teamMembers.map(member => (
+          <div class="team-card">
+            <div class="team-card__photo-wrap">
+              <img src={`/images/team-${member.name.split(' ')[1].toLowerCase()}.jpg`} alt={member.name} loading="lazy" class="team-card__photo" />
+            </div>
+            <div class="team-card__body">
+              <h3 class="team-card__name">{member.name}</h3>
+              <p class="team-card__role">{member.role}</p>
+              <p class="team-card__bio">{member.bio}</p>
+              <div class="team-card__credentials">
+                {member.credentials.map(cred => (
+                  <span class="credential-chip">{cred}</span>
+                ))}
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════
+       PRESS & CITATIONS
+  ═══════════════════════════════════════════════ -->
+  <section class="section section--press section--dark" aria-labelledby="press-title">
+    <div class="container">
+      <div class="section__header section__header--center">
+        <p class="section__eyebrow section__eyebrow--gold">Research Impact</p>
+        <h2 class="section__title section__title--light section__title--center" id="press-title">Research That Moves Markets</h2>
+        <p class="section__subtitle section__subtitle--light">Crestmore analysis is cited regularly in major financial media and policy forums.</p>
+      </div>
+      <div class="publications-grid">
+        {publications.map(pub => (
+          <div class="publication-card">
+            <div class="publication-card__name">{pub.name}</div>
+            <blockquote class="publication-card__quote">"{pub.quote}"</blockquote>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════
+       INSIGHTS FEED
+  ═══════════════════════════════════════════════ -->
+  <section class="section section--insights" aria-labelledby="insights-title">
+    <div class="container">
+      <div class="section__header section__header--flex">
+        <div>
+          <p class="section__eyebrow">Market Commentary</p>
+          <h2 class="section__title" id="insights-title">Recent Insights</h2>
+        </div>
+        <a href="/insights" class="section__view-all">All insights →</a>
+      </div>
+      <div class="insights-list">
+        {insights.map(insight => (
+          <a href={`/insights/${insight.slug}`} class="insight-item">
+            <span class="insight-item__cat">{insight.cat}</span>
+            <span class="insight-item__title">{insight.title}</span>
+            <span class="insight-item__date">{insight.date}</span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════
+       NEWSLETTER SECTION
+  ═══════════════════════════════════════════════ -->
+  <section class="section section--newsletter section--bg-soft" aria-labelledby="newsletter-title">
+    <div class="container">
+      <div class="newsletter-box">
+        <div class="newsletter-box__content">
+          <h2 class="newsletter-box__title" id="newsletter-title">Weekly Intelligence Briefing</h2>
+          <p class="newsletter-box__subtitle">The most important market intelligence, distilled into 5 minutes</p>
+          <p class="newsletter-box__desc">Every Friday, our analysts synthesize the week's most significant market developments, policy shifts, and data releases. Personalized briefings for subscribers across commodities, emerging markets, country risk, and capital flows.</p>
+
+          <form class="newsletter-form" method="POST" action="/api/newsletter-subscribe">
+            <input type="email" name="email" placeholder="Your institutional email" required class="newsletter-form__input" />
+            <button type="submit" class="btn btn--gold btn--lg">Subscribe</button>
+          </form>
+
+          <div class="newsletter-stats">
+            <span class="newsletter-stats__item">4,200+ institutional subscribers</span>
+            <span class="newsletter-stats__sep">·</span>
+            <span class="newsletter-stats__item">92% open rate</span>
+            <span class="newsletter-stats__sep">·</span>
+            <span class="newsletter-stats__item">5-minute read</span>
+          </div>
+        </div>
+        <div class="newsletter-box__visual" aria-hidden="true">
+          <div class="newsletter-visual"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════
+       CTA BANNER
+  ═══════════════════════════════════════════════ -->
+  <section class="section section--cta-banner section--dark" aria-labelledby="cta-title">
+    <div class="container">
+      <div class="cta-banner">
+        <div class="cta-banner__text">
+          <p class="section__eyebrow section__eyebrow--gold">Work With Us</p>
+          <h2 class="cta-banner__title" id="cta-title">Ready to Commission Independent Research?</h2>
+          <p class="cta-banner__sub">Our team will respond within one business day. We work with institutional clients, family offices, corporate strategy teams, and policy organisations across 30+ countries.</p>
+        </div>
+        <div class="cta-banner__actions">
+          <a href="/contact" class="btn btn--gold btn--lg">Request a Research Brief</a>
+          <a href="/research" class="btn btn--outline-light btn--lg">Browse Research Library</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════
+       PUBLICATION LOGOS / TRUST MARKS
+  ═══════════════════════════════════════════════ -->
+  <section class="section section--logos" aria-label="As featured in">
+    <div class="container">
+      <p class="logos-bar__label">As cited and featured in</p>
+      <div class="logos-bar">
+        <span class="logos-bar__item">Financial Times</span>
+        <span class="logos-bar__sep" aria-hidden="true">·</span>
+        <span class="logos-bar__item">Bloomberg</span>
+        <span class="logos-bar__sep" aria-hidden="true">·</span>
+        <span class="logos-bar__item">Reuters</span>
+        <span class="logos-bar__sep" aria-hidden="true">·</span>
+        <span class="logos-bar__item">The Economist</span>
+        <span class="logos-bar__sep" aria-hidden="true">·</span>
+        <span class="logos-bar__item">S&P Global</span>
+        <span class="logos-bar__sep" aria-hidden="true">·</span>
+        <span class="logos-bar__item">Mining Journal</span>
+        <span class="logos-bar__sep" aria-hidden="true">·</span>
+        <span class="logos-bar__item">CFA Institute</span>
+      </div>
+    </div>
+  </section>
+
 </BaseLayout>
+
+<style>
+  /* ═══════════════════════════════════════════════
+     HERO SECTION
+  ═══════════════════════════════════════════════ */
+  .hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    background: var(--navy-dark);
+  }
+
+  .hero__bg-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(25, 48, 71, 0.95) 0%, rgba(15, 30, 50, 0.95) 100%);
+    z-index: 1;
+  }
+
+  .hero__bg-pattern {
+    position: absolute;
+    inset: 0;
+    background-image:
+      radial-gradient(circle at 20% 50%, rgba(218, 165, 32, 0.05) 0%, transparent 50%),
+      radial-gradient(circle at 80% 80%, rgba(218, 165, 32, 0.05) 0%, transparent 50%);
+    z-index: 2;
+  }
+
+  .hero__container {
+    position: relative;
+    z-index: 3;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+    min-height: 100vh;
+    padding: 8rem 0;
+  }
+
+  .hero__content {
+    max-width: 550px;
+  }
+
+  .hero__eyebrow {
+    font-size: 0.875rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 1.5rem;
+  }
+
+  .hero__title {
+    font-family: 'Playfair Display', serif;
+    font-size: 3.5rem;
+    line-height: 1.1;
+    font-weight: 700;
+    color: white;
+    margin-bottom: 1.5rem;
+  }
+
+  .hero__title em {
+    font-style: normal;
+    color: var(--gold);
+  }
+
+  .hero__subtitle {
+    font-size: 1.125rem;
+    line-height: 1.7;
+    color: var(--border-light);
+    margin-bottom: 2.5rem;
+  }
+
+  .hero__actions {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 3rem;
+    flex-wrap: wrap;
+  }
+
+  .hero__trust {
+    font-size: 0.95rem;
+    color: var(--border-light);
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba(218, 165, 32, 0.3);
+  }
+
+  /* Live Market Card */
+  .hero__live-card {
+    position: relative;
+    z-index: 4;
+  }
+
+  .live-card {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(218, 165, 32, 0.2);
+    border-radius: 12px;
+    padding: 1.5rem;
+    max-width: 320px;
+  }
+
+  .live-card__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+  }
+
+  .live-card__label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--gold);
+  }
+
+  .live-card__update {
+    font-size: 0.75rem;
+    color: var(--border-light);
+  }
+
+  .live-card__data {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .live-card__item {
+    display: grid;
+    grid-template-columns: 1fr 1fr auto;
+    gap: 0.75rem;
+    align-items: center;
+  }
+
+  .live-card__commodity {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: white;
+  }
+
+  .live-card__price {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: white;
+  }
+
+  .live-card__change {
+    font-size: 0.875rem;
+    font-weight: 600;
+  }
+
+  .live-card__change--up {
+    color: #4ade80;
+  }
+
+  .live-card__change--down {
+    color: #ef4444;
+  }
+
+  .live-card__footer {
+    padding-top: 1rem;
+    border-top: 1px solid rgba(218, 165, 32, 0.2);
+  }
+
+  .live-card__link {
+    font-size: 0.875rem;
+    color: var(--gold);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .live-card__link:hover {
+    color: #ffd700;
+  }
+
+  .hero__scroll-indicator {
+    position: absolute;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 5;
+  }
+
+  .hero__scroll-indicator span {
+    display: inline-block;
+    width: 24px;
+    height: 40px;
+    border: 2px solid var(--gold);
+    border-radius: 12px;
+    animation: scroll-bounce 2s infinite;
+  }
+
+  @keyframes scroll-bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(10px); }
+  }
+
+  /* ═══════════════════════════════════════════════
+     DATA TICKER
+  ═══════════════════════════════════════════════ */
+  .data-ticker {
+    background: var(--navy-dark);
+    border-top: 1px solid rgba(218, 165, 32, 0.2);
+    border-bottom: 1px solid rgba(218, 165, 32, 0.2);
+    padding: 1rem 0;
+    overflow: hidden;
+  }
+
+  .ticker-content {
+    display: flex;
+    gap: 3rem;
+    animation: ticker-scroll 60s linear infinite;
+    will-change: transform;
+  }
+
+  .ticker-item {
+    display: inline-block;
+    white-space: nowrap;
+    font-size: 0.95rem;
+    color: var(--border-light);
+    font-weight: 500;
+    flex-shrink: 0;
+  }
+
+  .ticker-item:before {
+    content: '▸ ';
+    color: var(--gold);
+    margin-right: 0.5rem;
+  }
+
+  @keyframes ticker-scroll {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+
+  /* ═══════════════════════════════════════════════
+     STATS BAR
+  ═══════════════════════════════════════════════ */
+  .stats-bar {
+    background: linear-gradient(135deg, rgba(218, 165, 32, 0.08) 0%, rgba(218, 165, 32, 0.03) 100%);
+    border: 1px solid rgba(218, 165, 32, 0.15);
+    padding: 4rem 0;
+  }
+
+  .stats-bar__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 2rem;
+  }
+
+  .stats-bar__item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .stats-bar__value {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--gold);
+    line-height: 1;
+    margin-bottom: 0.5rem;
+  }
+
+  .stats-bar__label {
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+    line-height: 1.4;
+  }
+
+  /* ═══════════════════════════════════════════════
+     INTRODUCTION SECTION (RICH)
+  ═══════════════════════════════════════════════ */
+  .section--intro {
+    background: linear-gradient(135deg, rgba(248, 248, 250, 1) 0%, rgba(240, 242, 245, 1) 100%);
+  }
+
+  .intro__wrapper {
+    display: grid;
+    grid-template-columns: 1fr 280px;
+    gap: 3rem;
+    margin-bottom: 3rem;
+  }
+
+  .intro__main {
+    max-width: 700px;
+  }
+
+  .intro__para--lead {
+    font-size: 1.25rem;
+    line-height: 1.7;
+    color: var(--navy-dark);
+    margin-bottom: 1.5rem;
+    font-weight: 500;
+  }
+
+  .intro__para {
+    font-size: 1rem;
+    line-height: 1.8;
+    color: var(--text-secondary);
+    margin-bottom: 1.5rem;
+  }
+
+  .intro__pullquote {
+    background: white;
+    border-left: 4px solid var(--gold);
+    padding: 2rem;
+    margin: 2.5rem 0;
+    border-radius: 4px;
+    font-size: 1.125rem;
+    line-height: 1.7;
+    color: var(--navy-dark);
+    font-style: italic;
+  }
+
+  .intro__quote-mark {
+    font-size: 3rem;
+    color: var(--gold);
+    line-height: 1;
+    margin-bottom: 0.5rem;
+  }
+
+  .intro__quote-attrib {
+    display: block;
+    font-size: 0.875rem;
+    font-style: normal;
+    color: var(--text-secondary);
+    margin-top: 1rem;
+  }
+
+  .intro__link {
+    display: inline-block;
+    color: var(--navy-dark);
+    font-weight: 600;
+    text-decoration: none;
+    transition: color 0.2s;
+    margin-top: 1rem;
+  }
+
+  .intro__link:hover {
+    color: var(--gold);
+  }
+
+  .intro__sidebar {
+    background: white;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 2rem;
+    height: fit-content;
+    position: sticky;
+    top: 2rem;
+  }
+
+  .intro__promise-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--navy-dark);
+    margin-bottom: 1.5rem;
+  }
+
+  .intro__promise-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .intro__promise-list li {
+    display: flex;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+  }
+
+  .promise-check {
+    color: var(--gold);
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+
+  .intro__image-container {
+    margin-top: 2rem;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 20px 40px rgba(25, 48, 71, 0.1);
+  }
+
+  .intro__image {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  /* ═══════════════════════════════════════════════
+     SECTOR EXPERTISE GRID
+  ═══════════════════════════════════════════════ */
+  .section--sectors {
+    background: linear-gradient(135deg, rgba(248, 248, 250, 1) 0%, rgba(240, 242, 245, 1) 100%);
+  }
+
+  .sectors-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-top: 3rem;
+  }
+
+  .sector-card {
+    background: white;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 2rem;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .sector-card:hover {
+    border-color: var(--gold);
+    box-shadow: 0 12px 24px rgba(218, 165, 32, 0.15);
+  }
+
+  .sector-card__title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--navy-dark);
+    margin-bottom: 1rem;
+  }
+
+  .sector-card__desc {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: var(--text-secondary);
+    margin-bottom: 1.5rem;
+  }
+
+  .sector-card__meta {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .sector-card__reports {
+    font-size: 0.875rem;
+    color: var(--gold);
+    font-weight: 600;
+  }
+
+  .sector-card__link {
+    display: inline-block;
+    color: var(--navy-dark);
+    font-weight: 600;
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .sector-card__link:hover {
+    color: var(--gold);
+  }
+
+  /* ═══════════════════════════════════════════════
+     FEATURED REPORTS GRID
+  ═══════════════════════════════════════════════ */
+  .featured-reports-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+    margin: 3rem 0;
+  }
+
+  .report-card {
+    background: white;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    overflow: hidden;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .report-card:hover {
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+  }
+
+  .report-card__cover {
+    background: linear-gradient(135deg, var(--navy-dark) 0%, #1a3a52 100%);
+    padding: 3rem 2rem;
+    min-height: 280px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+    color: white;
+  }
+
+  .report-card__cover::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 100px;
+    height: 100px;
+    background: radial-gradient(circle, rgba(218, 165, 32, 0.1) 0%, transparent 70%);
+  }
+
+  .report-card__category-tag {
+    display: inline-block;
+    background: var(--gold);
+    color: var(--navy-dark);
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 1rem;
+    width: fit-content;
+  }
+
+  .report-card__title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    line-height: 1.3;
+    margin-bottom: auto;
+  }
+
+  .report-card__pages {
+    font-size: 0.95rem;
+    color: var(--border-light);
+  }
+
+  .report-card__footer {
+    padding: 1.5rem;
+    background: var(--bg-light);
+    border-top: 1px solid var(--border-color);
+  }
+
+  /* ═══════════════════════════════════════════════
+     SERVICE CARDS
+  ═══════════════════════════════════════════════ */
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-top: 3rem;
+  }
+
+  .service-card {
+    background: white;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 2.5rem 2rem;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .service-card:hover {
+    border-color: var(--gold);
+    box-shadow: 0 12px 24px rgba(218, 165, 32, 0.15);
+  }
+
+  .service-card__icon {
+    color: var(--gold);
+    margin-bottom: 1.5rem;
+  }
+
+  .service-card__title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--navy-dark);
+    margin-bottom: 1rem;
+  }
+
+  .service-card__desc {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: var(--text-secondary);
+    margin-bottom: 1.5rem;
+  }
+
+  .service-card__link {
+    color: var(--navy-dark);
+    font-weight: 600;
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .service-card__link:hover {
+    color: var(--gold);
+  }
+
+  /* ═══════════════════════════════════════════════
+     CLIENT TYPES GRID
+  ═══════════════════════════════════════════════ */
+  .section--client-types {
+    background: linear-gradient(135deg, rgba(248, 248, 250, 1) 0%, rgba(240, 242, 245, 1) 100%);
+  }
+
+  .client-types-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 2rem;
+    margin-top: 3rem;
+  }
+
+  .client-card {
+    background: white;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 2.5rem 2rem;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .client-card:hover {
+    border-color: var(--gold);
+    box-shadow: 0 8px 16px rgba(218, 165, 32, 0.1);
+  }
+
+  .client-card__type {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--navy-dark);
+    margin-bottom: 1rem;
+  }
+
+  .client-card__desc {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: var(--text-secondary);
+  }
+
+  /* ═══════════════════════════════════════════════
+     WHY CRESTMORE SECTION
+  ═══════════════════════════════════════════════ */
+  .section--why {
+    background: var(--navy-dark);
+  }
+
+  .why__grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+  }
+
+  .why__points {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .why__point {
+    display: grid;
+    grid-template-columns: 40px 1fr;
+    gap: 1.5rem;
+  }
+
+  .why__point-icon {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(218, 165, 32, 0.15);
+    border-radius: 50%;
+    color: var(--gold);
+    flex-shrink: 0;
+  }
+
+  .why__point h3 {
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: white;
+    margin-bottom: 0.5rem;
+  }
+
+  .why__point p {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: var(--border-light);
+  }
+
+  .why__image {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+  }
+
+  /* ═══════════════════════════════════════════════
+     METHODOLOGY STEPS
+  ═══════════════════════════════════════════════ */
+  .methodology-steps {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 2rem;
+    margin: 3rem 0;
+    position: relative;
+  }
+
+  .method-step {
+    background: white;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 2rem;
+    position: relative;
+  }
+
+  .method-step__num {
+    font-family: 'Playfair Display', serif;
+    font-size: 3rem;
+    font-weight: 700;
+    color: var(--gold);
+    line-height: 1;
+    margin-bottom: 1rem;
+  }
+
+  .method-step__title {
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: var(--navy-dark);
+    margin-bottom: 1rem;
+  }
+
+  .method-step__desc {
+    font-size: 0.9rem;
+    line-height: 1.6;
+    color: var(--text-secondary);
+  }
+
+  .method-step__connector {
+    position: absolute;
+    right: -24px;
+    top: 50%;
+    width: 48px;
+    height: 4px;
+    opacity: 0.3;
+  }
+
+  .method-step__connector svg {
+    width: 100%;
+    height: 100%;
+  }
+
+  /* ═══════════════════════════════════════════════
+     COVERAGE MAP
+  ═══════════════════════════════════════════════ */
+  .world-map {
+    margin: 3rem 0;
+    max-width: 900px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .world-map__svg {
+    width: 100%;
+    height: auto;
+    filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.1));
+  }
+
+  .coverage-regions-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 2rem;
+    margin-top: 3rem;
+  }
+
+  .coverage-stat {
+    background: white;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 1.5rem;
+    text-align: center;
+  }
+
+  .coverage-stat__label {
+    display: block;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--navy-dark);
+    margin-bottom: 0.5rem;
+  }
+
+  .coverage-stat__count {
+    display: block;
+    font-family: 'Playfair Display', serif;
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--gold);
+  }
+
+  /* ═══════════════════════════════════════════════
+     TESTIMONIALS
+  ═══════════════════════════════════════════════ */
+  .section--testimonials {
+    background: var(--navy-dark);
+  }
+
+  .testimonials-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-top: 3rem;
+  }
+
+  .testimonial-card {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(218, 165, 32, 0.2);
+    border-radius: 8px;
+    padding: 2.5rem 2rem;
+    backdrop-filter: blur(10px);
+  }
+
+  .testimonial-card__quote-mark {
+    font-size: 4rem;
+    color: var(--gold);
+    line-height: 1;
+    margin-bottom: 1rem;
+  }
+
+  .testimonial-card__text {
+    font-size: 1rem;
+    line-height: 1.7;
+    color: white;
+    margin-bottom: 1.5rem;
+    font-style: italic;
+  }
+
+  .testimonial-card__attr {
+    border-top: 1px solid rgba(218, 165, 32, 0.2);
+    padding-top: 1rem;
+  }
+
+  .testimonial-card__name {
+    display: block;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: white;
+    margin-bottom: 0.25rem;
+  }
+
+  .testimonial-card__firm {
+    display: block;
+    font-size: 0.85rem;
+    color: var(--border-light);
+  }
+
+  /* ═══════════════════════════════════════════════
+     TEAM SECTION
+  ═══════════════════════════════════════════════ */
+  .section--team {
+    background: linear-gradient(135deg, rgba(248, 248, 250, 1) 0%, rgba(240, 242, 245, 1) 100%);
+  }
+
+  .team-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-top: 3rem;
+  }
+
+  .team-card {
+    background: white;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    overflow: hidden;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .team-card:hover {
+    box-shadow: 0 12px 24px rgba(25, 48, 71, 0.1);
+  }
+
+  .team-card__photo-wrap {
+    width: 100%;
+    height: 300px;
+    overflow: hidden;
+    background: var(--bg-light);
+  }
+
+  .team-card__photo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .team-card__body {
+    padding: 2rem;
+  }
+
+  .team-card__name {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--navy-dark);
+    margin-bottom: 0.5rem;
+  }
+
+  .team-card__role {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--gold);
+    margin-bottom: 1rem;
+  }
+
+  .team-card__bio {
+    font-size: 0.9rem;
+    line-height: 1.6;
+    color: var(--text-secondary);
+    margin-bottom: 1.5rem;
+  }
+
+  .team-card__credentials {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .credential-chip {
+    display: inline-block;
+    background: rgba(218, 165, 32, 0.1);
+    color: var(--navy-dark);
+    padding: 0.5rem 0.75rem;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    border: 1px solid rgba(218, 165, 32, 0.2);
+  }
+
+  /* ═══════════════════════════════════════════════
+     PRESS & CITATIONS SECTION
+  ═══════════════════════════════════════════════ */
+  .section--press {
+    background: var(--navy-dark);
+  }
+
+  .publications-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+    margin-top: 3rem;
+  }
+
+  .publication-card {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(218, 165, 32, 0.2);
+    border-radius: 8px;
+    padding: 2rem;
+    backdrop-filter: blur(10px);
+  }
+
+  .publication-card__name {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--gold);
+    margin-bottom: 1.5rem;
+  }
+
+  .publication-card__quote {
+    font-size: 0.95rem;
+    line-height: 1.7;
+    color: white;
+    font-style: italic;
+  }
+
+  /* ═══════════════════════════════════════════════
+     INSIGHTS SECTION
+  ═══════════════════════════════════════════════ */
+  .insights-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-top: 2rem;
+  }
+
+  .insight-item {
+    display: grid;
+    grid-template-columns: 140px 1fr 120px;
+    gap: 2rem;
+    align-items: center;
+    padding: 1.5rem;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    text-decoration: none;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    background: white;
+  }
+
+  .insight-item:hover {
+    border-color: var(--gold);
+    box-shadow: 0 4px 12px rgba(218, 165, 32, 0.1);
+  }
+
+  .insight-item__cat {
+    display: block;
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--gold);
+    background: rgba(218, 165, 32, 0.1);
+    padding: 0.5rem 0.75rem;
+    border-radius: 4px;
+    text-align: center;
+  }
+
+  .insight-item__title {
+    display: block;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--navy-dark);
+  }
+
+  .insight-item__date {
+    display: block;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    text-align: right;
+  }
+
+  /* ═══════════════════════════════════════════════
+     NEWSLETTER SECTION
+  ═══════════════════════════════════════════════ */
+  .section--newsletter {
+    background: linear-gradient(135deg, rgba(248, 248, 250, 1) 0%, rgba(240, 242, 245, 1) 100%);
+  }
+
+  .newsletter-box {
+    background: white;
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    overflow: hidden;
+    display: grid;
+    grid-template-columns: 1fr 300px;
+    gap: 0;
+  }
+
+  .newsletter-box__content {
+    padding: 3.5rem;
+  }
+
+  .newsletter-box__title {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--navy-dark);
+    margin-bottom: 0.5rem;
+  }
+
+  .newsletter-box__subtitle {
+    font-size: 1.125rem;
+    color: var(--text-secondary);
+    margin-bottom: 1.5rem;
+    font-weight: 500;
+  }
+
+  .newsletter-box__desc {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: var(--text-secondary);
+    margin-bottom: 2rem;
+  }
+
+  .newsletter-form {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 2rem;
+  }
+
+  .newsletter-form__input {
+    flex: 1;
+    padding: 1rem 1.5rem;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    font-size: 0.95rem;
+    transition: border-color 0.2s;
+  }
+
+  .newsletter-form__input:focus {
+    outline: none;
+    border-color: var(--gold);
+    box-shadow: 0 0 0 3px rgba(218, 165, 32, 0.1);
+  }
+
+  .newsletter-stats {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+  }
+
+  .newsletter-stats__item {
+    display: inline-block;
+  }
+
+  .newsletter-stats__sep {
+    margin: 0 0.75rem;
+    color: var(--border-color);
+  }
+
+  .newsletter-box__visual {
+    background: linear-gradient(135deg, var(--navy-dark) 0%, #1a3a52 100%);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .newsletter-visual {
+    width: 100%;
+    height: 100%;
+    min-height: 300px;
+    background: radial-gradient(circle at 30% 50%, rgba(218, 165, 32, 0.2) 0%, transparent 50%);
+  }
+
+  /* ═══════════════════════════════════════════════
+     CTA BANNER
+  ═══════════════════════════════════════════════ */
+  .section--cta-banner {
+    background: var(--navy-dark);
+  }
+
+  .cta-banner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+  }
+
+  .cta-banner__title {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.5rem;
+    line-height: 1.2;
+    font-weight: 700;
+    color: white;
+    margin-bottom: 1rem;
+  }
+
+  .cta-banner__sub {
+    font-size: 1.05rem;
+    line-height: 1.7;
+    color: var(--border-light);
+    margin-bottom: 0;
+  }
+
+  .cta-banner__actions {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  /* ═══════════════════════════════════════════════
+     LOGOS BAR
+  ═══════════════════════════════════════════════ */
+  .section--logos {
+    background: var(--bg-light);
+    border-top: 1px solid var(--border-color);
+    padding: 3rem 0;
+  }
+
+  .logos-bar__label {
+    text-align: center;
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-secondary);
+    margin-bottom: 2rem;
+  }
+
+  .logos-bar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+    text-align: center;
+  }
+
+  .logos-bar__item {
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+    font-weight: 500;
+  }
+
+  .logos-bar__sep {
+    color: var(--border-color);
+  }
+
+  /* ═══════════════════════════════════════════════
+     RESPONSIVE
+  ═══════════════════════════════════════════════ */
+  @media (max-width: 1024px) {
+    .hero__container {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+
+    .hero__title {
+      font-size: 2.5rem;
+    }
+
+    .intro__wrapper {
+      grid-template-columns: 1fr;
+    }
+
+    .intro__sidebar {
+      position: static;
+    }
+
+    .why__grid {
+      grid-template-columns: 1fr;
+    }
+
+    .cta-banner {
+      grid-template-columns: 1fr;
+    }
+
+    .newsletter-box {
+      grid-template-columns: 1fr;
+    }
+
+    .newsletter-box__visual {
+      min-height: 250px;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .hero__container {
+      padding: 4rem 0;
+      min-height: auto;
+    }
+
+    .hero__actions {
+      flex-direction: column;
+    }
+
+    .hero__title {
+      font-size: 2rem;
+    }
+
+    .hero__subtitle {
+      font-size: 1rem;
+    }
+
+    .stats-bar__grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .sectors-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .services-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .team-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .insight-item {
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+
+    .insight-item__date {
+      text-align: left;
+    }
+
+    .cta-banner__title {
+      font-size: 1.75rem;
+    }
+
+    .logos-bar {
+      flex-direction: column;
+      gap: 2rem;
+    }
+
+    .newsletter-form {
+      flex-direction: column;
+    }
+  }
+</style>

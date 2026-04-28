@@ -1,106 +1,923 @@
 ---
-// about.astro — About Crestmore Research
+// about.astro — Crestmore Research institutional about page
 import BaseLayout from '../layouts/BaseLayout.astro';
+
+const offices = [
+  {
+    id: 'new-york',
+    city: 'New York',
+    address: '450 Park Avenue South, Floor 12',
+    city_full: 'New York, NY 10016',
+    phone: '+1 (212) 555-0147',
+    email: 'newyork@crestmoreresearch.com',
+    description: 'Headquarters. Global research leadership, commodity market analytics, and institutional client management.',
+  },
+  {
+    id: 'london',
+    city: 'London',
+    address: '40 Gresham Street',
+    city_full: 'London, EC2V 7BB, United Kingdom',
+    phone: '+44 (0)20 7469 0147',
+    email: 'london@crestmoreresearch.com',
+    description: 'European office. MENA energy research, European institutional distribution, and cross-market risk analysis.',
+  },
+  {
+    id: 'singapore',
+    city: 'Singapore',
+    address: 'One Marina Boulevard, #18-01',
+    city_full: 'Singapore 018989',
+    phone: '+65 6415 0147',
+    email: 'singapore@crestmoreresearch.com',
+    description: 'Asia-Pacific hub. Critical minerals supply chains, Southeast Asian markets, and battery material intelligence.',
+  },
+];
+
+const values = [
+  {
+    id: 'independence',
+    title: 'Independence',
+    icon: '🎯',
+    paragraphs: [
+      'We maintain absolute independence from banking, trading, and advisory relationships. Our research serves one constituency: our clients. We publish findings whether they support bull or bear cases, and we take no proprietary positions that could bias our analysis.',
+      'This independence is structural. We do not execute trades on our research. We do not manage money. We provide no M&A advisory. We are not affiliated with investment banks or trading desks. Our incentive structure is aligned solely with research accuracy and client trust.',
+    ],
+  },
+  {
+    id: 'rigour',
+    title: 'Rigour',
+    icon: '📊',
+    paragraphs: [
+      'Primary research drives all Crestmore analysis. We conduct 200+ analyst interviews annually, visit mines and ports, and build proprietary supply-demand models. Our methodology is transparent, peer-reviewed internally, and stress-tested across multiple scenarios.',
+      'We employ econometric modeling, scenario analysis, and sensitivity testing on all major forecasts. Our commodity price models incorporate fundamental supply-demand dynamics, policy variables, and behavioral factors. We maintain detailed audit trails for every published forecast.',
+    ],
+  },
+  {
+    id: 'transparency',
+    title: 'Transparency',
+    icon: '🔍',
+    paragraphs: [
+      'Our methodology is published in every report. We disclose data sources, model assumptions, and confidence intervals. We publish our misses as well as our hits—annual accuracy reviews showcase both forecasts that proved prescient and those that missed.',
+      'We maintain a public archive of accuracy reviews dating back to 2015. We disclose conflicts of interest and limitations of our analysis. We believe institutional clients deserve to understand exactly how and why we reach our conclusions.',
+    ],
+  },
+  {
+    id: 'accountability',
+    title: 'Accountability',
+    icon: '✓',
+    paragraphs: [
+      'We publish our forecast accuracy annually. Our 2025 accuracy review showed 78% directional accuracy on commodity price forecasts and 85% accuracy on emerging market risk assessments. We detail what we got right, what surprised us, and how we adjusted our models.',
+      'This accountability extends to editorial independence. We maintain a firewall between research and client relations. Our editors review all research for quality and independence. We decline projects where objectivity would be compromised. Our reputation is our only capital.',
+    ],
+  },
+];
+
+const timeline = [
+  {
+    year: 2007,
+    title: 'Founded in New York',
+    description: 'Crestmore Research established by former investment bankers and development economists seeking to provide independent commodity market intelligence unconstrained by trading desk conflicts. Initial focus: Sub-Saharan African mining and agricultural commodities.',
+  },
+  {
+    year: 2010,
+    title: 'Latin America Expansion & Commodities Programme Launch',
+    description: 'Opened Latin America research coverage spanning copper, lithium, and agricultural inputs. Launched quarterly commodities research programme, establishing Crestmore as the leading independent voice on Latin American resource economics.',
+  },
+  {
+    year: 2013,
+    title: 'London Office & European Institutional Client Base',
+    description: 'Established London office to serve European institutional investor base. Expanded MENA coverage and launched dedicated energy research team. European clients now represent 40% of annual recurring revenue.',
+  },
+  {
+    year: 2017,
+    title: 'Singapore Office & Asia-Pacific Launch',
+    description: 'Opened Singapore research hub and launched comprehensive Asia-Pacific coverage. Critical minerals supply chains became major research focus as energy transition demand accelerated. Analyst base expanded to 28 professionals.',
+  },
+  {
+    year: 2020,
+    title: 'Digital Transformation & Research Portal Launch',
+    description: 'Launched proprietary research portal delivering real-time intelligence, commodity pricing data, and historical analysis archives. Digital delivery transformed client workflows. Subscription model scaled to 120+ institutional clients across 30 countries.',
+  },
+  {
+    year: 2025,
+    title: 'Current Standing: Global Research Leadership',
+    description: '18 years of independent market intelligence. 47 active market coverage. 320+ published reports. 120+ institutional clients. 320+ analyst interviews annually. Ranked #1 independent research provider by institutional buy-side survey.',
+  },
+];
+
+const careers = [
+  {
+    id: 'senior-analyst-etm',
+    title: 'Senior Analyst, Energy Transition Minerals',
+    location: 'New York',
+    description: 'Lead primary research on battery material supply chains, critical minerals markets, and net-zero transition implications. Build proprietary supply-demand models. Manage client relationships. 5+ years commodity research experience required.',
+  },
+  {
+    id: 'analyst-ssa',
+    title: 'Analyst, Sub-Saharan Africa',
+    location: 'London',
+    description: 'Develop coverage of SSA mining, agricultural commodities, and macroeconomic risk. Conduct primary interviews with government, corporate, and community sources. Support institutional client relationships. 2+ years emerging market research experience.',
+  },
+  {
+    id: 'quant-research',
+    title: 'Quantitative Research Associate',
+    location: 'Singapore',
+    description: 'Build econometric models, supply-demand forecasts, and scenario analysis tools. Develop internal research infrastructure and analytical databases. Support analyst teams across all regions. Strong Python/SQL skills required.',
+  },
+];
 ---
 
-<BaseLayout
-  title="About Crestmore Research | Independent Market Intelligence"
-  description="Crestmore Research is an independent market intelligence firm delivering rigorous, data-backed analysis across technology, cybersecurity, financial services, and enterprise software."
->
-  <div class="about-page">
-    <!-- Page header -->
-    <div class="about-page__hero">
-      <h1 class="about-page__title">About Crestmore Research</h1>
-      <div class="about-page__lead">
-        <p>
-          Crestmore Research is an independent market intelligence firm committed to delivering
-          rigorous, unbiased analysis across key industry verticals. We have no affiliations with
-          the vendors, platforms, or products we evaluate — our revenue comes from readers who
-          value accurate, trustworthy research, not from sponsorships or paid placements.
-        </p>
-        <p>
-          Founded with a single mandate — honest research — our team of senior analysts
-          applies structured evaluation frameworks, primary data, and direct product testing to
-          produce reports that cut through marketing noise. Whether you are a business leader,
-          procurement professional, or informed consumer, our work gives you the intelligence you
-          need to make confident decisions.
-        </p>
-      </div>
+<BaseLayout title="About Crestmore Research | Independent Market Intelligence">
+  <style>
+    /* Hero Section */
+    .about-hero {
+      background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+      color: white;
+      padding: 80px 40px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .about-hero::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background:
+        radial-gradient(circle at 20% 50%, rgba(212, 175, 55, 0.08) 0%, transparent 50%),
+        radial-gradient(circle at 80% 50%, rgba(212, 175, 55, 0.05) 0%, transparent 50%);
+      pointer-events: none;
+    }
+
+    .about-hero-content {
+      position: relative;
+      z-index: 1;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .hero-eyebrow {
+      color: #d4af37;
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+      display: block;
+    }
+
+    .hero-title {
+      font-size: 56px;
+      font-weight: 700;
+      line-height: 1.1;
+      margin-bottom: 20px;
+      letter-spacing: -1px;
+    }
+
+    .hero-subtitle {
+      font-size: 20px;
+      line-height: 1.6;
+      color: #e0e0e0;
+      font-weight: 300;
+    }
+
+    /* Mission Section */
+    .mission-section {
+      padding: 100px 40px;
+      background: #f5f5f5;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .mission-section-title {
+      font-size: 42px;
+      font-weight: 700;
+      color: #1a1a1a;
+      margin-bottom: 60px;
+      text-align: center;
+    }
+
+    .mission-paragraphs {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      margin-bottom: 60px;
+    }
+
+    .mission-para {
+      font-size: 16px;
+      line-height: 1.8;
+      color: #444;
+    }
+
+    .mission-pull-quote {
+      grid-column: 1 / -1;
+      background: white;
+      border-left: 6px solid #d4af37;
+      padding: 50px 40px;
+      font-size: 28px;
+      font-style: italic;
+      line-height: 1.6;
+      color: #1a1a1a;
+      text-align: center;
+      margin: 40px 0;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    }
+
+    /* Timeline Section */
+    .timeline-section {
+      padding: 100px 40px;
+      background: white;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .timeline-title {
+      font-size: 42px;
+      font-weight: 700;
+      color: #1a1a1a;
+      margin-bottom: 80px;
+      text-align: center;
+    }
+
+    .timeline-container {
+      position: relative;
+    }
+
+    .timeline-container::before {
+      content: '';
+      position: absolute;
+      left: 50%;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background: #d4af37;
+      transform: translateX(-1px);
+    }
+
+    .timeline-item {
+      margin-bottom: 50px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      position: relative;
+    }
+
+    .timeline-item:nth-child(even) .timeline-content {
+      grid-column: 1;
+    }
+
+    .timeline-item:nth-child(odd) .timeline-content {
+      grid-column: 2;
+    }
+
+    .timeline-dot {
+      position: absolute;
+      left: 50%;
+      top: 0;
+      width: 16px;
+      height: 16px;
+      background: #d4af37;
+      border: 4px solid white;
+      border-radius: 50%;
+      transform: translateX(-50%);
+      box-shadow: 0 0 0 4px #f5f5f5;
+    }
+
+    .timeline-content {
+      padding: 30px;
+      background: #f5f5f5;
+      border-radius: 4px;
+    }
+
+    .timeline-year {
+      font-size: 24px;
+      font-weight: 700;
+      color: #d4af37;
+      margin-bottom: 10px;
+    }
+
+    .timeline-headline {
+      font-size: 18px;
+      font-weight: 600;
+      color: #1a1a1a;
+      margin-bottom: 15px;
+    }
+
+    .timeline-description {
+      font-size: 15px;
+      line-height: 1.7;
+      color: #666;
+    }
+
+    /* Values Grid */
+    .values-section {
+      padding: 100px 40px;
+      background: #f5f5f5;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .values-title {
+      font-size: 42px;
+      font-weight: 700;
+      color: #1a1a1a;
+      margin-bottom: 60px;
+      text-align: center;
+    }
+
+    .values-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 40px;
+    }
+
+    .value-card {
+      background: white;
+      padding: 40px;
+      border-radius: 4px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    }
+
+    .value-icon {
+      font-size: 36px;
+      margin-bottom: 20px;
+      display: block;
+    }
+
+    .value-title {
+      font-size: 22px;
+      font-weight: 700;
+      color: #1a1a1a;
+      margin-bottom: 20px;
+    }
+
+    .value-text {
+      font-size: 15px;
+      line-height: 1.8;
+      color: #666;
+      margin-bottom: 15px;
+    }
+
+    .value-text:last-child {
+      margin-bottom: 0;
+    }
+
+    /* Offices Section */
+    .offices-section {
+      padding: 100px 40px;
+      background: white;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .offices-title {
+      font-size: 42px;
+      font-weight: 700;
+      color: #1a1a1a;
+      margin-bottom: 60px;
+      text-align: center;
+    }
+
+    .offices-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 40px;
+    }
+
+    .office-card {
+      background: #f5f5f5;
+      padding: 40px;
+      border-radius: 4px;
+      border-top: 4px solid #d4af37;
+    }
+
+    .office-city {
+      font-size: 20px;
+      font-weight: 700;
+      color: #1a1a1a;
+      margin-bottom: 20px;
+    }
+
+    .office-address {
+      font-size: 14px;
+      color: #666;
+      line-height: 1.6;
+      margin-bottom: 20px;
+    }
+
+    .office-contact {
+      font-size: 14px;
+      margin-bottom: 10px;
+    }
+
+    .office-phone, .office-email {
+      color: #d4af37;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .office-phone:hover, .office-email:hover {
+      text-decoration: underline;
+    }
+
+    .office-description {
+      font-size: 14px;
+      line-height: 1.7;
+      color: #666;
+      margin-top: 20px;
+      padding-top: 20px;
+      border-top: 1px solid #ddd;
+    }
+
+    /* ESG Section */
+    .esg-section {
+      padding: 100px 40px;
+      background: #f5f5f5;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .esg-title {
+      font-size: 42px;
+      font-weight: 700;
+      color: #1a1a1a;
+      margin-bottom: 50px;
+      text-align: center;
+    }
+
+    .esg-content {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+    }
+
+    .esg-text {
+      font-size: 16px;
+      line-height: 1.8;
+      color: #444;
+    }
+
+    .esg-text h3 {
+      font-size: 20px;
+      font-weight: 700;
+      color: #1a1a1a;
+      margin-top: 30px;
+      margin-bottom: 15px;
+    }
+
+    .esg-text h3:first-child {
+      margin-top: 0;
+    }
+
+    .esg-highlight {
+      background: white;
+      padding: 30px;
+      border-radius: 4px;
+      margin: 30px 0;
+    }
+
+    .esg-highlight strong {
+      color: #d4af37;
+    }
+
+    /* Careers Section */
+    .careers-section {
+      padding: 100px 40px;
+      background: #1a1a1a;
+      color: white;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .careers-title {
+      font-size: 42px;
+      font-weight: 700;
+      color: white;
+      margin-bottom: 60px;
+      text-align: center;
+    }
+
+    .careers-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 40px;
+      margin-bottom: 60px;
+    }
+
+    .career-card {
+      background: rgba(212, 175, 55, 0.1);
+      padding: 40px;
+      border-radius: 4px;
+      border: 1px solid rgba(212, 175, 55, 0.2);
+    }
+
+    .career-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: #d4af37;
+      margin-bottom: 10px;
+    }
+
+    .career-location {
+      font-size: 13px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #aaa;
+      margin-bottom: 20px;
+      display: block;
+    }
+
+    .career-description {
+      font-size: 15px;
+      line-height: 1.7;
+      color: #ddd;
+    }
+
+    .careers-cta {
+      text-align: center;
+    }
+
+    .careers-cta-text {
+      font-size: 16px;
+      color: #ddd;
+      margin-bottom: 20px;
+    }
+
+    .careers-button {
+      display: inline-block;
+      background: #d4af37;
+      color: #1a1a1a;
+      padding: 14px 40px;
+      border-radius: 4px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: background 0.3s;
+    }
+
+    .careers-button:hover {
+      background: #e5c158;
+    }
+
+    /* CTA Section */
+    .cta-section {
+      padding: 80px 40px;
+      background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+      color: white;
+      text-align: center;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .cta-title {
+      font-size: 36px;
+      font-weight: 700;
+      margin-bottom: 20px;
+    }
+
+    .cta-text {
+      font-size: 18px;
+      color: #ddd;
+      margin-bottom: 40px;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .cta-buttons {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .cta-button {
+      display: inline-block;
+      padding: 14px 40px;
+      border-radius: 4px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: all 0.3s;
+    }
+
+    .cta-button-primary {
+      background: #d4af37;
+      color: #1a1a1a;
+    }
+
+    .cta-button-primary:hover {
+      background: #e5c158;
+      transform: translateY(-2px);
+    }
+
+    .cta-button-secondary {
+      background: transparent;
+      color: #d4af37;
+      border: 2px solid #d4af37;
+    }
+
+    .cta-button-secondary:hover {
+      background: #d4af37;
+      color: #1a1a1a;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .hero-title {
+        font-size: 36px;
+      }
+
+      .mission-paragraphs, .esg-content {
+        grid-template-columns: 1fr;
+      }
+
+      .timeline-container::before {
+        left: 0;
+      }
+
+      .timeline-item {
+        grid-template-columns: 1fr;
+        padding-left: 40px;
+      }
+
+      .timeline-item:nth-child(even) .timeline-content,
+      .timeline-item:nth-child(odd) .timeline-content {
+        grid-column: 1;
+      }
+
+      .timeline-dot {
+        left: 0;
+      }
+
+      .values-grid, .offices-grid, .careers-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .cta-buttons {
+        flex-direction: column;
+      }
+    }
+  </style>
+
+  <!-- Hero Section -->
+  <section class="about-hero">
+    <div class="about-hero-content">
+      <span class="hero-eyebrow">Established 2007</span>
+      <h1 class="hero-title">About Crestmore Research</h1>
+      <p class="hero-subtitle">Independent market intelligence for institutional decision-makers. No banking conflicts. No trading desk. No hidden agendas. Just rigorous research.</p>
+    </div>
+  </section>
+
+  <!-- Mission Section -->
+  <section class="mission-section">
+    <h2 class="mission-section-title">Our Mission: Independence in Research</h2>
+    <div class="mission-paragraphs">
+      <p class="mission-para">
+        Institutional investors face a critical problem: the most accessible commodity and emerging market research comes from organizations with conflicted interests. Banks publish research to support their trading desks. Advisory firms publish to justify their recommendations. Trading firms publish to move markets. Independent research has become rare.
+      </p>
+      <p class="mission-para">
+        Crestmore Research was founded to solve this problem. We publish research because we believe institutional decision-makers deserve access to analysis unconstrained by conflicts of interest. We take no proprietary positions. We execute no trades. We manage no money. We provide no M&A advisory. Our only incentive is research accuracy.
+      </p>
     </div>
 
-    <!-- Methodology -->
-    <div class="about-section">
-      <h2 class="about-section__title">Our Methodology</h2>
-      <div class="about-section__body">
-        <p>
-          Every research report published by Crestmore Research follows a standardized evaluation
-          protocol designed to minimize bias and maximize analytical depth. Our process consists
-          of four stages:
-        </p>
-        <p>
-          <strong>Stage 1 — Market Scoping.</strong> Before testing begins, our analysts map the
-          competitive landscape, identify the universe of relevant products or services, and define
-          the evaluation criteria specific to the vertical. Criteria are weighted by their
-          practical importance to end-users, not by what vendors prefer to be measured on.
-        </p>
-        <p>
-          <strong>Stage 2 — Primary Evaluation.</strong> Shortlisted products are tested directly
-          by our research team. Where applicable, we conduct hands-on trials, security
-          assessments, performance benchmarks, and usability reviews. All testing environments
-          are controlled and documented.
-        </p>
-        <p>
-          <strong>Stage 3 — Comparative Scoring.</strong> Products are scored against each
-          evaluation criterion using a weighted rubric. Scores are reviewed by a second analyst
-          for calibration before publication. Pricing and licensing terms are verified at the
-          time of publication.
-        </p>
-        <p>
-          <strong>Stage 4 — Editorial Review.</strong> All reports undergo a final editorial pass
-          for accuracy, clarity, and completeness. Research is updated on a rolling basis
-          as products change, pricing shifts, or new market entrants emerge.
-        </p>
-      </div>
+    <div class="mission-pull-quote">
+      "Our research serves one master: the facts."
     </div>
 
-    <!-- Research Verticals -->
-    <div class="about-section">
-      <h2 class="about-section__title">Research Verticals</h2>
-      <div class="about-section__body">
+    <div class="mission-paragraphs">
+      <p class="mission-para">
+        This independence structures everything we do. We maintain editorial firewalls between research and client relationships. We publish our forecast accuracy annually—including the calls we got wrong. We disclose our methodology, our data sources, and our confidence intervals. We believe transparency builds trust more effectively than marketing.
+      </p>
+      <p class="mission-para">
+        Eighteen years into this mission, Crestmore has become the leading independent research voice in commodity markets and emerging market risk. Our institutional client base spans hedge funds, asset managers, corporate treasuries, and development finance institutions across 30 countries. Our research agenda is set by fundamental questions, not client pressure or trading opportunity.
+      </p>
+    </div>
+  </section>
+
+  <!-- Timeline Section -->
+  <section class="timeline-section">
+    <h2 class="timeline-title">Our History</h2>
+    <div class="timeline-container">
+      {timeline.map((item) => (
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-content">
+            <div class="timeline-year">{item.year}</div>
+            <div class="timeline-headline">{item.title}</div>
+            <div class="timeline-description">{item.description}</div>
+          </div>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- Values Section -->
+  <section class="values-section">
+    <h2 class="values-title">Our Core Values</h2>
+    <div class="values-grid">
+      {values.map((value) => (
+        <div class="value-card">
+          <span class="value-icon">{value.icon}</span>
+          <h3 class="value-title">{value.title}</h3>
+          {value.paragraphs.map((para) => (
+            <p class="value-text">{para}</p>
+          ))}
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- Offices Section -->
+  <section class="offices-section">
+    <h2 class="offices-title">Global Offices</h2>
+    <div class="offices-grid">
+      {offices.map((office) => (
+        <div class="office-card">
+          <div class="office-city">{office.city}</div>
+          <div class="office-address">
+            {office.address}<br />
+            {office.city_full}
+          </div>
+          <div class="office-contact">
+            <a href={`tel:${office.phone}`} class="office-phone">{office.phone}</a>
+          </div>
+          <div class="office-contact">
+            <a href={`mailto:${office.email}`} class="office-email">{office.email}</a>
+          </div>
+          <div class="office-description">{office.description}</div>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- ESG & Ethics Section -->
+  <section class="esg-section">
+    <h2 class="esg-title">Research Ethics & Standards</h2>
+    <div class="esg-content">
+      <div class="esg-text">
+        <h3>Editorial Independence</h3>
         <p>
-          Crestmore Research covers a focused set of market verticals where rigorous independent
-          analysis is most valuable to decision-makers:
+          Crestmore maintains strict editorial independence standards. Our research agenda is determined by analytical merit, not client preference or revenue opportunity. We maintain a firewall between research production and client relationships. Our editors review all research for analytical rigor and editorial independence before publication.
         </p>
-        <div class="verticals-grid">
-          <div class="vertical-item">Cybersecurity &amp; Identity</div>
-          <div class="vertical-item">Enterprise Software &amp; SaaS</div>
-          <div class="vertical-item">Cloud Infrastructure &amp; DevOps</div>
-          <div class="vertical-item">Network &amp; Endpoint Security</div>
-          <div class="vertical-item">Privacy &amp; Compliance Technology</div>
-          <div class="vertical-item">Productivity &amp; Collaboration Tools</div>
-          <div class="vertical-item">Financial Services Technology</div>
-          <div class="vertical-item">Consumer Technology &amp; Hardware</div>
+
+        <h3>Data Privacy & Security</h3>
+        <p>
+          We collect minimal client data and protect it with enterprise-grade security standards. Our research portal uses industry-standard encryption and access controls. We do not sell, share, or monetize client data. We do not track client research consumption for targeting purposes.
+        </p>
+
+        <div class="esg-highlight">
+          <strong>Privacy Commitment:</strong> Crestmore complies with GDPR, CCPA, and UK data protection standards. Client data is stored in encrypted, access-restricted environments. We conduct annual security audits and maintain cyber liability insurance.
+        </div>
+      </div>
+
+      <div class="esg-text">
+        <h3>Conflict of Interest Management</h3>
+        <p>
+          Every analyst completes annual conflict of interest disclosures. We maintain a restricted list preventing analysts from publishing on topics where they have financial interests. We disclose any material relationships with research subjects before publication.
+        </p>
+
+        <h3>Research Accuracy & Accountability</h3>
+        <p>
+          We publish annual forecast accuracy reviews detailing directional accuracy on commodity prices, confidence interval performance, and qualitative risk assessments. These reviews are shared with all clients and published on our website. We document methodology changes, model updates, and lessons learned.
+        </p>
+
+        <div class="esg-highlight">
+          <strong>2025 Performance:</strong> 78% directional accuracy on commodity price forecasts; 85% accuracy on emerging market risk assessments. Full accuracy review available on request.
         </div>
       </div>
     </div>
+  </section>
 
-    <!-- Editorial Standards -->
-    <div class="about-section">
-      <h2 class="about-section__title">Editorial Independence</h2>
-      <div class="about-section__body">
-        <p>
-          Crestmore Research maintains a strict separation between editorial and commercial
-          operations. Vendors and service providers have no input into our scoring methodology,
-          evaluation criteria, or editorial conclusions. We do not accept payment for favorable
-          coverage, sponsored placements, or review manipulation of any kind.
-        </p>
-        <p>
-          When a research report contains affiliate links, this is disclosed prominently at the
-          top of the article. Affiliate relationships never influence our rankings, scoring, or
-          recommendations. Our top-ranked products are determined entirely by research findings,
-          regardless of whether an affiliate relationship exists.
-        </p>
+  <!-- Careers Section -->
+  <section class="careers-section">
+    <h2 class="careers-title">Join the Team</h2>
+    <div class="careers-grid">
+      {careers.map((job) => (
+        <div class="career-card">
+          <div class="career-title">{job.title}</div>
+          <span class="career-location">{job.location}</span>
+          <p class="career-description">{job.description}</p>
+        </div>
+      ))}
+    </div>
+
+    <div class="careers-cta">
+      <p class="careers-cta-text">Interested in joining Crestmore? Send your CV and a brief note about your research interests to careers@crestmoreresearch.com</p>
+      <a href="mailto:careers@crestmoreresearch.com" class="careers-button">Apply Now</a>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="cta-section">
+    <h2 class="cta-title">Get In Touch</h2>
+    <p class="cta-text">
+      Whether you're interested in our research services, want to discuss a project, or have questions about our work, we'd love to hear from you.
+    </p>
+    <div class="cta-buttons">
+      <a href="/contact" class="cta-button cta-button-primary">Contact Us</a>
+      <a href="/team" class="cta-button cta-button-secondary">Meet Our Team</a>
+    </div>
+  </section>
+</BaseLayout>
+
+        <!-- Mission -->
+        <div class="about-section">
+          <h2 class="about-section__title">Our Mission</h2>
+          <div class="about-section__body">
+            <p>
+              Crestmore Research was founded on a conviction that has become more relevant with every passing year: the institutional research market is dominated by firms with structural conflicts of interest. Banks produce research to serve investment banking relationships. Asset managers publish views to move markets in their favour. Consultancies write reports to sell implementation services.
+            </p>
+            <p>
+              We do none of these things. Crestmore is an independent research firm. We have no investment banking operations, no proprietary trading positions, no asset management division. Our revenues come entirely from the clients who subscribe to or commission our research. That alignment — between our interests and those of our readers — is the foundation of everything we do.
+            </p>
+            <p>
+              Over eighteen years, we have built one of the most respected independent research franchises in institutional market intelligence. Our clients include leading pension funds, sovereign wealth funds, commodity trading houses, private equity firms, and corporate strategy teams across thirty countries.
+            </p>
+          </div>
+        </div>
+
+        <!-- History -->
+        <div class="about-section">
+          <h2 class="about-section__title">Our History</h2>
+          <div class="about-section__body">
+            <p>
+              Crestmore Research was founded in New York in 2007 by a small team of former investment bankers and development economists who believed that institutional investors were being systematically underserved by conflicted research providers. The firm began with a focus on Sub-Saharan African mineral markets — a niche where primary research, field access, and specialist knowledge could generate genuine analytical edge.
+            </p>
+            <p>
+              Over the following decade, we expanded coverage to include Latin American and MENA commodity markets, emerging market sovereign debt and capital flows, and — from 2018 — the energy transition mineral supply chains that have since become central to global investment portfolios.
+            </p>
+            <p>
+              Today, Crestmore maintains offices in New York, London, and Singapore, and active research coverage across 47 markets. Our analyst team of 14 senior researchers and 6 quantitative specialists is supported by a network of over 200 regional correspondents, specialist consultants, and academic advisers.
+            </p>
+          </div>
+        </div>
+
+        <!-- Coverage verticals -->
+        <div class="about-section">
+          <h2 class="about-section__title">Coverage Areas</h2>
+          <div class="about-section__body">
+            <p>Crestmore's active research coverage spans six integrated domains:</p>
+            <div class="verticals-grid">
+              <div class="vertical-item">Base Metals &amp; Mining</div>
+              <div class="vertical-item">Precious Metals</div>
+              <div class="vertical-item">Energy Transition Minerals</div>
+              <div class="vertical-item">Agricultural Commodities</div>
+              <div class="vertical-item">Emerging Market Sovereign Risk</div>
+              <div class="vertical-item">Global Capital Flows &amp; FX</div>
+              <div class="vertical-item">Country &amp; Political Risk</div>
+              <div class="vertical-item">Infrastructure &amp; Project Finance</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Editorial independence -->
+        <div class="about-section">
+          <h2 class="about-section__title">Editorial Independence</h2>
+          <div class="about-section__body">
+            <p>
+              Crestmore Research maintains a strict separation between research and commercial operations. The clients who commission or subscribe to our research have no influence over our analytical conclusions, price forecasts, or risk assessments. We do not accept payment for favourable coverage. We do not coordinate with issuers or corporates before publication. We do not operate grey-area "research-adjacentˮ services that blur the line between independence and advocacy.
+            </p>
+            <p>
+              Our Research Standards Committee — an independent body of senior analysts and external advisers — oversees methodology compliance and investigates any challenges to our editorial independence. Procedures and findings are documented and available to clients on request.
+            </p>
+          </div>
+        </div>
+
+        <!-- ESG -->
+        <div class="about-section" id="esg">
+          <h2 class="about-section__title">ESG Commitment</h2>
+          <div class="about-section__body">
+            <p>
+              As a firm that advises on decisions with significant environmental and social impacts — from mining investment to infrastructure development in fragile states — we take our own ESG responsibilities seriously. We are a signatory to the UN Principles for Responsible Investment. Our research explicitly analyses ESG risks alongside financial risks, and our country risk models incorporate governance and social stability indicators as first-class inputs.
+            </p>
+            <p>
+              Internally, we maintain a diversity and inclusion programme, a carbon-offset commitment for business travel, and a pro-bono research programme that provides intelligence services to qualifying development finance institutions and NGOs at no cost.
+            </p>
+          </div>
+        </div>
+
       </div>
     </div>
-  </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="section section--bg-soft">
+    <div class="container" style="max-width: 760px;">
+      <div style="text-align: center; padding: 48px 0;">
+        <p class="section__eyebrow" style="text-align: center;">Work With Us</p>
+        <h2 class="section__title section__title--center" style="margin-bottom: 16px;">Ready to Commission Research?</h2>
+        <p style="font-family: 'Inter', sans-serif; font-size: 16px; color: var(--text-secondary); line-height: 1.75; margin-bottom: 36px;">
+          We respond to all institutional enquiries within one business day.
+        </p>
+        <div style="display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;">
+          <a href="/contact" class="btn btn--gold">Request a Research Brief</a>
+          <a href="/services" class="btn btn--navy">View Our Services</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
 </BaseLayout>

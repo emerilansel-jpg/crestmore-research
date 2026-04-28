@@ -1,0 +1,830 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const coverageStats = [
+  { value: '47', label: 'Markets' },
+  { value: '6', label: 'Regions' },
+  { value: '12', label: 'Sectors' },
+  { value: '200+', label: 'Primary Sources Per Report' },
+];
+
+const regions = [
+  {
+    id: 'sub-saharan-africa',
+    name: 'Sub-Saharan Africa',
+    marketCount: 12,
+    countries: ['DRC', 'Zambia', 'Ghana', 'Tanzania', 'Nigeria', 'Mozambique', 'Zimbabwe', 'Botswana', 'Kenya', 'Ethiopia', "Côte d'Ivoire", 'Namibia'],
+    sectors: ['Mining', 'Agriculture', 'Infrastructure'],
+    highlight: 'Crestmore's flagship region. Deep expertise in mineral wealth governance, artisanal and small-scale mining dynamics, and agricultural commodity supply chains across 12 markets.',
+  },
+  {
+    id: 'latin-america',
+    name: 'Latin America',
+    marketCount: 9,
+    countries: ['Chile', 'Peru', 'Brazil', 'Colombia', 'Mexico', 'Argentina', 'Bolivia', 'Ecuador', 'Paraguay'],
+    sectors: ['Copper Mining', 'Lithium', 'Agriculture', 'Capital Markets'],
+    highlight: 'Leading coverage of Latin American lithium basins, copper supply dynamics, and regional capital market evolution. Primary focus on commodity export-driven economies.',
+  },
+  {
+    id: 'mena',
+    name: 'Middle East & North Africa',
+    marketCount: 8,
+    countries: ['Saudi Arabia', 'UAE', 'Egypt', 'Morocco', 'Algeria', 'Kuwait', 'Qatar', 'Jordan'],
+    sectors: ['Energy', 'Sovereign Finance', 'Trade Routes'],
+    highlight: 'Comprehensive energy and sovereign debt analysis. Coverage includes oil/gas markets, renewable energy policy frameworks, and critical geopolitical chokepoints.',
+  },
+  {
+    id: 'central-eastern-europe',
+    name: 'Central & Eastern Europe',
+    marketCount: 7,
+    countries: ['Poland', 'Czech Republic', 'Romania', 'Ukraine', 'Hungary', 'Serbia', 'Croatia'],
+    sectors: ['Manufacturing', 'Agri-inputs', 'Capital Flows'],
+    highlight: 'Emerging industrial hub coverage. Focus on manufacturing capacity, agricultural input supply chains, and post-pandemic capital flow reorientation.',
+  },
+  {
+    id: 'south-southeast-asia',
+    name: 'South & Southeast Asia',
+    marketCount: 7,
+    countries: ['India', 'Indonesia', 'Philippines', 'Vietnam', 'Malaysia', 'Bangladesh', 'Sri Lanka'],
+    sectors: ['Critical Minerals', 'Manufacturing', 'Capital Flows'],
+    highlight: 'Fastest-growing regional coverage. Emphasis on battery material supply chains, manufacturing migration, and emerging market capital dynamics across ASEAN and South Asia.',
+  },
+  {
+    id: 'developed-markets',
+    name: 'North America & Western Europe',
+    marketCount: 4,
+    countries: ['USA', 'Canada', 'UK', 'Germany'],
+    sectors: ['Capital Markets', 'Corporate M&A', 'Regulatory Frameworks'],
+    highlight: 'Selective coverage of developed markets focused on institutional demand for commodity price forecasts, regulatory impacts, and macroeconomic drivers of commodity cycles.',
+  },
+];
+
+const sectors = [
+  {
+    id: 'copper-base',
+    title: 'Copper & Base Metals',
+    activeSince: '2009',
+    marketsCount: 18,
+    reportsCount: 47,
+    coverage: [
+      'Supply-demand forecasting with 10-year horizon',
+      'Smelting and refining capacity analysis',
+      'End-use trends across construction, automotive, power sectors',
+      'Price modeling and scenario analysis',
+      'Mining cost curves and operational risk',
+    ],
+  },
+  {
+    id: 'precious',
+    title: 'Precious Metals',
+    activeSince: '2010',
+    marketsCount: 12,
+    reportsCount: 28,
+    coverage: [
+      'Central bank accumulation dynamics',
+      'Jewelry demand cycles and regional trends',
+      'Industrial applications and tech demand',
+      'Mining cost inflation and margin compression',
+      'Geopolitical drivers of safe-haven demand',
+    ],
+  },
+  {
+    id: 'energy-transition',
+    title: 'Energy Transition Minerals',
+    activeSince: '2018',
+    marketsCount: 22,
+    reportsCount: 52,
+    coverage: [
+      'Critical minerals supply chain mapping',
+      'Battery material bottleneck analysis',
+      'Net-zero policy implications and timelines',
+      'Processing and refining capacity constraints',
+      'Geopolitical concentration risks',
+    ],
+  },
+  {
+    id: 'agri',
+    title: 'Agricultural Commodities',
+    activeSince: '2011',
+    marketsCount: 15,
+    reportsCount: 35,
+    coverage: [
+      'Grain supply dynamics and harvest forecasts',
+      'Protein markets and feed demand',
+      'Climate risk assessment and production volatility',
+      'Trade corridor analysis and logistics',
+      'Policy interventions and export restrictions',
+    ],
+  },
+  {
+    id: 'capital-flows',
+    title: 'Capital Flows & FX',
+    activeSince: '2012',
+    marketsCount: 28,
+    reportsCount: 31,
+    coverage: [
+      'Emerging market capital flow trends',
+      'Currency regime analysis and intervention',
+      'Cross-border investment patterns',
+      'Commodity price transmission to FX',
+      'Capital control frameworks and enforcement',
+    ],
+  },
+  {
+    id: 'country-risk',
+    title: 'Country Risk',
+    activeSince: '2008',
+    marketsCount: 47,
+    reportsCount: 68,
+    coverage: [
+      'Political economy analysis and risk frameworks',
+      'Sovereign debt dynamics and refinancing risk',
+      'Regulatory environment and change agents',
+      'Expropriation and contract enforcement',
+      'Fiscal sustainability and institutional capacity',
+    ],
+  },
+  {
+    id: 'macro-rates',
+    title: 'Macro & Rates',
+    activeSince: '2013',
+    marketsCount: 35,
+    reportsCount: 44,
+    coverage: [
+      'Macroeconomic cycle positioning',
+      'Central bank policy implications',
+      'Real interest rate frameworks',
+      'Inflation dynamics and commodity correlations',
+      'Recession risk and asset allocation implications',
+    ],
+  },
+  {
+    id: 'freight',
+    title: 'Freight & Logistics',
+    activeSince: '2015',
+    marketsCount: 8,
+    reportsCount: 22,
+    coverage: [
+      'Shipping cost dynamics and vessel supply',
+      'Port congestion and infrastructure bottlenecks',
+      'Trade corridor logistics and alternative routes',
+      'Supply chain disruption impacts',
+      'Energy cost impacts on transportation',
+    ],
+  },
+];
+
+const methodologyPoints = [
+  {
+    title: 'Primary Research Threshold',
+    desc: 'We do not publish coverage without direct field access, operator interviews, or government official engagement. No generic secondary synthesis.',
+  },
+  {
+    title: 'Dedicated Analyst Model',
+    desc: 'Each major market or sector is assigned a single senior analyst with accountability for accuracy, consistency, and regional knowledge depth.',
+  },
+  {
+    title: 'Minimum Coverage Commitments',
+    desc: 'Every market under coverage receives at least quarterly comprehensive analysis. High-volatility markets receive fortnightly or monthly briefings.',
+  },
+  {
+    title: 'Independent Editorial Process',
+    desc: 'Research is peer-reviewed by senior analysts before publication. A Research Standards Committee oversees methodology compliance and independence.',
+  },
+];
+---
+
+<BaseLayout
+  title="Coverage — Crestmore Research"
+  description="47 markets, 6 regions, 12 sectors. Institutional-grade research coverage. Primary research depth across commodity markets, emerging economies, and capital flows."
+  pageType="default"
+>
+
+  <!-- Page Hero -->
+  <section class="page-hero">
+    <div class="container">
+      <div class="page-hero__content">
+        <p class="section__eyebrow section__eyebrow--gold">Global Coverage</p>
+        <h1 class="page-hero__title">Our Coverage</h1>
+        <p class="page-hero__sub">47 markets. 6 regions. Primary research depth across commodity markets, emerging economies, and global capital flows.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Coverage Stats -->
+  <section class="section section--bg-soft">
+    <div class="container">
+      <div class="coverage-stats">
+        {coverageStats.map((stat) => (
+          <div class="coverage-stat-item">
+            <div class="coverage-stat-item__value">{stat.value}</div>
+            <div class="coverage-stat-item__label">{stat.label}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- World Map -->
+  <section class="section">
+    <div class="container">
+      <div class="map-section">
+        <h2 class="section__title" style="text-align: center; margin-bottom: 32px;">Global Presence</h2>
+
+        <svg class="world-map" viewBox="0 0 1200 650" xmlns="http://www.w3.org/2000/svg">
+          <!-- Background -->
+          <rect width="1200" height="650" fill="var(--bg-light)"/>
+
+          <!-- Simplified continents -->
+          <!-- North America -->
+          <path d="M 120 100 L 280 80 L 300 200 L 200 250 Z" fill="var(--navy-light)" opacity="0.7" class="map-region"/>
+
+          <!-- South America -->
+          <path d="M 200 250 L 280 280 L 250 450 L 150 400 Z" fill="var(--gold)" opacity="0.8" class="map-region" data-region="Latin America"/>
+
+          <!-- Europe -->
+          <path d="M 400 100 L 550 80 L 600 180 L 480 200 Z" fill="var(--navy)" opacity="0.7" class="map-region"/>
+
+          <!-- Western Europe / UK / Germany -->
+          <path d="M 420 130 L 520 110 L 550 160 L 450 170 Z" fill="var(--gold)" opacity="0.9" class="map-region map-region--highlight" data-region="Western Europe"/>
+
+          <!-- Central/Eastern Europe -->
+          <path d="M 520 110 L 620 100 L 650 180 L 550 160 Z" fill="var(--gold)" opacity="0.8" class="map-region" data-region="Central Europe"/>
+
+          <!-- MENA -->
+          <path d="M 550 180 L 700 140 L 750 280 L 600 300 Z" fill="var(--gold)" opacity="0.8" class="map-region" data-region="MENA"/>
+
+          <!-- Africa -->
+          <path d="M 600 300 L 750 280 L 800 500 L 550 520 Z" fill="var(--gold)" opacity="0.85" class="map-region map-region--highlight" data-region="Sub-Saharan Africa"/>
+
+          <!-- Middle Asia -->
+          <path d="M 700 140 L 900 120 L 950 250 L 750 280 Z" fill="var(--navy-light)" opacity="0.6"/>
+
+          <!-- South Asia -->
+          <path d="M 750 280 L 900 240 L 920 380 L 800 400 Z" fill="var(--gold)" opacity="0.8" class="map-region" data-region="South Asia"/>
+
+          <!-- Southeast Asia -->
+          <path d="M 900 240 L 1050 220 L 1080 380 L 920 380 Z" fill="var(--gold)" opacity="0.8" class="map-region" data-region="Southeast Asia"/>
+
+          <!-- East Asia -->
+          <path d="M 1000 100 L 1100 80 L 1120 220 L 1050 220 Z" fill="var(--navy-light)" opacity="0.6"/>
+
+          <!-- Australia/Oceania -->
+          <path d="M 1050 400 L 1120 380 L 1100 520 L 1020 500 Z" fill="var(--navy-light)" opacity="0.5"/>
+
+          <!-- Office Markers -->
+          <!-- New York -->
+          <circle cx="180" cy="140" r="8" fill="var(--gold)" class="office-marker"/>
+          <text x="180" y="165" text-anchor="middle" font-size="11" font-weight="600" fill="var(--navy-dark)">New York</text>
+
+          <!-- London -->
+          <circle cx="420" cy="120" r="8" fill="var(--gold)" class="office-marker"/>
+          <text x="420" y="145" text-anchor="middle" font-size="11" font-weight="600" fill="var(--navy-dark)">London</text>
+
+          <!-- Singapore -->
+          <circle cx="1020" cy="340" r="8" fill="var(--gold)" class="office-marker"/>
+          <text x="1020" y="365" text-anchor="middle" font-size="11" font-weight="600" fill="var(--navy-dark)">Singapore</text>
+        </svg>
+
+        <div class="map-legend">
+          <div class="map-legend-item">
+            <div class="map-legend-item__color" style="background: var(--gold); opacity: 0.85;"></div>
+            <span>Active Coverage (47 markets)</span>
+          </div>
+          <div class="map-legend-item">
+            <div class="map-legend-item__color" style="background: var(--navy-light); opacity: 0.6;"></div>
+            <span>Adjacent Market Monitoring</span>
+          </div>
+          <div class="map-legend-item">
+            <div class="map-legend-item__color" style="background: var(--gold);"></div>
+            <span class="map-legend-item__dot"></span>
+            <span>Research Office</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Regional Coverage -->
+  <section class="section section--bg-soft">
+    <div class="container">
+      <h2 class="section__title" style="text-align: center; margin-bottom: 48px;">Coverage by Region</h2>
+
+      <div class="regions-grid">
+        {regions.map((region) => (
+          <div class="region-card" id={region.id}>
+            <div class="region-card__header">
+              <h3 class="region-card__title">{region.name}</h3>
+              <span class="region-card__count">{region.marketCount} markets</span>
+            </div>
+
+            <div class="region-card__section">
+              <h4 class="region-card__subtitle">Markets Covered</h4>
+              <div class="region-card__countries">
+                {region.countries.map((country) => (
+                  <span class="region-card__country">{country}</span>
+                ))}
+              </div>
+            </div>
+
+            <div class="region-card__section">
+              <h4 class="region-card__subtitle">Key Sectors</h4>
+              <div class="region-card__sectors">
+                {region.sectors.map((sector) => (
+                  <span class="region-card__sector">{sector}</span>
+                ))}
+              </div>
+            </div>
+
+            <div class="region-card__highlight">
+              <p>{region.highlight}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Sector Coverage -->
+  <section class="section">
+    <div class="container">
+      <h2 class="section__title" style="text-align: center; margin-bottom: 48px;">Coverage by Sector</h2>
+
+      <div class="sectors-grid">
+        {sectors.map((sector) => (
+          <div class="sector-card" id={sector.id}>
+            <div class="sector-card__header">
+              <h3 class="sector-card__title">{sector.title}</h3>
+              <p class="sector-card__meta">
+                <span class="sector-card__meta-item">Active since {sector.activeSince}</span>
+              </p>
+            </div>
+
+            <div class="sector-card__stats">
+              <div class="sector-card__stat">
+                <div class="sector-card__stat-value">{sector.marketsCount}</div>
+                <div class="sector-card__stat-label">Markets</div>
+              </div>
+              <div class="sector-card__stat">
+                <div class="sector-card__stat-value">{sector.reportsCount}</div>
+                <div class="sector-card__stat-label">Reports</div>
+              </div>
+            </div>
+
+            <div class="sector-card__coverage">
+              <h4 class="sector-card__coverage-title">Key Coverage Areas</h4>
+              <ul class="sector-card__list">
+                {sector.coverage.map((item) => (
+                  <li>{item}</li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Coverage Methodology -->
+  <section class="section section--bg-soft">
+    <div class="container">
+      <h2 class="section__title" style="text-align: center; margin-bottom: 48px;">Coverage Methodology</h2>
+
+      <div class="methodology-grid">
+        {methodologyPoints.map((point) => (
+          <div class="methodology-card">
+            <h3 class="methodology-card__title">{point.title}</h3>
+            <p class="methodology-card__desc">{point.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="section section--cta-banner">
+    <div class="container">
+      <div class="cta-banner">
+        <div class="cta-banner__text">
+          <p class="section__eyebrow section__eyebrow--gold">Request Coverage</p>
+          <h2 class="cta-banner__title">Interested in a Specific Market or Sector?</h2>
+          <p class="cta-banner__sub">Contact our research team to discuss custom analysis, commissioned research, or coverage expansions.</p>
+        </div>
+        <div class="cta-banner__actions">
+          <a href="/contact" class="btn btn--gold btn--lg">Request Coverage</a>
+          <a href="/services" class="btn btn--outline-light btn--lg">View Services →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</BaseLayout>
+
+<style scoped>
+/* Coverage Stats */
+.coverage-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 32px;
+  padding: 48px 0;
+  text-align: center;
+}
+
+.coverage-stat-item {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.coverage-stat-item__value {
+  font-family: 'Playfair Display', serif;
+  font-size: 40px;
+  font-weight: 700;
+  color: var(--gold);
+  line-height: 1;
+}
+
+.coverage-stat-item__label {
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+}
+
+/* World Map */
+.map-section {
+  margin: 32px 0;
+}
+
+.world-map {
+  width: 100%;
+  max-width: 1200px;
+  height: auto;
+  margin: 0 auto 32px;
+  display: block;
+  filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.08));
+  border-radius: 8px;
+}
+
+.map-region {
+  transition: opacity 0.3s ease;
+  cursor: pointer;
+}
+
+.map-region:hover {
+  opacity: 1 !important;
+  filter: brightness(1.1);
+}
+
+.map-region--highlight {
+  filter: brightness(1.05);
+}
+
+.office-marker {
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { r: 8; }
+  50% { r: 10; }
+}
+
+.map-legend {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 32px;
+  flex-wrap: wrap;
+  padding: 24px;
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+}
+
+.map-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+.map-legend-item__color {
+  width: 20px;
+  height: 20px;
+  border-radius: 3px;
+}
+
+.map-legend-item__dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--gold);
+  margin-left: -4px;
+}
+
+/* Regional Coverage Cards */
+.regions-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+  gap: 28px;
+}
+
+.region-card {
+  padding: 32px;
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.region-card:hover {
+  border-color: var(--gold);
+  box-shadow: 0 12px 32px rgba(255, 199, 0, 0.12);
+}
+
+.region-card__header {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  margin-bottom: 24px;
+  justify-content: space-between;
+}
+
+.region-card__title {
+  font-family: 'Playfair Display', serif;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--navy-dark);
+  margin: 0;
+}
+
+.region-card__count {
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  background: rgba(255, 199, 0, 0.1);
+  color: var(--gold);
+  padding: 4px 10px;
+  border-radius: 3px;
+  white-space: nowrap;
+}
+
+.region-card__section {
+  margin-bottom: 20px;
+}
+
+.region-card__subtitle {
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+  margin-bottom: 10px;
+}
+
+.region-card__countries,
+.region-card__sectors {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.region-card__country,
+.region-card__sector {
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  padding: 5px 12px;
+  background: var(--bg-light);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.region-card__highlight {
+  padding-top: 20px;
+  border-top: 1px solid var(--border);
+}
+
+.region-card__highlight p {
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* Sector Coverage Cards */
+.sectors-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 24px;
+}
+
+.sector-card {
+  padding: 28px;
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.sector-card:hover {
+  border-color: var(--gold);
+  box-shadow: 0 8px 24px rgba(255, 199, 0, 0.1);
+}
+
+.sector-card__header {
+  margin-bottom: 20px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--border);
+}
+
+.sector-card__title {
+  font-family: 'Playfair Display', serif;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--navy-dark);
+  margin: 0 0 6px 0;
+}
+
+.sector-card__meta {
+  font-family: 'Inter', sans-serif;
+  font-size: 12px;
+  color: var(--text-muted);
+  margin: 0;
+  font-weight: 500;
+}
+
+.sector-card__meta-item {
+  display: inline-block;
+}
+
+.sector-card__stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 20px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--border);
+}
+
+.sector-card__stat {
+  text-align: center;
+}
+
+.sector-card__stat-value {
+  font-family: 'Playfair Display', serif;
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--gold);
+}
+
+.sector-card__stat-label {
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+  font-weight: 600;
+}
+
+.sector-card__coverage {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.sector-card__coverage-title {
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+  margin: 0;
+}
+
+.sector-card__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.sector-card__list li {
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  color: var(--text-secondary);
+  line-height: 1.5;
+  padding-left: 16px;
+  position: relative;
+}
+
+.sector-card__list li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 7px;
+  width: 4px;
+  height: 4px;
+  background: var(--gold);
+  border-radius: 50%;
+}
+
+/* Methodology Grid */
+.methodology-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 28px;
+}
+
+.methodology-card {
+  padding: 32px;
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.methodology-card:hover {
+  border-color: var(--gold);
+  box-shadow: 0 12px 32px rgba(255, 199, 0, 0.1);
+  transform: translateY(-2px);
+}
+
+.methodology-card__title {
+  font-family: 'Playfair Display', serif;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--navy-dark);
+  margin: 0 0 12px 0;
+}
+
+.methodology-card__desc {
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .coverage-stats {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+    padding: 32px 0;
+  }
+
+  .coverage-stat-item__value {
+    font-size: 32px;
+  }
+
+  .regions-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .sectors-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .map-legend {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .map-legend-item {
+    width: 100%;
+    justify-content: flex-start;
+  }
+
+  .region-card__countries,
+  .region-card__sectors {
+    gap: 6px;
+  }
+
+  .region-card__country,
+  .region-card__sector {
+    font-size: 12px;
+    padding: 4px 10px;
+  }
+
+  .sector-card__title {
+    font-size: 16px;
+  }
+
+  .methodology-grid {
+    grid-template-columns: 1fr;
+  }
+}
+</style>
