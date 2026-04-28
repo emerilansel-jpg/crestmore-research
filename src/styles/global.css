@@ -184,7 +184,7 @@ p {
    ============================================================ */
 .hero {
   position: relative;
-  background: var(--navy-dark) url('/images/crestmore-hero-bg.png') center/cover no-repeat;
+  background: var(--navy-dark) url('/images/crestmore-hero-bg.jpg') center/cover no-repeat;
   padding: 120px 0 100px;
   text-align: center;
   overflow: hidden;
