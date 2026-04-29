@@ -345,6 +345,7 @@
     <span style="font-weight:600;font-size:0.85rem;color:var(--navy)">✏️ Edit Existing Post</span>
     <select id="existing-posts-select" style="flex:1;min-width:180px;padding:5px 8px;border:1px solid var(--border);border-radius:4px;font-size:0.82rem;background:white"><option value="">-- Select a post to edit --</option></select>
     <button class="btn-outline" onclick="loadSelectedPost()" style="white-space:nowrap;padding:5px 12px;font-size:0.82rem">Load Post</button>
+          <button onclick="deletePost()" style="font-size:0.8rem;background:#c0392b;color:#fff;border:none;border-radius:4px;padding:6px 14px;cursor:pointer;margin-left:4px">🗑️ Delete</button>
   </div>
 </div>
 <div class="card">
@@ -480,6 +481,7 @@
         <div class="panel-header">
           <div class="panel-title">All Posts</div>
           <div class="panel-sub">Research articles currently in the repository.</div>
+          <div id="posts-list" style="margin-top:12px;"></div>
         </div>
         <div id="posts-list-container">
           <div class="no-posts">Loading posts…</div>
@@ -603,6 +605,23 @@ async function doLogin() {
 document.getElementById('login-password').addEventListener('keydown', e => {
   if (e.key === 'Enter') doLogin();
 });
+        // Populate All Posts panel
+        var listEl = document.getElementById('posts-list');
+        if (listEl) {
+          if (files.filter(f=>f.name.endsWith('.md')).length === 0) {
+            listEl.innerHTML = '<p style="color:#888;font-size:0.85rem">No posts found.</p>';
+          } else {
+            listEl.innerHTML = files.filter(f=>f.name.endsWith('.md'))
+              .sort((a,b)=>b.name.localeCompare(a.name))
+              .map(f=>'<div style="display:flex;align-items:center;justify-content:space-between;padding:8px 12px;border:1px solid #e8e0d0;border-radius:6px;margin-bottom:6px;background:#fff">'
+                +'<span style="font-size:0.85rem;color:#333">'+f.name.replace('.md','')+'</span>'
+                +'<div style="display:flex;gap:6px">'
+                +'<button onclick="document.getElementById('existing-posts-select').value=''+f.path+'';loadSelectedPost();document.querySelector('.sidebar-item:first-child').click()" style="font-size:0.75rem;background:var(--navy);color:#fff;border:none;border-radius:3px;padding:3px 10px;cursor:pointer">✏️ Edit</button>'
+                +'<button onclick="document.getElementById('existing-posts-select').value=''+f.path+'';deletePost()" style="font-size:0.75rem;background:#c0392b;color:#fff;border:none;border-radius:3px;padding:3px 10px;cursor:pointer">🗑️ Delete</button>'
+                +'</div></div>'
+              ).join('');
+          }
+        }
 
 function doLogout() {
   document.getElementById('app').style.display = 'none';
@@ -1009,6 +1028,43 @@ async function loadSelectedPost() {
     mde.value(body.trim()); updateSlugPreview();
     setProgress(100, "✅ Post loaded — edit and click Publish Post to update", "success");
   } catch(e) { setProgress(0, "Error: " + e.message, "error"); }
+}
+
+async function deletePost() {
+  var sel = document.getElementById('existing-posts-select');
+  var filepath = sel && sel.value;
+  var filename = filepath ? filepath.split('/').pop() : '';
+  if (!filepath) {
+    document.getElementById('submit-bar').style.display = 'flex';
+    setProgress(0, 'Select a post from the dropdown first', 'error');
+    return;
+  }
+  if (!cfg.pat) {
+    document.querySelector('.sidebar-item:last-child').click();
+    setProgress(0, '⚠️ GitHub PAT required — configure in Settings first', 'error');
+    return;
+  }
+  if (!confirm('Delete "' + filename + '"?\n\nThis removes the file from GitHub and redeploys. Cannot be undone.')) return;
+  try {
+    document.getElementById('submit-bar').style.display = 'flex';
+    setProgress(20, 'Getting file info...', '');
+    var sha = await ghGetSha(filepath);
+    if (!sha) { setProgress(0, 'Error: file not found on GitHub', 'error'); return; }
+    setProgress(50, 'Deleting "' + filename + '"...', '');
+    var r = await ghFetch('https://api.github.com/repos/' + cfg.repo + '/contents/' + filepath, {
+      method: 'DELETE',
+      headers: {'Authorization': 'token ' + cfg.pat, 'Content-Type': 'application/json'},
+      body: JSON.stringify({ message: 'delete: remove ' + filename, sha: sha, branch: cfg.branch })
+    });
+    if (r.ok) {
+      setProgress(100, '✅ "' + filename + '" deleted — site redeploys in ~60s', 'success');
+      document.getElementById('existing-posts-select').innerHTML = '<option value="">-- Select a post to edit --</option>';
+      setTimeout(fetchExistingPosts, 3000);
+    } else {
+      var err = await r.json().catch(function() { return {}; });
+      setProgress(0, 'Delete failed: ' + (err.message || r.status), 'error');
+    }
+  } catch(e) { setProgress(0, 'Error: ' + e.message, 'error'); }
 }
 
 async function publishPost() {
