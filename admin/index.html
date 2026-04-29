@@ -894,7 +894,7 @@ document.getElementById('schema-extra-type').addEventListener('change', function
 
 // ── GITHUB API ──────────────────────────────────────────────
 async function ghRequest(method, path, body) {
-  const resp = await fetch(`https://api.github.com/repos/${cfg.repo}/contents/${path}`, {
+  const resp = await ghFetch(`https://api.github.com/repos/${cfg.repo}/contents/${path}`, {
     method,
     headers: {
       Authorization: `token ${cfg.pat}`,
@@ -1019,7 +1019,7 @@ ${body}`;
     setProgress(85, 'Triggering rebuild…');
 
     // Trigger GitHub Actions workflow_dispatch
-    await fetch(`https://api.github.com/repos/${cfg.repo}/actions/workflows/build-deploy.yml/dispatches`, {
+    await ghFetch(`https://api.github.com/repos/${cfg.repo}/actions/workflows/build-deploy.yml/dispatches`, {
       method: 'POST',
       headers: {
         Authorization: `token ${cfg.pat}`,
