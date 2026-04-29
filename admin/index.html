@@ -606,13 +606,13 @@ async function doLogin() {
   if (hash === cfg.pwHash) {
     document.getElementById('login-screen').style.display = 'none';
     document.getElementById('app').style.display = 'block';
-    initApp();
+    initApp(); showPanel('new-post');
   } else if (!cfg.pwHash) {
     cfg.pwHash = hash;
     localStorage.setItem('crestmore_cfg', JSON.stringify(cfg));
     document.getElementById('login-screen').style.display = 'none';
     document.getElementById('app').style.display = 'block';
-    initApp();
+    initApp(); showPanel('new-post');
   } else {
     errEl.textContent = 'Incorrect password. Try again.';
     errEl.style.display = 'block';
@@ -687,7 +687,7 @@ function showPanel(id) {
   document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.sidebar-item').forEach(i => i.classList.remove('active'));
   document.getElementById('panel-' + id).classList.add('active');
-  event.currentTarget.classList.add('active');
+  var _ai=(typeof event!=='undefined'&&event&&event.currentTarget)?event.currentTarget:document.querySelector(".sidebar-item[onclick*='"+id+"']");if(_ai)_ai.classList.add('active');
 
   const submitBar = document.getElementById('submit-bar');
   submitBar.style.display = id === 'new-post' ? 'flex' : 'none';
