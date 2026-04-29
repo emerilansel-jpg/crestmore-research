@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 64" width="300" height="64" role="img" aria-label="Crestmore Research">
+  <defs>
+    <linearGradient id="g1" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#E8C060;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#C8981E;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="g2" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#C8981E;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#EDD070;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#C8981E;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+
+  <!-- ── CREST ICON (56×56, centred at x=32 y=32) ── -->
+  <!-- Shield -->
+  <path d="M32 5 L54 13 L54 34 Q54 50 32 60 Q10 50 10 34 L10 13 Z"
+        fill="none" stroke="url(#g2)" stroke-width="1.5"/>
+
+  <!-- Mountain peaks -->
+  <polyline points="16,42 25,24 32,35" fill="none" stroke="url(#g2)" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <polyline points="25,42 32,22 39,34 50,42" fill="none" stroke="url(#g2)" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+
+  <!-- Summit arrow -->
+  <line x1="32" y1="22" x2="32" y2="16" stroke="#EDD070" stroke-width="1.4" stroke-linecap="round"/>
+  <polyline points="29,20 32,16 35,20" fill="none" stroke="#EDD070" stroke-width="1.4" stroke-linejoin="round" stroke-linecap="round"/>
+
+  <!-- Shield corner accents -->
+  <line x1="10" y1="13" x2="15" y2="13" stroke="url(#g1)" stroke-width="1.1"/>
+  <line x1="49" y1="13" x2="54" y2="13" stroke="url(#g1)" stroke-width="1.1"/>
+
+  <!-- ── WORDMARK ── -->
+  <!-- CRESTMORE — white -->
+  <text x="74" y="28"
+        font-family="'Georgia', 'Times New Roman', serif"
+        font-size="20"
+        font-weight="700"
+        letter-spacing="3"
+        fill="#ffffff"
+        dominant-baseline="middle">CRESTMORE</text>
+
+  <!-- Divider rule -->
+  <line x1="74" y1="38" x2="294" y2="38" stroke="#C8981E" stroke-width="0.7" opacity="0.7"/>
+
+  <!-- RESEARCH — gold -->
+  <text x="76" y="49"
+        font-family="'Georgia', 'Times New Roman', serif"
+        font-size="9.5"
+        font-weight="400"
+        letter-spacing="5"
+        fill="#D4A843"
+        dominant-baseline="middle">RESEARCH</text>
+</svg>
