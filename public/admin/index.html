@@ -628,15 +628,18 @@ document.getElementById('login-password').addEventListener('keydown', e => {
           if (files.filter(f=>f.name.endsWith('.md')).length === 0) {
             listEl.innerHTML = '<p style="color:#888;font-size:0.85rem">No posts found.</p>';
           } else {
-            listEl.innerHTML = files.filter(f=>f.name.endsWith('.md'))
-              .sort((a,b)=>b.name.localeCompare(a.name))
-              .map(f=>'<div style="display:flex;align-items:center;justify-content:space-between;padding:8px 12px;border:1px solid #e8e0d0;border-radius:6px;margin-bottom:6px;background:#fff">'
-                +'<span style="font-size:0.85rem;color:#333">'+f.name.replace('.md','')+'</span>'
-                +'<div style="display:flex;gap:6px">'
-                +'<button onclick="document.getElementById('existing-posts-select').value=''+f.path+'';loadSelectedPost();document.querySelector('.sidebar-item:first-child').click()" style="font-size:0.75rem;background:var(--navy);color:#fff;border:none;border-radius:3px;padding:3px 10px;cursor:pointer">✏️ Edit</button>'
-                +'<button onclick="document.getElementById('existing-posts-select').value=''+f.path+'';deletePost()" style="font-size:0.75rem;background:#c0392b;color:#fff;border:none;border-radius:3px;padding:3px 10px;cursor:pointer">🗑️ Delete</button>'
-                +'</div></div>'
-              ).join('');
+            var _html = '';
+            files.filter(function(f){return f.name.endsWith('.md');}).forEach(function(f){
+              var nm = f.name.replace('.md','');
+              var fp = f.path;
+              _html += '<div style="display:flex;align-items:center;justify-content:space-between;padding:8px 12px;border:1px solid #e8e0d0;border-radius:6px;margin-bottom:6px;background:#fff">';
+              _html += '<span style="font-size:0.85rem;color:#333">' + nm + '</span>';
+              _html += '<div style="display:flex;gap:6px">';
+              _html += '<button onclick="document.getElementById(\'existing-posts-select\').value=\''+fp+'\';loadExistingPost();" style="font-size:0.8rem;padding:4px 8px;background:#1a3a2a;color:#fff;border:none;border-radius:4px;cursor:pointer">&#9999;&#65039; Edit</button>';
+              _html += '<button onclick="deletePost(\''+fp+'\')" style="font-size:0.8rem;padding:4px 8px;background:#b00020;color:#fff;border:none;border-radius:4px;cursor:pointer">&#128465;&#65039; Delete</button>';
+              _html += '</div></div>';
+            });
+            listEl.innerHTML = _html || '<p style="color:#888;font-style:italic">No posts yet.</p>'
           }
         }
 
