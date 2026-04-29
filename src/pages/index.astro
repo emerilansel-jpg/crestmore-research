@@ -229,18 +229,21 @@ const teamMembers = [
     role: 'Head of Commodities Research',
     bio: '20 years experience covering base and precious metals across African and Latin American mining jurisdictions.',
     credentials: ['PhD Economics', 'Former World Bank Senior Economist'],
+    photo: '/images/team-sarah.png',
   },
   {
     name: 'Marcus Chen, CFA',
     role: 'Director, Emerging Markets',
     bio: 'Specialist in Southeast Asian and MENA capital flows, trade finance, and sovereign debt dynamics.',
     credentials: ['CFA Charterholder', 'Former Goldman Sachs Asset Management'],
+    photo: '/images/team-chen.png',
   },
   {
     name: 'Elena Vasquez',
     role: 'Senior Analyst, Country Risk',
     bio: 'Political economy specialist with deep coverage of Andean, Central African, and Eastern European risk environments.',
     credentials: ['Fluent in 5 Languages', 'Oxford DPhil International Relations'],
+    photo: '/images/team-vasquez.png',
   },
 ];
 
@@ -348,7 +351,7 @@ const whyPoints = [
         <div class="hero__actions">
           <a href="/research" class="btn btn--gold">Explore Research Library</a>
           <a href="/contact" class="btn btn--outline">Request a Brief</a>
-          <a href="/sample-report" class="btn btn--outline-secondary">Download Sample Report</a>
+          <a href="/sample-report" class="btn btn--outline-light">Download Sample Report</a>
         </div>
         <div class="hero__trust">
           <span>Trusted by 120+ institutional clients across 30+ countries</span>
@@ -463,7 +466,7 @@ const whyPoints = [
       </div>
 
       <div class="intro__image-container">
-        <img src="/images/crestmore-research-team.jpg" alt="Crestmore Research analysts reviewing market intelligence" loading="lazy" class="intro__image" />
+        <img src="/images/about-office.png" alt="Crestmore Research analytical team" loading="lazy" class="intro__image" />
       </div>
     </div>
   </section>
@@ -486,7 +489,7 @@ const whyPoints = [
             <div class="sector-card__meta">
               <span class="sector-card__reports">{sector.reports} reports published</span>
             </div>
-            <a href={`/sectors/${sector.id}`} class="sector-card__link">Explore sector →</a>
+            <a href="/coverage" class="sector-card__link">Explore sector →</a>
           </div>
         ))}
       </div>
@@ -512,7 +515,7 @@ const whyPoints = [
               <div class="report-card__pages">{report.pages} pages</div>
             </div>
             <div class="report-card__footer">
-              <a href={`/research/${report.slug}`} class="btn btn--small btn--gold">Download Sample</a>
+              <a href="/contact" class="btn btn--small btn--gold">Download Sample</a>
             </div>
           </div>
         ))}
@@ -591,7 +594,7 @@ const whyPoints = [
           </div>
         </div>
         <div class="why__visual">
-          <img src="/images/crestmore-emerging-markets.jpg" alt="Emerging market coverage — Crestmore Research global presence" loading="lazy" class="why__image" />
+          <img src="/images/why-crestmore.png" alt="Analyst reviewing market intelligence" loading="lazy" class="why__image" />
         </div>
       </div>
     </div>
@@ -751,7 +754,7 @@ const whyPoints = [
         {teamMembers.map(member => (
           <div class="team-card">
             <div class="team-card__photo-wrap">
-              <img src={`/images/team-${member.name.split(' ')[1].toLowerCase()}.jpg`} alt={member.name} loading="lazy" class="team-card__photo" />
+              <img src={member.photo} alt={member.name} loading="lazy" class="team-card__photo" />
             </div>
             <div class="team-card__body">
               <h3 class="team-card__name">{member.name}</h3>
@@ -804,7 +807,7 @@ const whyPoints = [
       </div>
       <div class="insights-list">
         {insights.map(insight => (
-          <a href={`/insights/${insight.slug}`} class="insight-item">
+          <a href="/insights" class="insight-item">
             <span class="insight-item__cat">{insight.cat}</span>
             <span class="insight-item__title">{insight.title}</span>
             <span class="insight-item__date">{insight.date}</span>
@@ -906,7 +909,7 @@ const whyPoints = [
   .hero__bg-overlay {
     position: absolute;
     inset: 0;
-    background: linear-gradient(135deg, rgba(8, 16, 30, 0.78) 0%, rgba(8, 16, 30, 0.62) 100%);
+    background: linear-gradient(135deg, rgba(25, 48, 71, 0.95) 0%, rgba(15, 30, 50, 0.95) 100%);
     z-index: 1;
   }
 
@@ -939,7 +942,7 @@ const whyPoints = [
     font-weight: 600;
     letter-spacing: 0.1em;
     text-transform: uppercase;
-    color: var(--gold-bright);
+    color: var(--gold);
     margin-bottom: 1.5rem;
   }
 
@@ -1119,7 +1122,7 @@ const whyPoints = [
 
   .ticker-item:before {
     content: '▸ ';
-    color: var(--gold-bright);
+    color: var(--gold);
     margin-right: 0.5rem;
   }
 
@@ -1132,8 +1135,9 @@ const whyPoints = [
      STATS BAR
   ═══════════════════════════════════════════════ */
   .stats-bar {
-    background: linear-gradient(135deg, rgba(218, 165, 32, 0.08) 0%, rgba(218, 165, 32, 0.03) 100%);
-    border: 1px solid rgba(218, 165, 32, 0.15);
+    background: var(--navy-mid);
+    border-top: 1px solid rgba(218, 165, 32, 0.2);
+    border-bottom: 1px solid rgba(218, 165, 32, 0.2);
     padding: 4rem 0;
   }
 
@@ -1148,21 +1152,27 @@ const whyPoints = [
     flex-direction: column;
     align-items: center;
     text-align: center;
+    border-right: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 0 1.5rem;
   }
+
+  .stats-bar__item:last-child { border-right: none; }
 
   .stats-bar__value {
     font-family: 'Playfair Display', serif;
     font-size: 2.5rem;
     font-weight: 700;
-    color: var(--navy-dark);
+    color: var(--gold);
     line-height: 1;
     margin-bottom: 0.5rem;
   }
 
   .stats-bar__label {
-    font-size: 0.95rem;
-    color: var(--text-muted);
+    font-size: 0.875rem;
+    color: rgba(255, 255, 255, 0.6);
     line-height: 1.4;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
   }
 
   /* ═══════════════════════════════════════════════
@@ -1416,7 +1426,6 @@ const whyPoints = [
     font-family: 'Playfair Display', serif;
     font-size: 1.5rem;
     font-weight: 700;
-    color: white;
     line-height: 1.3;
     margin-bottom: auto;
   }
@@ -1681,7 +1690,7 @@ const whyPoints = [
     font-family: 'Playfair Display', serif;
     font-size: 1.75rem;
     font-weight: 700;
-    color: var(--navy-dark);
+    color: var(--gold);
   }
 
   /* ═══════════════════════════════════════════════
@@ -2154,21 +2163,4 @@ const whyPoints = [
       gap: 1rem;
     }
 
-    .insight-item__date {
-      text-align: left;
-    }
-
-    .cta-banner__title {
-      font-size: 1.75rem;
-    }
-
-    .logos-bar {
-      flex-direction: column;
-      gap: 2rem;
-    }
-
-    .newsletter-form {
-      flex-direction: column;
-    }
-  }
-</style>
+    .insig

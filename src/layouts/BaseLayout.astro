@@ -1,6 +1,5 @@
 ---
 // BaseLayout.astro — Base HTML shell for all pages
-// Includes Google Fonts, global CSS, schema.org JSON-LD (Organization for homepage)
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import '../styles/global.css';
@@ -8,10 +7,10 @@ import '../styles/global.css';
 interface Props {
   title: string;
   description?: string;
-  /** 'homepage' injects Organization schema; 'article' injects Article + Breadcrumb schema (via slot) */
   pageType?: 'homepage' | 'article' | 'default';
   canonicalUrl?: string;
   ogImage?: string;
+  noindex?: boolean;
 }
 
 const {
@@ -20,7 +19,12 @@ const {
   pageType = 'default',
   canonicalUrl = Astro.url.href,
   ogImage = '/images/og-default.jpg',
+  noindex = false,
 } = Astro.props;
+
+const ogImageAbsolute = ogImage.startsWith('http')
+  ? ogImage
+  : `https://crestmoreresearch.com${ogImage}`;
 
 const organizationSchema = {
   '@context': 'https://schema.org',
@@ -28,8 +32,45 @@ const organizationSchema = {
   name: 'Crestmore Research',
   url: 'https://crestmoreresearch.com',
   description: 'Independent strategic market research and intelligence across key industry verticals.',
-  logo: 'https://crestmoreresearch.com/images/logo.png',
+  logo: { '@type': 'ImageObject', url: 'https://crestmoreresearch.com/images/logo.svg' },
+  sameAs: ['https://www.linkedin.com/company/crestmore-research','https://twitter.com/crestmoreresearch'],
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: '245 Park Avenue, Suite 3900',
+    addressLocality: 'New York',
+    addressRegion: 'NY',
+    postalCode: '10167',
+    addressCountry: 'US',
+  },
+  contactPoint: {
+    '@type': 'ContactPoint',
+    telephone: '+1-212-555-0190',
+    contactType: 'customer service',
+    email: 'research@crestmoreresearch.com',
+  },
 };
+
+const websiteSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: 'Crestmore Research',
+  url: 'https://crestmoreresearch.com',
+  potentialAction: {
+    '@type': 'SearchAction',
+    target: { '@type': 'EntryPoint', urlTemplate: 'https://crestmoreresearch.com/research?q={search_term_string}' },
+    'query-input': 'required name=search_term_string',
+  },
+};
+
+const pageTitle = title.split(' — ')[0].split(' | ')[0];
+const breadcrumbSchema = pageType !== 'homepage' ? {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://crestmoreresearch.com' },
+    { '@type': 'ListItem', position: 2, name: pageTitle, item: canonicalUrl },
+  ],
+} : null;
 ---
 
 <!DOCTYPE html>
@@ -38,43 +79,42 @@ const organizationSchema = {
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-
-    <!-- Primary Meta -->
     <title>{title}</title>
     <meta name="description" content={description} />
+    {noindex
+      ? <meta name="robots" content="noindex, nofollow" />
+      : <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+    }
     <link rel="canonical" href={canonicalUrl} />
-
-    <!-- Open Graph -->
     <meta property="og:type" content={pageType === 'article' ? 'article' : 'website'} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonicalUrl} />
-    <meta property="og:image" content={ogImage} />
+    <meta property="og:image" content={ogImageAbsolute} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
     <meta property="og:site_name" content="Crestmore Research" />
-
-    <!-- Twitter Card -->
+    <meta property="og:locale" content="en_US" />
     <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@crestmoreresearch" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
-    <meta name="twitter:image" content={ogImage} />
-
-    <!-- Favicon (placeholder — replace with actual) -->
+    <meta name="twitter:image" content={ogImageAbsolute} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-
-    <!-- Schema.org: Organization (all pages) -->
     <script type="application/ld+json" set:html={JSON.stringify(organizationSchema)} />
-
-    <!-- Per-page additional schema injected via slot -->
+    {pageType === 'homepage' && (
+      <script type="application/ld+json" set:html={JSON.stringify(websiteSchema)} />
+    )}
+    {breadcrumbSchema && (
+      <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
+    )}
     <slot name="schema" />
   </head>
-
   <body>
     <Header />
-
     <main id="main-content">
       <slot />
     </main>
-
     <Footer />
   </body>
 </html>

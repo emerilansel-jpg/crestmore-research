@@ -7,7 +7,7 @@ const research = defineCollection({
     date: z.coerce.date(),
     author: z.string(),
     category: z.string(),
-    tags: z.array(z.string()).optional(),
+    tags: z.array(z.string()),
     description: z.string(),
     featured_image: z.string().optional(),
   }),

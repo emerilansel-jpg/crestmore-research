@@ -6,9 +6,9 @@ const offices = [
   {
     id: 'new-york',
     city: 'New York',
-    address: '450 Park Avenue South, Floor 12',
-    city_full: 'New York, NY 10016',
-    phone: '+1 (212) 555-0147',
+    address: '245 Park Avenue, Suite 3900',
+    city_full: 'New York, NY 10167',
+    phone: '+1 (212) 555-0190',
     email: 'newyork@crestmoreresearch.com',
     description: 'Headquarters. Global research leadership, commodity market analytics, and institutional client management.',
   },
@@ -17,7 +17,7 @@ const offices = [
     city: 'London',
     address: '40 Gresham Street',
     city_full: 'London, EC2V 7BB, United Kingdom',
-    phone: '+44 (0)20 7469 0147',
+    phone: '+44 (0)20 7469 0190',
     email: 'london@crestmoreresearch.com',
     description: 'European office. MENA energy research, European institutional distribution, and cross-market risk analysis.',
   },
@@ -26,7 +26,7 @@ const offices = [
     city: 'Singapore',
     address: 'One Marina Boulevard, #18-01',
     city_full: 'Singapore 018989',
-    phone: '+65 6415 0147',
+    phone: '+65 6415 0190',
     email: 'singapore@crestmoreresearch.com',
     description: 'Asia-Pacific hub. Critical minerals supply chains, Southeast Asian markets, and battery material intelligence.',
   },
@@ -130,7 +130,7 @@ const careers = [
   <style>
     /* Hero Section */
     .about-hero {
-      background: var(--navy-dark) url('/images/crestmore-data-viz.jpg') center/cover no-repeat;
+      background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
       color: white;
       padding: 80px 40px;
       text-align: center;
@@ -141,14 +141,14 @@ const careers = [
     .about-hero::before {
       content: '';
       position: absolute;
-      inset: 0;
-      background: linear-gradient(
-        135deg,
-        rgba(8, 16, 30, 0.82) 0%,
-        rgba(10, 22, 40, 0.68) 100%
-      );
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background:
+        radial-gradient(circle at 20% 50%, rgba(212, 175, 55, 0.08) 0%, transparent 50%),
+        radial-gradient(circle at 80% 50%, rgba(212, 175, 55, 0.05) 0%, transparent 50%);
       pointer-events: none;
-      z-index: 0;
     }
 
     .about-hero-content {
@@ -159,7 +159,7 @@ const careers = [
     }
 
     .hero-eyebrow {
-      color: #D4A843;
+      color: #d4af37;
       font-size: 14px;
       font-weight: 600;
       letter-spacing: 3px;
@@ -179,14 +179,14 @@ const careers = [
     .hero-subtitle {
       font-size: 20px;
       line-height: 1.6;
-      color: rgba(255, 255, 255, 0.88);
+      color: #e0e0e0;
       font-weight: 300;
     }
 
     /* Mission Section */
     .mission-section {
       padding: 100px 40px;
-      background: #f7fafc;
+      background: #f5f5f5;
       max-width: 1200px;
       margin: 0 auto;
     }
@@ -194,7 +194,7 @@ const careers = [
     .mission-section-title {
       font-size: 42px;
       font-weight: 700;
-      color: #0a1628;
+      color: #1a1a1a;
       margin-bottom: 60px;
       text-align: center;
     }
@@ -209,7 +209,7 @@ const careers = [
     .mission-para {
       font-size: 16px;
       line-height: 1.8;
-      color: #4a5568;
+      color: #444;
     }
 
     .mission-pull-quote {
@@ -220,7 +220,7 @@ const careers = [
       font-size: 28px;
       font-style: italic;
       line-height: 1.6;
-      color: #0a1628;
+      color: #1a1a1a;
       text-align: center;
       margin: 40px 0;
       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
@@ -237,7 +237,7 @@ const careers = [
     .timeline-title {
       font-size: 42px;
       font-weight: 700;
-      color: #0a1628;
+      color: #1a1a1a;
       margin-bottom: 80px;
       text-align: center;
     }
@@ -253,7 +253,7 @@ const careers = [
       top: 0;
       bottom: 0;
       width: 2px;
-      background: #C9991A;
+      background: #d4af37;
       transform: translateX(-1px);
     }
 
@@ -279,7 +279,7 @@ const careers = [
       top: 0;
       width: 16px;
       height: 16px;
-      background: #C9991A;
+      background: #d4af37;
       border: 4px solid white;
       border-radius: 50%;
       transform: translateX(-50%);
@@ -288,7 +288,7 @@ const careers = [
 
     .timeline-content {
       padding: 30px;
-      background: #f7fafc;
+      background: #f5f5f5;
       border-radius: 4px;
     }
 
@@ -302,20 +302,20 @@ const careers = [
     .timeline-headline {
       font-size: 18px;
       font-weight: 600;
-      color: #0a1628;
+      color: #1a1a1a;
       margin-bottom: 15px;
     }
 
     .timeline-description {
       font-size: 15px;
       line-height: 1.7;
-      color: #5a6478;
+      color: #666;
     }
 
     /* Values Grid */
     .values-section {
       padding: 100px 40px;
-      background: #f7fafc;
+      background: #f5f5f5;
       max-width: 1200px;
       margin: 0 auto;
     }
@@ -323,7 +323,7 @@ const careers = [
     .values-title {
       font-size: 42px;
       font-weight: 700;
-      color: #0a1628;
+      color: #1a1a1a;
       margin-bottom: 60px;
       text-align: center;
     }
@@ -350,14 +350,14 @@ const careers = [
     .value-title {
       font-size: 22px;
       font-weight: 700;
-      color: #0a1628;
+      color: #1a1a1a;
       margin-bottom: 20px;
     }
 
     .value-text {
       font-size: 15px;
       line-height: 1.8;
-      color: #5a6478;
+      color: #666;
       margin-bottom: 15px;
     }
 
@@ -376,7 +376,7 @@ const careers = [
     .offices-title {
       font-size: 42px;
       font-weight: 700;
-      color: #0a1628;
+      color: #1a1a1a;
       margin-bottom: 60px;
       text-align: center;
     }
@@ -388,7 +388,7 @@ const careers = [
     }
 
     .office-card {
-      background: #f7fafc;
+      background: #f5f5f5;
       padding: 40px;
       border-radius: 4px;
       border-top: 4px solid #d4af37;
@@ -397,13 +397,13 @@ const careers = [
     .office-city {
       font-size: 20px;
       font-weight: 700;
-      color: #0a1628;
+      color: #1a1a1a;
       margin-bottom: 20px;
     }
 
     .office-address {
       font-size: 14px;
-      color: #5a6478;
+      color: #666;
       line-height: 1.6;
       margin-bottom: 20px;
     }
@@ -426,7 +426,7 @@ const careers = [
     .office-description {
       font-size: 14px;
       line-height: 1.7;
-      color: #5a6478;
+      color: #666;
       margin-top: 20px;
       padding-top: 20px;
       border-top: 1px solid #ddd;
@@ -435,7 +435,7 @@ const careers = [
     /* ESG Section */
     .esg-section {
       padding: 100px 40px;
-      background: #f7fafc;
+      background: #f5f5f5;
       max-width: 1200px;
       margin: 0 auto;
     }
@@ -443,7 +443,7 @@ const careers = [
     .esg-title {
       font-size: 42px;
       font-weight: 700;
-      color: #0a1628;
+      color: #1a1a1a;
       margin-bottom: 50px;
       text-align: center;
     }
@@ -457,13 +457,13 @@ const careers = [
     .esg-text {
       font-size: 16px;
       line-height: 1.8;
-      color: #4a5568;
+      color: #444;
     }
 
     .esg-text h3 {
       font-size: 20px;
       font-weight: 700;
-      color: #0a1628;
+      color: #1a1a1a;
       margin-top: 30px;
       margin-bottom: 15px;
     }
@@ -549,8 +549,8 @@ const careers = [
 
     .careers-button {
       display: inline-block;
-      background: #C9991A;
-      color: #0a1628;
+      background: #d4af37;
+      color: #1a1a1a;
       padding: 14px 40px;
       border-radius: 4px;
       text-decoration: none;
@@ -565,7 +565,7 @@ const careers = [
     /* CTA Section */
     .cta-section {
       padding: 80px 40px;
-      background: var(--navy-dark) url('/images/crestmore-data-viz.jpg') center/cover no-repeat;
+      background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
       color: white;
       text-align: center;
       max-width: 1200px;
@@ -604,8 +604,8 @@ const careers = [
     }
 
     .cta-button-primary {
-      background: #C9991A;
-      color: #0a1628;
+      background: #d4af37;
+      color: #1a1a1a;
     }
 
     .cta-button-primary:hover {
@@ -620,8 +620,8 @@ const careers = [
     }
 
     .cta-button-secondary:hover {
-      background: #C9991A;
-      color: #0a1628;
+      background: #d4af37;
+      color: #1a1a1a;
     }
 
     /* Responsive */

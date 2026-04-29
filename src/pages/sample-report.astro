@@ -1,0 +1,351 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="Sample Research Report — Crestmore Research"
+  description="Download a complimentary sample of Crestmore Research's institutional-grade market intelligence. See our methodology, data depth, and analytical rigour firsthand."
+  canonicalUrl="https://crestmoreresearch.com/sample-report"
+>
+  <section class="sample-hero">
+    <div class="container">
+      <div class="sample-hero__inner">
+        <div class="sample-hero__content">
+          <p class="sample-hero__label">Sample Report</p>
+          <h1 class="sample-hero__title">See Our Research<br /><em>Before You Subscribe</em></h1>
+          <p class="sample-hero__sub">Our sample report gives you a complete view of the depth, rigour, and clarity that Crestmore Research delivers to institutional clients. No paywall. No commitment required.</p>
+          <div class="sample-hero__actions">
+            <a href="/contact" class="btn btn--gold btn--lg">Request the Full Sample →</a>
+            <a href="/methodology" class="btn btn--outline-navy">Our Methodology</a>
+          </div>
+        </div>
+        <div class="sample-hero__badge-col">
+          <div class="sample-badge">
+            <div class="sample-badge__icon">
+              <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+            </div>
+            <h3 class="sample-badge__title">Emerging Markets Outlook Q1 2025</h3>
+            <p class="sample-badge__sub">Sample Edition — 42 pages</p>
+            <ul class="sample-badge__meta">
+              <li>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+                Executive summary
+              </li>
+              <li>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+                Data appendix (excerpt)
+              </li>
+              <li>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+                Analyst commentary
+              </li>
+              <li>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+                Risk scenario matrix
+              </li>
+            </ul>
+            <a href="/contact" class="sample-badge__cta">Request via Email →</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- What's inside -->
+  <section class="sample-inside">
+    <div class="container">
+      <p class="section__label">What You Get</p>
+      <h2 class="section__title">Inside a Crestmore Report</h2>
+      <p class="section__sub">Every report follows our 6-layer analytical framework, developed across 18 years of institutional research delivery.</p>
+      <div class="sample-inside__grid">
+        {[
+          {
+            n: '01',
+            title: 'Executive Summary',
+            desc: 'A concise 2-page distillation of the key findings, risk factors, and investment implications — written for C-suite decision-makers.',
+          },
+          {
+            n: '02',
+            title: 'Macro Context',
+            desc: 'How the global macro environment — rate cycles, currency dynamics, commodity cycles — frames the specific market under analysis.',
+          },
+          {
+            n: '03',
+            title: 'Primary Data & Evidence',
+            desc: 'Original data from our proprietary surveys, on-the-ground intelligence, and curated third-party sources, clearly cited and visualised.',
+          },
+          {
+            n: '04',
+            title: 'Sector-Level Analysis',
+            desc: 'Deep dives across the key industries driving the market, with supply/demand modelling and pricing dynamics.',
+          },
+          {
+            n: '05',
+            title: 'Risk Scenarios',
+            desc: 'Three-scenario forward modelling (base, bull, bear) with probability weights, trigger factors, and portfolio implications.',
+          },
+          {
+            n: '06',
+            title: 'Strategic Recommendations',
+            desc: 'Actionable conclusions for institutional investors, corporate strategists, and policy professionals.',
+          },
+        ].map(item => (
+          <div class="inside-card">
+            <span class="inside-card__num">{item.n}</span>
+            <h3 class="inside-card__title">{item.title}</h3>
+            <p class="inside-card__desc">{item.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="sample-cta">
+    <div class="container">
+      <div class="sample-cta__inner">
+        <h2 class="sample-cta__title">Ready to See the Full Report?</h2>
+        <p class="sample-cta__sub">Contact our research team and we will send you a complimentary sample report within one business day. No sales call required.</p>
+        <a href="/contact" class="btn btn--gold btn--lg">Request Sample Report →</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  /* ── Hero ── */
+  .sample-hero {
+    padding: 96px 0 80px;
+    background: linear-gradient(135deg, var(--navy) 0%, #1e2f52 100%);
+    color: #fff;
+  }
+
+  .sample-hero__inner {
+    display: grid;
+    grid-template-columns: 1fr 380px;
+    gap: 60px;
+    align-items: center;
+  }
+
+  .sample-hero__label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 16px;
+  }
+
+  .sample-hero__title {
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 700;
+    line-height: 1.15;
+    margin-bottom: 20px;
+  }
+
+  .sample-hero__title em {
+    font-style: italic;
+    color: var(--gold);
+  }
+
+  .sample-hero__sub {
+    font-size: 1.05rem;
+    color: rgba(255,255,255,0.75);
+    line-height: 1.7;
+    max-width: 520px;
+    margin-bottom: 36px;
+  }
+
+  .sample-hero__actions {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+
+  /* ── Sample badge ── */
+  .sample-badge {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 12px;
+    padding: 32px 28px;
+    backdrop-filter: blur(8px);
+  }
+
+  .sample-badge__icon {
+    width: 64px;
+    height: 64px;
+    background: rgba(var(--gold-rgb, 196, 160, 80), 0.15);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--gold);
+    margin-bottom: 20px;
+  }
+
+  .sample-badge__title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 4px;
+    line-height: 1.4;
+  }
+
+  .sample-badge__sub {
+    font-size: 0.8rem;
+    color: rgba(255,255,255,0.5);
+    margin-bottom: 20px;
+  }
+
+  .sample-badge__meta {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .sample-badge__meta li {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.875rem;
+    color: rgba(255,255,255,0.8);
+  }
+
+  .sample-badge__meta svg {
+    color: var(--gold);
+    flex-shrink: 0;
+  }
+
+  .sample-badge__cta {
+    display: block;
+    text-align: center;
+    background: var(--gold);
+    color: var(--navy);
+    font-weight: 700;
+    font-size: 0.875rem;
+    padding: 12px 24px;
+    border-radius: 6px;
+    text-decoration: none;
+    transition: opacity 0.2s;
+  }
+
+  .sample-badge__cta:hover {
+    opacity: 0.9;
+  }
+
+  /* ── Inside section ── */
+  .sample-inside {
+    padding: 100px 0;
+    background: var(--bg-light);
+  }
+
+  .sample-inside .section__label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 12px;
+  }
+
+  .sample-inside .section__title {
+    font-size: clamp(1.75rem, 3vw, 2.25rem);
+    font-weight: 700;
+    color: var(--navy);
+    margin-bottom: 12px;
+  }
+
+  .sample-inside .section__sub {
+    font-size: 1rem;
+    color: var(--text-secondary);
+    max-width: 580px;
+    line-height: 1.7;
+    margin-bottom: 56px;
+  }
+
+  .sample-inside__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+
+  .inside-card {
+    background: #fff;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 28px;
+  }
+
+  .inside-card__num {
+    display: block;
+    font-size: 0.7rem;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    color: var(--gold);
+    margin-bottom: 16px;
+    font-family: monospace;
+  }
+
+  .inside-card__title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--navy);
+    margin-bottom: 10px;
+  }
+
+  .inside-card__desc {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    line-height: 1.7;
+  }
+
+  /* ── CTA ── */
+  .sample-cta {
+    padding: 100px 0;
+    background: var(--navy);
+  }
+
+  .sample-cta__inner {
+    text-align: center;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .sample-cta__title {
+    font-size: clamp(1.75rem, 3vw, 2.25rem);
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 16px;
+  }
+
+  .sample-cta__sub {
+    font-size: 1rem;
+    color: rgba(255,255,255,0.7);
+    line-height: 1.7;
+    margin-bottom: 36px;
+  }
+
+  /* ── Responsive ── */
+  @media (max-width: 900px) {
+    .sample-hero__inner {
+      grid-template-columns: 1fr;
+    }
+
+    .sample-inside__grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 600px) {
+    .sample-inside__grid {
+      grid-template-columns: 1fr;
+    }
+
+    .sample-hero__actions {
+      flex-direction: column;
+    }
+  }
+</style>

@@ -1,0 +1,181 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="Terms of Use — Crestmore Research"
+  description="Terms and conditions governing use of Crestmore Research publications, website, and research services."
+  canonicalUrl="https://crestmoreresearch.com/terms"
+>
+  <section class="legal-page">
+    <div class="container">
+      <div class="legal-page__header">
+        <p class="legal-page__label">Legal</p>
+        <h1 class="legal-page__title">Terms of Use</h1>
+        <p class="legal-page__meta">Last updated: 1 January 2025 &nbsp;·&nbsp; Effective date: 1 January 2025</p>
+      </div>
+
+      <div class="legal-page__body">
+
+        <p class="legal-page__intro">
+          These Terms of Use ("Terms") govern your access to and use of the Crestmore Research LLC ("Crestmore") website and all research content, publications, data, and services provided therein. By accessing our website or subscribing to our research services, you agree to be bound by these Terms.
+        </p>
+
+        <h2>1. Acceptance of Terms</h2>
+        <p>By accessing <strong>crestmoreresearch.com</strong> or using any Crestmore service, you represent that you are at least 18 years of age and have the legal capacity to enter into these Terms. If you are accessing our services on behalf of an organisation, you represent that you have authority to bind that organisation.</p>
+
+        <h2>2. Research and Publications</h2>
+        <p>All research reports, briefings, data, forecasts, commentary, and other publications produced by Crestmore Research ("Research Content") are provided for <strong>informational purposes only</strong>. Research Content does not constitute investment advice, a solicitation, or an offer to purchase or sell any security or financial instrument.</p>
+        <p>Crestmore Research is an independent research firm. We are not registered as an investment adviser with any securities regulatory authority. Subscribers and users should conduct their own independent due diligence before making any investment or business decisions.</p>
+
+        <h2>3. Intellectual Property</h2>
+        <p>All Research Content, trademarks, logos, trade names, and other materials published on this website are the exclusive property of Crestmore Research LLC or its licensors and are protected by applicable intellectual property laws.</p>
+        <p>Subscribers are granted a limited, non-exclusive, non-transferable licence to access and use Research Content for their own internal business purposes. You may not:</p>
+        <ul>
+          <li>Reproduce, distribute, publicly display, or create derivative works from Research Content without prior written consent</li>
+          <li>Share login credentials or distribute reports to individuals who are not named subscribers</li>
+          <li>Sell, sublicence, or commercially exploit any Research Content</li>
+          <li>Remove or alter any copyright, trademark, or proprietary notices</li>
+        </ul>
+
+        <h2>4. Accuracy and Forward-Looking Statements</h2>
+        <p>While we endeavour to ensure the accuracy of all Research Content, Crestmore makes no representations or warranties, express or implied, regarding the completeness, accuracy, or timeliness of any information published. Data and forecasts are believed to be accurate at time of publication but may be subject to revision without notice.</p>
+        <p>Research Content may include forward-looking statements based on current expectations. These involve inherent risks and uncertainties, and actual outcomes may differ materially from those projected.</p>
+
+        <h2>5. Limitation of Liability</h2>
+        <p>To the maximum extent permitted by applicable law, Crestmore Research LLC, its officers, employees, and affiliates shall not be liable for any direct, indirect, incidental, special, consequential, or punitive damages arising from your use of, or inability to use, our website or Research Content, including but not limited to losses arising from reliance on any information provided.</p>
+
+        <h2>6. Indemnification</h2>
+        <p>You agree to indemnify and hold harmless Crestmore Research LLC and its officers, employees, and affiliates from and against any claims, losses, damages, and expenses (including reasonable legal fees) arising from your violation of these Terms or your use of our website and services.</p>
+
+        <h2>7. Third-Party Links</h2>
+        <p>Our website may contain links to external websites or resources. We provide these links for convenience only and are not responsible for the content, accuracy, or practices of any third-party sites. Inclusion of a link does not imply our endorsement of that site.</p>
+
+        <h2>8. Modification of Terms</h2>
+        <p>Crestmore reserves the right to modify these Terms at any time. Changes will be effective upon posting to this page with an updated date. Continued use of our website or services after any change constitutes acceptance of the revised Terms.</p>
+
+        <h2>9. Governing Law</h2>
+        <p>These Terms shall be governed by and construed in accordance with the laws of the State of New York, United States, without regard to its conflict of law provisions. Any disputes arising under these Terms shall be subject to the exclusive jurisdiction of courts located in New York County, New York.</p>
+
+        <h2>10. Contact</h2>
+        <p>For questions regarding these Terms, please contact:</p>
+        <address>
+          <strong>Crestmore Research LLC — Legal</strong><br />
+          245 Park Avenue, Suite 3900<br />
+          New York, NY 10167<br />
+          <a href="mailto:legal@crestmoreresearch.com">legal@crestmoreresearch.com</a>
+        </address>
+
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .legal-page {
+    padding: 80px 0 100px;
+    background: var(--bg-light);
+    min-height: 70vh;
+  }
+
+  .legal-page__header {
+    max-width: 760px;
+    margin: 0 auto 48px;
+    padding-bottom: 32px;
+    border-bottom: 1px solid var(--border-color);
+  }
+
+  .legal-page__label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 12px;
+  }
+
+  .legal-page__title {
+    font-size: clamp(2rem, 4vw, 2.75rem);
+    font-weight: 700;
+    color: var(--navy);
+    margin-bottom: 12px;
+    line-height: 1.2;
+  }
+
+  .legal-page__meta {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+  }
+
+  .legal-page__body {
+    max-width: 760px;
+    margin: 0 auto;
+    background: #fff;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    padding: 48px 56px;
+  }
+
+  .legal-page__intro {
+    font-size: 1.05rem;
+    color: var(--text-secondary);
+    margin-bottom: 40px;
+    line-height: 1.8;
+  }
+
+  .legal-page__body h2 {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--navy);
+    margin: 40px 0 12px;
+  }
+
+  .legal-page__body h2:first-of-type {
+    margin-top: 0;
+  }
+
+  .legal-page__body p,
+  .legal-page__body li {
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+    line-height: 1.8;
+    margin-bottom: 12px;
+  }
+
+  .legal-page__body ul {
+    padding-left: 1.5rem;
+    margin-bottom: 16px;
+  }
+
+  .legal-page__body li {
+    margin-bottom: 6px;
+  }
+
+  .legal-page__body a {
+    color: var(--gold);
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.2s;
+  }
+
+  .legal-page__body a:hover {
+    border-color: var(--gold);
+  }
+
+  .legal-page__body address {
+    font-style: normal;
+    background: var(--bg-light);
+    border-left: 3px solid var(--gold);
+    padding: 16px 20px;
+    border-radius: 0 6px 6px 0;
+    line-height: 1.8;
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+  }
+
+  @media (max-width: 640px) {
+    .legal-page__body {
+      padding: 32px 24px;
+    }
+  }
+</style>

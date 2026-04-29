@@ -1,0 +1,357 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const indicators = [
+  { region: 'United States', label: 'GDP Growth (YoY)', value: '+2.4%', delta: '+0.2pp', trend: 'up', category: 'macro' },
+  { region: 'Euro Area', label: 'GDP Growth (YoY)', value: '+0.9%', delta: '-0.1pp', trend: 'down', category: 'macro' },
+  { region: 'China', label: 'GDP Growth (YoY)', value: '+4.8%', delta: '+0.3pp', trend: 'up', category: 'macro' },
+  { region: 'Brazil', label: 'GDP Growth (YoY)', value: '+2.1%', delta: '+0.5pp', trend: 'up', category: 'emerging' },
+  { region: 'India', label: 'GDP Growth (YoY)', value: '+6.5%', delta: '-0.2pp', trend: 'down', category: 'emerging' },
+  { region: 'South Africa', label: 'GDP Growth (YoY)', value: '+1.2%', delta: '+0.1pp', trend: 'up', category: 'emerging' },
+  { region: 'Brent Crude (USD/bbl)', label: 'Spot Price', value: '$82.40', delta: '+1.2%', trend: 'up', category: 'commodities' },
+  { region: 'Gold (USD/oz)', label: 'Spot Price', value: '$2,318', delta: '+0.4%', trend: 'up', category: 'commodities' },
+  { region: 'Natural Gas (USD/MMBtu)', label: 'Spot Price', value: '$1.94', delta: '-2.1%', trend: 'down', category: 'commodities' },
+  { region: 'US 10Y Treasury', label: 'Yield', value: '4.35%', delta: '+4bps', trend: 'up', category: 'capital' },
+  { region: 'EUR/USD', label: 'Exchange Rate', value: '1.0742', delta: '-0.2%', trend: 'down', category: 'capital' },
+  { region: 'EM Bond Spread (EMBI)', label: 'Spread vs UST', value: '312bps', delta: '-8bps', trend: 'up', category: 'capital' },
+];
+---
+
+<BaseLayout
+  title="Live Market Data — Crestmore Research"
+  description="Key macroeconomic indicators, commodity prices, and capital market data tracked by Crestmore Research. Updated regularly from institutional data sources."
+  canonicalUrl="https://crestmoreresearch.com/live-data"
+>
+  <section class="live-hero">
+    <div class="container">
+      <p class="live-hero__label">Market Dashboard</p>
+      <h1 class="live-hero__title">Live Market Data</h1>
+      <p class="live-hero__sub">Key indicators across macroeconomics, commodities, and capital markets. Data sourced from institutional providers and updated regularly by the Crestmore Research team.</p>
+      <div class="live-hero__meta">
+        <span class="live-pulse">
+          <span class="live-pulse__dot" aria-hidden="true"></span>
+          Live indicators
+        </span>
+        <span class="live-hero__update">Last updated: Q1 2025 · For real-time data, <a href="/contact">contact our research team</a></span>
+      </div>
+    </div>
+  </section>
+
+  <section class="live-dashboard">
+    <div class="container">
+
+      <!-- Filter tabs -->
+      <div class="live-tabs" role="tablist" aria-label="Filter by category">
+        <button class="live-tab live-tab--active" data-cat="all" role="tab" aria-selected="true">All Indicators</button>
+        <button class="live-tab" data-cat="macro" role="tab" aria-selected="false">Macro</button>
+        <button class="live-tab" data-cat="emerging" role="tab" aria-selected="false">Emerging Markets</button>
+        <button class="live-tab" data-cat="commodities" role="tab" aria-selected="false">Commodities</button>
+        <button class="live-tab" data-cat="capital" role="tab" aria-selected="false">Capital Markets</button>
+      </div>
+
+      <!-- Data grid -->
+      <div class="live-grid" id="live-grid">
+        {indicators.map(ind => (
+          <div class={`live-card live-card--${ind.trend}`} data-cat={ind.category}>
+            <div class="live-card__region">{ind.region}</div>
+            <div class="live-card__label">{ind.label}</div>
+            <div class="live-card__value">{ind.value}</div>
+            <div class="live-card__delta">
+              {ind.trend === 'up'
+                ? <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="18 15 12 9 6 15"/></svg>
+                : <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+              }
+              {ind.delta}
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <p class="live-disclaimer">Data shown is indicative and updated periodically by Crestmore analysts. For proprietary real-time feeds and bespoke market monitoring, <a href="/contact">contact us</a>.</p>
+    </div>
+  </section>
+
+  <!-- Research CTA -->
+  <section class="live-cta">
+    <div class="container">
+      <div class="live-cta__inner">
+        <div class="live-cta__content">
+          <h2>Need Deeper Intelligence?</h2>
+          <p>Our research team tracks over 800 data series across 47 markets. Request a bespoke data briefing or subscribe to our institutional research service.</p>
+        </div>
+        <div class="live-cta__actions">
+          <a href="/contact" class="btn btn--gold">Request a Research Brief</a>
+          <a href="/research" class="btn btn--outline-light">Browse Research Reports</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<script>
+  const tabs = document.querySelectorAll<HTMLButtonElement>('.live-tab');
+  const cards = document.querySelectorAll<HTMLElement>('.live-card');
+
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      const cat = tab.dataset.cat!;
+
+      tabs.forEach(t => {
+        t.classList.remove('live-tab--active');
+        t.setAttribute('aria-selected', 'false');
+      });
+      tab.classList.add('live-tab--active');
+      tab.setAttribute('aria-selected', 'true');
+
+      cards.forEach(card => {
+        const matches = cat === 'all' || card.dataset.cat === cat;
+        card.style.display = matches ? '' : 'none';
+      });
+    });
+  });
+</script>
+
+<style>
+  /* ── Hero ── */
+  .live-hero {
+    padding: 80px 0 56px;
+    background: var(--navy);
+    color: #fff;
+  }
+
+  .live-hero__label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 12px;
+  }
+
+  .live-hero__title {
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 700;
+    margin-bottom: 16px;
+    line-height: 1.15;
+  }
+
+  .live-hero__sub {
+    font-size: 1rem;
+    color: rgba(255,255,255,0.72);
+    max-width: 620px;
+    line-height: 1.7;
+    margin-bottom: 28px;
+  }
+
+  .live-hero__meta {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+
+  .live-pulse {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: rgba(255,255,255,0.9);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  .live-pulse__dot {
+    width: 8px;
+    height: 8px;
+    background: #4ade80;
+    border-radius: 50%;
+    box-shadow: 0 0 0 0 rgba(74, 222, 128, 0.4);
+    animation: pulse-anim 2s infinite;
+  }
+
+  @keyframes pulse-anim {
+    0% { box-shadow: 0 0 0 0 rgba(74,222,128,0.5); }
+    70% { box-shadow: 0 0 0 8px rgba(74,222,128,0); }
+    100% { box-shadow: 0 0 0 0 rgba(74,222,128,0); }
+  }
+
+  .live-hero__update {
+    font-size: 0.8rem;
+    color: rgba(255,255,255,0.5);
+  }
+
+  .live-hero__update a {
+    color: var(--gold);
+    text-decoration: none;
+  }
+
+  /* ── Dashboard ── */
+  .live-dashboard {
+    padding: 60px 0 80px;
+    background: var(--bg-light);
+  }
+
+  .live-tabs {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 36px;
+  }
+
+  .live-tab {
+    padding: 8px 18px;
+    border-radius: 100px;
+    border: 1px solid var(--border-color);
+    background: #fff;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all 0.15s;
+    font-family: inherit;
+  }
+
+  .live-tab:hover {
+    border-color: var(--navy);
+    color: var(--navy);
+  }
+
+  .live-tab--active {
+    background: var(--navy);
+    border-color: var(--navy);
+    color: #fff;
+  }
+
+  .live-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin-bottom: 32px;
+  }
+
+  .live-card {
+    background: #fff;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 20px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .live-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 3px;
+    height: 100%;
+  }
+
+  .live-card--up::before { background: #16a34a; }
+  .live-card--down::before { background: #dc2626; }
+
+  .live-card__region {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 4px;
+  }
+
+  .live-card__label {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    margin-bottom: 12px;
+  }
+
+  .live-card__value {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--navy);
+    margin-bottom: 8px;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .live-card__delta {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 0.8rem;
+    font-weight: 600;
+  }
+
+  .live-card--up .live-card__delta { color: #16a34a; }
+  .live-card--down .live-card__delta { color: #dc2626; }
+
+  .live-disclaimer {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    text-align: center;
+    line-height: 1.6;
+  }
+
+  .live-disclaimer a {
+    color: var(--gold);
+    text-decoration: none;
+  }
+
+  /* ── CTA ── */
+  .live-cta {
+    background: var(--navy);
+    padding: 80px 0;
+  }
+
+  .live-cta__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 40px;
+  }
+
+  .live-cta__content h2 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 8px;
+  }
+
+  .live-cta__content p {
+    font-size: 0.95rem;
+    color: rgba(255,255,255,0.7);
+    max-width: 520px;
+    line-height: 1.7;
+  }
+
+  .live-cta__actions {
+    display: flex;
+    gap: 12px;
+    flex-shrink: 0;
+    flex-wrap: wrap;
+  }
+
+  /* ── Responsive ── */
+  @media (max-width: 1024px) {
+    .live-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  @media (max-width: 768px) {
+    .live-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .live-cta__inner {
+      flex-direction: column;
+      text-align: center;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .live-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

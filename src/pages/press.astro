@@ -6,7 +6,7 @@ const pressReleases = [
     date: 'January 2026',
     category: 'Company',
     title: 'Crestmore Research Publishes 2025 Annual Forecast Accuracy Review',
-    summary: 'Crestmore\'s annual forecast accuracy review demonstrates 78% directional accuracy across commodity price predictions and 85% accuracy in emerging market risk assessments. The report details methodology, performance by asset class, and lessons learned from a volatile 2025 market environment.',
+    summary: "Crestmore's annual forecast accuracy review demonstrates 78% directional accuracy across commodity price predictions and 85% accuracy in emerging market risk assessments. The report details methodology, performance by asset class, and lessons learned from a volatile 2025 market environment.",
     slug: 'annual-forecast-accuracy-2025',
   },
   {
@@ -82,7 +82,7 @@ const mediaOutlets = [
   {
     publication: 'The Economist',
     logoInitials: 'ECO',
-    quote: '"The firm\'s independence—not dependent on investment banking or asset management—gives them unique credibility in analyzing market structure and regulatory risk."',
+    quote: "\"The firm's independence—not dependent on investment banking or asset management—gives them unique credibility in analyzing market structure and regulatory risk.\"",
     date: 'September 2025',
   },
   {
@@ -149,24 +149,24 @@ const keyFacts = [
           <p class="media-kit-card__desc">Essential resources for journalists and media professionals covering market research, institutional investment, and commodity markets.</p>
           <div class="media-kit-card__items">
             <div class="media-kit-item">
-              <span class="media-kit-item__icon">ð</span>
+              <span class="media-kit-item__icon">📄</span>
               <span class="media-kit-item__text">Executive Bios</span>
             </div>
             <div class="media-kit-item">
-              <span class="media-kit-item__icon">ð</span>
+              <span class="media-kit-item__icon">📊</span>
               <span class="media-kit-item__text">Company Fact Sheet</span>
             </div>
             <div class="media-kit-item">
-              <span class="media-kit-item__icon">ð¼ï¸</span>
+              <span class="media-kit-item__icon">🖼️</span>
               <span class="media-kit-item__text">Logo Files (RGB/CMYK)</span>
             </div>
             <div class="media-kit-item">
-              <span class="media-kit-item__icon">ð¸</span>
+              <span class="media-kit-item__icon">📸</span>
               <span class="media-kit-item__text">Office & Team Photos</span>
             </div>
           </div>
         </div>
-        <a href="/media/crestmore-media-kit.pdf" class="btn btn--gold btn--lg">Download Media Kit (PDF)</a>
+        <a href="/contact" class="btn btn--gold btn--lg">Request Media Kit →</a>
       </div>
     </div>
   </section>
@@ -190,7 +190,7 @@ const keyFacts = [
             </div>
             <h3 class="press-release-card__title">{release.title}</h3>
             <p class="press-release-card__summary">{release.summary}</p>
-            <a href={`/press/${release.slug}`} class="press-release-card__link">
+            <a href="/press" class="press-release-card__link">
               Read More →
             </a>
           </div>
@@ -280,6 +280,7 @@ const keyFacts = [
       </div>
     </div>
   </section>
+
 </BaseLayout>
 
 <style scoped>
@@ -349,7 +350,6 @@ const keyFacts = [
   margin-bottom: 48px;
 }
 
-
 .section__subtitle {
   font-family: 'Inter', sans-serif;
   font-size: 16px;
@@ -379,14 +379,12 @@ const keyFacts = [
   transform: translateY(-2px);
 }
 
-
 .press-release-card__meta {
   display: flex;
   align-items: center;
   gap: 12px;
   margin-bottom: 16px;
 }
-
 
 .press-release-card__date {
   font-family: 'Inter', sans-serif;
@@ -456,7 +454,7 @@ const keyFacts = [
 }
 
 /* Media Mentions */
-.edia-mentions-grid {
+.media-mentions-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
   gap: 28px;
@@ -548,7 +546,6 @@ const keyFacts = [
   color: var(--gold);
   line-height: 1;
 }
-
 
 .key-fact-item__label {
   font-family: 'Inter', sans-serif;
@@ -687,3 +684,4 @@ const keyFacts = [
   }
 }
 </style>
+                       

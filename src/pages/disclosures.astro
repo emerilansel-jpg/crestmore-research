@@ -1,0 +1,174 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="Disclosures — Crestmore Research"
+  description="Important regulatory disclosures, conflict of interest policies, and research independence statements from Crestmore Research."
+  canonicalUrl="https://crestmoreresearch.com/disclosures"
+>
+  <section class="legal-page">
+    <div class="container">
+      <div class="legal-page__header">
+        <p class="legal-page__label">Legal</p>
+        <h1 class="legal-page__title">Disclosures</h1>
+        <p class="legal-page__meta">Last updated: 1 January 2025</p>
+      </div>
+
+      <div class="legal-page__body">
+
+        <p class="legal-page__intro">
+          Crestmore Research LLC is committed to full transparency regarding our business practices, potential conflicts of interest, and the basis on which our research is produced. These disclosures apply to all research publications, briefings, and commentary distributed by Crestmore Research.
+        </p>
+
+        <h2>1. Regulatory Status</h2>
+        <p>Crestmore Research LLC is an independent research firm. <strong>We are not registered as an investment adviser</strong> with the U.S. Securities and Exchange Commission (SEC) or any other securities regulatory authority, and we do not provide personalised investment advice. Our research is intended for institutional clients, corporate strategists, and sophisticated investors who understand the nature and limitations of independent market research.</p>
+
+        <h2>2. No Investment Advice</h2>
+        <p>Nothing published or communicated by Crestmore Research — including research reports, market briefings, data, forecasts, commentary, or any other material — constitutes investment advice, a recommendation to buy or sell any security, or a solicitation of any investment. All content is provided for informational and analytical purposes only.</p>
+        <p>Recipients of Crestmore Research publications must make their own independent assessment of the appropriateness of any investment or strategic decision and should seek their own professional advice where necessary.</p>
+
+        <h2>3. Independence and Conflicts of Interest</h2>
+        <p>Crestmore Research is funded entirely through subscription fees and contracted research services. We do not accept payment from issuers, companies, or governments to produce or publish research about them. Our analysts and researchers have no financial interest in the securities or instruments discussed in our publications.</p>
+        <p>We maintain a formal conflicts of interest policy requiring all personnel to:</p>
+        <ul>
+          <li>Disclose any actual or potential conflicts before undertaking research assignments</li>
+          <li>Refrain from trading securities covered in reports for a defined restricted period</li>
+          <li>Not permit any client relationship to influence the substance or conclusions of published research</li>
+        </ul>
+
+        <h2>4. Data Sources and Methodology</h2>
+        <p>Research published by Crestmore draws on a combination of proprietary primary data collection, licensed third-party data sets, and publicly available information. All material third-party data sources used in research publications are identified within the relevant report. Our <a href="/methodology">Methodology page</a> provides a full explanation of our research process.</p>
+        <p>Where Crestmore Research relies on third-party data, we have no ability to independently verify the accuracy of that data and are not responsible for errors or omissions in underlying third-party sources.</p>
+
+        <h2>5. Forward-Looking Statements</h2>
+        <p>Research publications frequently include projections, forecasts, and forward-looking statements based on current conditions and assumptions. These statements are inherently uncertain. Actual outcomes may differ materially from any projections or forecasts. Past performance of any market, asset class, or indicator is not a reliable guide to future results.</p>
+
+        <h2>6. Analyst Certification</h2>
+        <p>Each Crestmore Research analyst whose views are reflected in a research publication certifies that: (1) the views expressed accurately reflect their personal views about the subject matter; and (2) no part of their compensation was, is, or will be directly or indirectly related to the specific conclusions expressed in the report.</p>
+
+        <h2>7. Distribution and Redistribution</h2>
+        <p>Crestmore Research publications are provided under licence for the internal use of named subscribers only. Redistribution of research materials — whether in whole, in part, or in summary form — to third parties who are not named subscribers is prohibited without prior written consent from Crestmore Research LLC.</p>
+
+        <h2>8. Contact</h2>
+        <p>For questions regarding these disclosures or our conflicts of interest policy, contact:</p>
+        <address>
+          <strong>Crestmore Research LLC — Compliance</strong><br />
+          245 Park Avenue, Suite 3900<br />
+          New York, NY 10167<br />
+          <a href="mailto:compliance@crestmoreresearch.com">compliance@crestmoreresearch.com</a>
+        </address>
+
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .legal-page {
+    padding: 80px 0 100px;
+    background: var(--bg-light);
+    min-height: 70vh;
+  }
+
+  .legal-page__header {
+    max-width: 760px;
+    margin: 0 auto 48px;
+    padding-bottom: 32px;
+    border-bottom: 1px solid var(--border-color);
+  }
+
+  .legal-page__label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 12px;
+  }
+
+  .legal-page__title {
+    font-size: clamp(2rem, 4vw, 2.75rem);
+    font-weight: 700;
+    color: var(--navy);
+    margin-bottom: 12px;
+    line-height: 1.2;
+  }
+
+  .legal-page__meta {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+  }
+
+  .legal-page__body {
+    max-width: 760px;
+    margin: 0 auto;
+    background: #fff;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    padding: 48px 56px;
+  }
+
+  .legal-page__intro {
+    font-size: 1.05rem;
+    color: var(--text-secondary);
+    margin-bottom: 40px;
+    line-height: 1.8;
+  }
+
+  .legal-page__body h2 {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--navy);
+    margin: 40px 0 12px;
+  }
+
+  .legal-page__body h2:first-of-type {
+    margin-top: 0;
+  }
+
+  .legal-page__body p,
+  .legal-page__body li {
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+    line-height: 1.8;
+    margin-bottom: 12px;
+  }
+
+  .legal-page__body ul {
+    padding-left: 1.5rem;
+    margin-bottom: 16px;
+  }
+
+  .legal-page__body li {
+    margin-bottom: 6px;
+  }
+
+  .legal-page__body a {
+    color: var(--gold);
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.2s;
+  }
+
+  .legal-page__body a:hover {
+    border-color: var(--gold);
+  }
+
+  .legal-page__body address {
+    font-style: normal;
+    background: var(--bg-light);
+    border-left: 3px solid var(--gold);
+    padding: 16px 20px;
+    border-radius: 0 6px 6px 0;
+    line-height: 1.8;
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+  }
+
+  @media (max-width: 640px) {
+    .legal-page__body {
+      padding: 32px 24px;
+    }
+  }
+</style>
