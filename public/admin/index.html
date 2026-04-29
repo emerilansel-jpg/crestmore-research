@@ -776,7 +776,7 @@ function processImage(file, type) {
   reader.onload = (e) => {
     const base64 = e.target.result.split(',')[1];
     if (type === 'featured') {
-      featuredFileData = { file, base64, filename: file.name };
+      featuredFileData = { file, base64, filename: file.name.replace(/\s+/g,'-').replace(/[^a-zA-Z0-9._-]/g,'-').toLowerCase() };
       document.getElementById('featured-img').src = e.target.result;
       document.getElementById('featured-preview').style.display = 'inline-block';
       document.getElementById('featured-name').textContent = file.name;
@@ -803,7 +803,7 @@ function processBodyImage(file) {
   const reader = new FileReader();
   reader.onload = (e) => {
     const base64 = e.target.result.split(',')[1];
-    const data = { file, base64, filename: file.name };
+    const data = { file, base64, filename: file.name.replace(/\s+/g,'-').replace(/[^a-zA-Z0-9._-]/g,'-').toLowerCase() };
     bodyFilesData.push(data);
     renderBodyImages();
   };
