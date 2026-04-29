@@ -291,6 +291,7 @@
       <input type="password" id="login-password" placeholder="Enter admin password" />
     </div>
     <button class="btn-primary" onclick="doLogin()">Sign In</button>
+        <p style="text-align:center;margin-top:10px;font-size:13px;"><a href="#" onclick="if(confirm('Reset password? This clears your saved password hash and you can set a new one on next login.')){var c=JSON.parse(localStorage.getItem('crestmore_cfg')||'{}}');delete c.pwHash;localStorage.setItem('crestmore_cfg',JSON.stringify(c));location.reload();}return false;" style="color:#666;text-decoration:underline;">Forgot password? Reset</a></p>
     <div class="error-msg" id="login-error" style="display:none">Incorrect password. Try again.</div>
   </div>
 </div>
@@ -591,17 +592,33 @@ function saveConfig() {
 // ── AUTH ──────────────────────────────────────────────────
 async function doLogin() {
   loadConfig();
-  const pw = document.getElementById('login-password').value;
-  const hash = await sha256(pw);
+  var btn = document.querySelector('button[onclick="doLogin()"]');
+  if (btn) { btn.disabled = true; btn.textContent = 'Checking...'; }
+  var resetBtn = function() { if (btn) { btn.disabled = false; btn.textContent = 'Sign In'; } };
+  var pw = document.getElementById('login-password').value;
+  var errEl = document.getElementById('login-error');
+  if (!pw) {
+    errEl.textContent = 'Please enter your password.';
+    errEl.style.display = 'block';
+    resetBtn(); return;
+  }
+  var hash = await sha256(pw);
   if (hash === cfg.pwHash) {
     document.getElementById('login-screen').style.display = 'none';
     document.getElementById('app').style.display = 'block';
     initApp();
+  } else if (!cfg.pwHash) {
+    cfg.pwHash = hash;
+    localStorage.setItem('crestmore_cfg', JSON.stringify(cfg));
+    document.getElementById('login-screen').style.display = 'none';
+    document.getElementById('app').style.display = 'block';
+    initApp();
   } else {
-    document.getElementById('login-error').style.display = 'block';
+    errEl.textContent = 'Incorrect password. Try again.';
+    errEl.style.display = 'block';
+    resetBtn();
   }
 }
-
 document.getElementById('login-password').addEventListener('keydown', e => {
   if (e.key === 'Enter') doLogin();
 });
