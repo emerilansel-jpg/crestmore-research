@@ -638,7 +638,7 @@ function initApp() {
   updateSchemaPreview();
   if (!cfg.pat) {
     document.getElementById('submit-bar').style.display = 'flex';
-    setProgress(0, '⚠️ GitHub PAT not set — go to Settings before publishing', 'error');
+    setProgress(0, '⚠️ GitHub PAT not set — click ⚙️ Settings in the left sidebar', 'error');
   }
   fetchExistingPosts();
 }
@@ -1012,6 +1012,11 @@ async function loadSelectedPost() {
 }
 
 async function publishPost() {
+    if (!cfg.pat) {
+      document.querySelector('.sidebar-item:last-child').click();
+      setProgress(0, '⚠️ GitHub PAT required — enter your token in Settings, then publish again', 'error');
+      return;
+    }
   // Validate
   const title = document.getElementById('post-title').value.trim();
   const slug = document.getElementById('post-slug').value.trim();
