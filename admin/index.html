@@ -1,11 +1,1127 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Crestmore Research | Admin</title>
-  </head>
-  <body>
-    <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
-  </body>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>Admin — Crestmore Research</title>
+  <link rel="stylesheet" href="https://unpkg.com/easymde/dist/easymde.min.css" />
+  <style>
+    :root {
+      --navy: #162035;
+      --navy-light: #1e2e4a;
+      --gold: #c9a84c;
+      --gold-light: #e8c96a;
+      --bg: #f5f6f8;
+      --card: #ffffff;
+      --border: #e2e6ec;
+      --text: #1a1f2e;
+      --muted: #6b7280;
+      --red: #dc2626;
+      --green: #16a34a;
+      --radius: 10px;
+      --shadow: 0 2px 12px rgba(0,0,0,0.08);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Inter', system-ui, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+
+    /* ── LOGIN ── */
+    #login-screen {
+      display: flex; align-items: center; justify-content: center;
+      min-height: 100vh; background: var(--navy);
+    }
+    .login-card {
+      background: #fff; border-radius: 16px; padding: 48px 40px;
+      width: 100%; max-width: 400px; box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    }
+    .login-logo {
+      font-size: 1.1rem; font-weight: 800; color: var(--navy);
+      letter-spacing: -0.02em; margin-bottom: 6px;
+    }
+    .login-logo span { color: var(--gold); }
+    .login-sub { font-size: 0.8rem; color: var(--muted); margin-bottom: 32px; }
+    .login-card h2 { font-size: 1.4rem; font-weight: 700; color: var(--navy); margin-bottom: 24px; }
+    .form-group { margin-bottom: 16px; }
+    .form-group label { display: block; font-size: 0.78rem; font-weight: 600; color: var(--muted); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.06em; }
+    .form-group input, .form-group select, .form-group textarea {
+      width: 100%; padding: 10px 14px; border: 1.5px solid var(--border);
+      border-radius: 8px; font-size: 0.9rem; font-family: inherit;
+      color: var(--text); background: #fff; transition: border-color 0.15s;
+    }
+    .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+      outline: none; border-color: var(--gold);
+    }
+    .btn-primary {
+      width: 100%; padding: 12px; background: var(--navy); color: #fff;
+      border: none; border-radius: 8px; font-size: 0.95rem; font-weight: 700;
+      cursor: pointer; transition: background 0.15s;
+    }
+    .btn-primary:hover { background: var(--navy-light); }
+    .error-msg { color: var(--red); font-size: 0.82rem; margin-top: 10px; text-align: center; }
+
+    /* ── APP SHELL ── */
+    #app { display: none; min-height: 100vh; }
+    .topbar {
+      background: var(--navy); color: #fff; padding: 0 28px;
+      display: flex; align-items: center; justify-content: space-between;
+      height: 56px; position: sticky; top: 0; z-index: 100;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    }
+    .topbar-brand { font-size: 0.95rem; font-weight: 800; letter-spacing: -0.01em; }
+    .topbar-brand span { color: var(--gold); }
+    .topbar-right { display: flex; gap: 12px; align-items: center; }
+    .topbar-badge {
+      background: rgba(201,168,76,0.15); color: var(--gold-light);
+      font-size: 0.7rem; font-weight: 700; padding: 3px 10px;
+      border-radius: 100px; letter-spacing: 0.06em; text-transform: uppercase;
+    }
+    .btn-logout {
+      background: rgba(255,255,255,0.1); color: rgba(255,255,255,0.8);
+      border: 1px solid rgba(255,255,255,0.15); border-radius: 6px;
+      padding: 6px 14px; font-size: 0.78rem; cursor: pointer; font-family: inherit;
+      transition: all 0.15s;
+    }
+    .btn-logout:hover { background: rgba(255,255,255,0.18); }
+
+    .main-layout { display: flex; min-height: calc(100vh - 56px); }
+
+    /* ── SIDEBAR ── */
+    .sidebar {
+      width: 220px; background: #fff; border-right: 1px solid var(--border);
+      padding: 24px 0; flex-shrink: 0;
+    }
+    .sidebar-section { margin-bottom: 8px; }
+    .sidebar-label {
+      font-size: 0.68rem; font-weight: 700; color: var(--muted);
+      text-transform: uppercase; letter-spacing: 0.1em;
+      padding: 0 20px; margin-bottom: 4px;
+    }
+    .sidebar-item {
+      display: flex; align-items: center; gap: 10px;
+      padding: 9px 20px; font-size: 0.85rem; font-weight: 500;
+      color: var(--muted); cursor: pointer; transition: all 0.12s;
+      border-left: 3px solid transparent;
+    }
+    .sidebar-item:hover { background: var(--bg); color: var(--navy); }
+    .sidebar-item.active {
+      background: #f0f4ff; color: var(--navy);
+      border-left-color: var(--gold); font-weight: 700;
+    }
+    .sidebar-item svg { flex-shrink: 0; }
+
+    /* ── CONTENT AREA ── */
+    .content { flex: 1; padding: 32px; max-width: 1100px; }
+
+    /* ── PANEL ── */
+    .panel { display: none; }
+    .panel.active { display: block; }
+    .panel-header { margin-bottom: 28px; }
+    .panel-title { font-size: 1.5rem; font-weight: 800; color: var(--navy); margin-bottom: 4px; }
+    .panel-sub { font-size: 0.88rem; color: var(--muted); }
+
+    /* ── CARD ── */
+    .card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 24px;
+      box-shadow: var(--shadow); margin-bottom: 20px;
+    }
+    .card-title {
+      font-size: 0.78rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.08em; color: var(--muted); margin-bottom: 16px;
+      padding-bottom: 12px; border-bottom: 1px solid var(--border);
+    }
+
+    /* ── FORM GRID ── */
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+    .span-2 { grid-column: span 2; }
+
+    .form-group textarea { resize: vertical; min-height: 80px; line-height: 1.6; }
+    .form-hint { font-size: 0.74rem; color: var(--muted); margin-top: 4px; }
+
+    /* ── SLUG PREVIEW ── */
+    .slug-preview {
+      font-size: 0.8rem; color: var(--muted); margin-top: 4px;
+      font-family: monospace;
+    }
+    .slug-preview strong { color: var(--navy); }
+
+    /* ── IMAGE UPLOAD ── */
+    .upload-zone {
+      border: 2px dashed var(--border); border-radius: var(--radius);
+      padding: 28px 20px; text-align: center; cursor: pointer;
+      transition: all 0.15s; background: var(--bg); position: relative;
+    }
+    .upload-zone:hover, .upload-zone.drag-over {
+      border-color: var(--gold); background: #fdf9ee;
+    }
+    .upload-zone input[type=file] {
+      position: absolute; inset: 0; opacity: 0; cursor: pointer;
+    }
+    .upload-icon { font-size: 2rem; margin-bottom: 8px; }
+    .upload-text { font-size: 0.85rem; color: var(--muted); font-weight: 500; }
+    .upload-sub { font-size: 0.74rem; color: var(--muted); margin-top: 4px; }
+    .img-preview {
+      margin-top: 12px; position: relative; display: inline-block;
+    }
+    .img-preview img {
+      max-height: 160px; border-radius: 8px;
+      border: 1px solid var(--border);
+    }
+    .img-preview .remove-img {
+      position: absolute; top: -8px; right: -8px;
+      background: var(--red); color: #fff; border: none;
+      border-radius: 50%; width: 22px; height: 22px;
+      font-size: 0.75rem; cursor: pointer; display: flex;
+      align-items: center; justify-content: center;
+    }
+    .img-filename { font-size: 0.76rem; color: var(--muted); margin-top: 6px; }
+
+    /* ── SCHEMA BUILDER ── */
+    .schema-preview {
+      background: #0f172a; color: #e2e8f0; border-radius: 8px;
+      padding: 16px; font-family: 'Fira Code', monospace;
+      font-size: 0.75rem; line-height: 1.7; overflow-x: auto;
+      max-height: 300px; overflow-y: auto;
+    }
+    .schema-toggle { cursor: pointer; font-size: 0.8rem; color: var(--gold); font-weight: 600; }
+
+    /* ── TAGS ── */
+    .tags-input-wrap {
+      display: flex; flex-wrap: wrap; gap: 6px;
+      border: 1.5px solid var(--border); border-radius: 8px;
+      padding: 8px 10px; min-height: 42px; cursor: text;
+      transition: border-color 0.15s;
+    }
+    .tags-input-wrap:focus-within { border-color: var(--gold); }
+    .tag-chip {
+      background: #eef2ff; color: var(--navy);
+      border-radius: 100px; padding: 2px 10px;
+      font-size: 0.78rem; font-weight: 600;
+      display: flex; align-items: center; gap: 4px;
+    }
+    .tag-chip button { background: none; border: none; cursor: pointer; color: var(--muted); font-size: 0.8rem; padding: 0; line-height: 1; }
+    .tags-input-wrap input {
+      border: none; outline: none; font-family: inherit; font-size: 0.85rem;
+      min-width: 80px; flex: 1; background: transparent;
+    }
+
+    /* ── SUBMIT BAR ── */
+    .submit-bar {
+      position: sticky; bottom: 0; background: #fff;
+      border-top: 1px solid var(--border); padding: 16px 32px;
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 16px; box-shadow: 0 -4px 20px rgba(0,0,0,0.06);
+    }
+    .submit-status { font-size: 0.85rem; color: var(--muted); }
+    .submit-status.success { color: var(--green); font-weight: 600; }
+    .submit-status.error { color: var(--red); font-weight: 600; }
+    .submit-actions { display: flex; gap: 10px; }
+    .btn-save {
+      background: var(--gold); color: var(--navy); border: none;
+      padding: 11px 28px; border-radius: 8px; font-size: 0.9rem;
+      font-weight: 800; cursor: pointer; transition: all 0.15s;
+    }
+    .btn-save:hover { background: var(--gold-light); }
+    .btn-save:disabled { opacity: 0.5; cursor: not-allowed; }
+    .btn-outline {
+      background: transparent; color: var(--navy);
+      border: 1.5px solid var(--border); padding: 11px 22px;
+      border-radius: 8px; font-size: 0.88rem; font-weight: 600;
+      cursor: pointer; font-family: inherit; transition: all 0.15s;
+    }
+    .btn-outline:hover { border-color: var(--navy); }
+
+    /* ── SETTINGS PANEL ── */
+    .settings-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    .setting-item { }
+    .pat-display {
+      font-family: monospace; font-size: 0.82rem; background: var(--bg);
+      padding: 10px 14px; border-radius: 8px; border: 1px solid var(--border);
+      color: var(--muted); word-break: break-all;
+    }
+
+    /* ── POSTS LIST ── */
+    .posts-list { display: flex; flex-direction: column; gap: 12px; }
+    .post-row {
+      background: #fff; border: 1px solid var(--border); border-radius: var(--radius);
+      padding: 16px 20px; display: flex; align-items: center;
+      justify-content: space-between; transition: border-color 0.15s;
+    }
+    .post-row:hover { border-color: var(--gold); }
+    .post-row-title { font-weight: 700; color: var(--navy); font-size: 0.95rem; }
+    .post-row-meta { font-size: 0.78rem; color: var(--muted); margin-top: 2px; }
+    .post-row-badge {
+      background: #eef2ff; color: var(--navy); font-size: 0.72rem;
+      font-weight: 700; padding: 3px 10px; border-radius: 100px;
+    }
+    .no-posts { text-align: center; color: var(--muted); padding: 48px; font-size: 0.9rem; }
+
+    /* ── PROGRESS ── */
+    .progress-bar {
+      width: 100%; height: 4px; background: var(--border);
+      border-radius: 2px; overflow: hidden; margin-top: 8px;
+    }
+    .progress-fill {
+      height: 100%; background: var(--gold);
+      transition: width 0.3s ease; width: 0%;
+    }
+
+    /* ── MARKDOWN EDITOR ── */
+    .EasyMDEContainer .CodeMirror { border-radius: 0 0 8px 8px; font-size: 0.88rem; }
+    .editor-toolbar { border-radius: 8px 8px 0 0; }
+
+    @media (max-width: 900px) {
+      .sidebar { display: none; }
+      .grid-2, .grid-3 { grid-template-columns: 1fr; }
+      .span-2 { grid-column: auto; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- LOGIN SCREEN -->
+<div id="login-screen">
+  <div class="login-card">
+    <div class="login-logo">Crestmore <span>Research</span></div>
+    <div class="login-sub">Content Management System</div>
+    <h2>Sign in to Admin</h2>
+    <div class="form-group">
+      <label>Password</label>
+      <input type="password" id="login-password" placeholder="Enter admin password" />
+    </div>
+    <button class="btn-primary" onclick="doLogin()">Sign In</button>
+    <div class="error-msg" id="login-error" style="display:none">Incorrect password. Try again.</div>
+  </div>
+</div>
+
+<!-- APP -->
+<div id="app">
+  <!-- Topbar -->
+  <div class="topbar">
+    <div class="topbar-brand">Crestmore <span>Research</span> &nbsp;·&nbsp; Admin</div>
+    <div class="topbar-right">
+      <div class="topbar-badge">CMS</div>
+      <button class="btn-logout" onclick="doLogout()">Sign out</button>
+    </div>
+  </div>
+
+  <div class="main-layout">
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <div class="sidebar-section">
+        <div class="sidebar-label">Content</div>
+        <div class="sidebar-item active" onclick="showPanel('new-post')">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+          New Post
+        </div>
+        <div class="sidebar-item" onclick="showPanel('posts')">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+          All Posts
+        </div>
+      </div>
+      <div class="sidebar-section" style="margin-top:16px">
+        <div class="sidebar-label">System</div>
+        <div class="sidebar-item" onclick="showPanel('settings')">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+          Settings
+        </div>
+      </div>
+    </div>
+
+    <!-- Content -->
+    <div class="content" id="content-area">
+
+      <!-- NEW POST PANEL -->
+      <div class="panel active" id="panel-new-post">
+        <div class="panel-header">
+          <div class="panel-title">New Post</div>
+          <div class="panel-sub">Create a new research article. It will be published automatically after submit.</div>
+        </div>
+
+        <!-- Metadata -->
+        <div class="card">
+          <div class="card-title">Post Metadata</div>
+          <div class="grid-2">
+            <div class="form-group span-2">
+              <label>Title *</label>
+              <input type="text" id="post-title" placeholder="e.g. Copper Market Outlook Q3 2026" oninput="onTitleChange()" />
+            </div>
+            <div class="form-group">
+              <label>Slug (URL path) *</label>
+              <input type="text" id="post-slug" placeholder="copper-market-outlook-q3-2026" oninput="updateSlugPreview()" />
+              <div class="slug-preview" id="slug-preview">URL: <strong>crestmoreresearch.com/research/…</strong></div>
+            </div>
+            <div class="form-group">
+              <label>Publication Date *</label>
+              <input type="date" id="post-date" />
+            </div>
+            <div class="form-group">
+              <label>Author *</label>
+              <input type="text" id="post-author" placeholder="Sarah Chen, Senior Research Analyst" />
+            </div>
+            <div class="form-group">
+              <label>Category *</label>
+              <select id="post-category">
+                <option value="">— Select Category —</option>
+                <option>Commodities</option>
+                <option>Macroeconomics</option>
+                <option>Emerging Markets</option>
+                <option>Capital Markets</option>
+                <option>Technology</option>
+                <option>Energy</option>
+                <option>Healthcare</option>
+                <option>Real Estate</option>
+                <option>Cybersecurity</option>
+                <option>ESG & Sustainability</option>
+              </select>
+            </div>
+            <div class="form-group span-2">
+              <label>Description / Meta Summary *</label>
+              <textarea id="post-description" placeholder="One-paragraph summary shown on research cards and in search results. Keep under 160 characters for SEO."></textarea>
+            </div>
+            <div class="form-group span-2">
+              <label>Tags</label>
+              <div class="tags-input-wrap" id="tags-wrap" onclick="document.getElementById('tag-input').focus()">
+                <input type="text" id="tag-input" placeholder="Type tag and press Enter…" onkeydown="onTagKeydown(event)" />
+              </div>
+              <div class="form-hint">Press Enter or comma to add a tag</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Featured Image -->
+        <div class="card">
+          <div class="card-title">Featured Image</div>
+          <div class="upload-zone" id="featured-drop" ondragover="onDragOver(event,'featured-drop')" ondragleave="onDragLeave('featured-drop')" ondrop="onDrop(event,'featured')">
+            <input type="file" id="featured-file" accept="image/*" onchange="onFileSelect(event,'featured')" />
+            <div class="upload-icon">🖼️</div>
+            <div class="upload-text">Drag & drop or click to upload</div>
+            <div class="upload-sub">Recommended: 1200×630 JPG/PNG · Used as hero image + OG preview</div>
+          </div>
+          <div id="featured-preview" style="display:none" class="img-preview">
+            <img id="featured-img" src="" alt="preview" />
+            <button class="remove-img" onclick="clearImage('featured')" title="Remove">✕</button>
+            <div class="img-filename" id="featured-name"></div>
+          </div>
+        </div>
+
+        <!-- Article Body -->
+        <div class="card">
+          <div class="card-title">Article Body (Markdown)</div>
+          <textarea id="post-body" style="display:none"></textarea>
+        </div>
+
+        <!-- Inline Images -->
+        <div class="card">
+          <div class="card-title">Additional Images (for use in article body)</div>
+          <div class="upload-zone" ondragover="onDragOver(event,'body-drop')" ondragleave="onDragLeave('body-drop')" ondrop="onDrop(event,'body')">
+            <input type="file" id="body-files" accept="image/*" multiple onchange="onBodyFilesSelect(event)" />
+            <div class="upload-icon">📎</div>
+            <div class="upload-text">Upload images to use in the article</div>
+            <div class="upload-sub">After uploading, copy the path shown and paste into markdown: ![alt text](/images/filename)</div>
+          </div>
+          <div id="body-images-list" style="margin-top:12px; display:flex; flex-wrap:wrap; gap:10px;"></div>
+        </div>
+
+        <!-- Schema Builder -->
+        <div class="card">
+          <div class="card-title">
+            Schema Markup (JSON-LD)
+            <span class="schema-toggle" onclick="toggleSchemaPreview()" style="float:right; font-weight:400">▼ Preview</span>
+          </div>
+          <p style="font-size:0.85rem; color:var(--muted); margin-bottom:16px">
+            Article schema is auto-generated from your metadata above. Optionally add extra schema types below.
+          </p>
+          <div class="grid-2">
+            <div class="form-group">
+              <label>Additional Schema Type</label>
+              <select id="schema-extra-type" onchange="updateSchemaPreview()">
+                <option value="">None (Article only)</option>
+                <option value="faq">FAQ (add Q&A pairs)</option>
+                <option value="howto">HowTo</option>
+                <option value="review">Review / Rating</option>
+                <option value="dataset">Dataset</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Article Sub-Type</label>
+              <select id="schema-article-type" onchange="updateSchemaPreview()">
+                <option value="Article">Article</option>
+                <option value="AnalysisNewsArticle">Analysis / News Article</option>
+                <option value="ScholarlyArticle">Scholarly Article</option>
+                <option value="TechArticle">Tech Article</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- FAQ builder -->
+          <div id="faq-builder" style="display:none">
+            <div style="font-size:0.82rem; font-weight:600; color:var(--muted); margin-bottom:10px">FAQ Items</div>
+            <div id="faq-list"></div>
+            <button class="btn-outline" onclick="addFaqItem()" style="margin-top:8px; font-size:0.82rem; padding:8px 16px">+ Add FAQ Item</button>
+          </div>
+
+          <div id="schema-preview-wrap" style="display:none; margin-top:16px">
+            <pre class="schema-preview" id="schema-preview-text"></pre>
+          </div>
+        </div>
+      </div>
+
+      <!-- POSTS LIST PANEL -->
+      <div class="panel" id="panel-posts">
+        <div class="panel-header">
+          <div class="panel-title">All Posts</div>
+          <div class="panel-sub">Research articles currently in the repository.</div>
+        </div>
+        <div id="posts-list-container">
+          <div class="no-posts">Loading posts…</div>
+        </div>
+      </div>
+
+      <!-- SETTINGS PANEL -->
+      <div class="panel" id="panel-settings">
+        <div class="panel-header">
+          <div class="panel-title">Settings</div>
+          <div class="panel-sub">Configure GitHub connection and admin credentials.</div>
+        </div>
+        <div class="card">
+          <div class="card-title">GitHub Connection</div>
+          <div class="grid-2">
+            <div class="form-group">
+              <label>Repository</label>
+              <input type="text" id="s-repo" placeholder="emerilansel-jpg/crestmore-research" />
+            </div>
+            <div class="form-group">
+              <label>Source Branch</label>
+              <input type="text" id="s-branch" placeholder="main" />
+            </div>
+            <div class="form-group span-2">
+              <label>GitHub Personal Access Token (PAT)</label>
+              <input type="password" id="s-pat" placeholder="ghp_xxxxxxxxxxxxxxxxxx" />
+              <div class="form-hint">Needs <strong>repo → contents:write</strong> scope. Stored only in your browser (localStorage).</div>
+            </div>
+          </div>
+          <button class="btn-save" onclick="saveSettings()" style="width:auto; padding:10px 24px">Save Settings</button>
+          <span id="settings-saved" style="margin-left:12px; font-size:0.82rem; color:var(--green); display:none">✓ Saved</span>
+        </div>
+        <div class="card">
+          <div class="card-title">Change Admin Password</div>
+          <div class="grid-2">
+            <div class="form-group">
+              <label>New Password</label>
+              <input type="password" id="s-new-pw" placeholder="Enter new password" />
+            </div>
+            <div class="form-group">
+              <label>Confirm Password</label>
+              <input type="password" id="s-confirm-pw" placeholder="Confirm new password" />
+            </div>
+          </div>
+          <button class="btn-save" onclick="changePassword()" style="width:auto; padding:10px 24px">Update Password</button>
+          <span id="pw-msg" style="margin-left:12px; font-size:0.82rem; display:none"></span>
+        </div>
+        <div class="card">
+          <div class="card-title">Deploy Status</div>
+          <p style="font-size:0.85rem; color:var(--muted); margin-bottom:12px">After publishing a post, GitHub Actions automatically rebuilds the site. It typically takes 2–3 minutes to go live.</p>
+          <a href="https://github.com/emerilansel-jpg/crestmore-research/actions" target="_blank" class="btn-outline" style="display:inline-block; text-decoration:none; font-size:0.85rem; padding:8px 18px">View Build Status →</a>
+        </div>
+      </div>
+
+    </div><!-- /content -->
+  </div><!-- /main-layout -->
+
+  <!-- Submit Bar -->
+  <div class="submit-bar" id="submit-bar" style="display:none">
+    <div>
+      <div class="submit-status" id="submit-status">Ready to publish</div>
+      <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
+    </div>
+    <div class="submit-actions">
+      <button class="btn-outline" onclick="resetForm()">Clear Form</button>
+      <button class="btn-save" id="submit-btn" onclick="publishPost()">Publish Post →</button>
+    </div>
+  </div>
+</div><!-- /app -->
+
+<script src="https://unpkg.com/easymde/dist/easymde.min.js"></script>
+<script>
+// ── CONFIG ──────────────────────────────────────────────────
+const DEFAULT_PW_HASH = 'a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3'; // "123"
+// Change by going to Settings → Change Password
+
+let cfg = {
+  repo: 'emerilansel-jpg/crestmore-research',
+  branch: 'main',
+  pat: '',
+  pwHash: ''
+};
+
+let mde = null;
+let featuredFileData = null; // { file, base64, filename }
+let bodyFilesData = []; // [{ file, base64, filename }]
+let tags = [];
+let faqItems = [];
+
+// ── HELPERS ──────────────────────────────────────────────────
+async function sha256(str) {
+  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(str));
+  return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,'0')).join('');
+}
+
+function loadConfig() {
+  const saved = localStorage.getItem('crestmore_cfg');
+  if (saved) Object.assign(cfg, JSON.parse(saved));
+  // Load stored pw hash or use default
+  if (!cfg.pwHash) cfg.pwHash = DEFAULT_PW_HASH;
+}
+
+function saveConfig() {
+  localStorage.setItem('crestmore_cfg', JSON.stringify(cfg));
+}
+
+// ── AUTH ──────────────────────────────────────────────────
+async function doLogin() {
+  loadConfig();
+  const pw = document.getElementById('login-password').value;
+  const hash = await sha256(pw);
+  if (hash === cfg.pwHash) {
+    document.getElementById('login-screen').style.display = 'none';
+    document.getElementById('app').style.display = 'block';
+    initApp();
+  } else {
+    document.getElementById('login-error').style.display = 'block';
+  }
+}
+
+document.getElementById('login-password').addEventListener('keydown', e => {
+  if (e.key === 'Enter') doLogin();
+});
+
+function doLogout() {
+  document.getElementById('app').style.display = 'none';
+  document.getElementById('login-screen').style.display = 'flex';
+  document.getElementById('login-password').value = '';
+  document.getElementById('login-error').style.display = 'none';
+}
+
+// ── INIT ──────────────────────────────────────────────────
+function initApp() {
+  // Set today's date
+  document.getElementById('post-date').value = new Date().toISOString().split('T')[0];
+
+  // Init EasyMDE
+  if (!mde) {
+    mde = new EasyMDE({
+      element: document.getElementById('post-body'),
+      placeholder: '## Executive Summary\n\nStart writing your article here…\n\nUse ## for section headings, **bold**, *italic*, and standard Markdown.',
+      spellChecker: false,
+      autofocus: false,
+      toolbar: ['bold','italic','heading','|','quote','unordered-list','ordered-list','|','link','image','table','|','preview','side-by-side','fullscreen','|','guide'],
+      status: ['lines','words'],
+      minHeight: '320px',
+    });
+  }
+
+  // Load settings
+  document.getElementById('s-repo').value = cfg.repo;
+  document.getElementById('s-branch').value = cfg.branch;
+  document.getElementById('s-pat').value = cfg.pat;
+
+  updateSlugPreview();
+  updateSchemaPreview();
+}
+
+// ── NAVIGATION ──────────────────────────────────────────────
+function showPanel(id) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.sidebar-item').forEach(i => i.classList.remove('active'));
+  document.getElementById('panel-' + id).classList.add('active');
+  event.currentTarget.classList.add('active');
+
+  const submitBar = document.getElementById('submit-bar');
+  submitBar.style.display = id === 'new-post' ? 'flex' : 'none';
+
+  if (id === 'posts') loadPosts();
+  if (id === 'settings') {
+    document.getElementById('s-repo').value = cfg.repo;
+    document.getElementById('s-branch').value = cfg.branch;
+    document.getElementById('s-pat').value = cfg.pat;
+  }
+}
+
+// ── SLUG ──────────────────────────────────────────────────
+function onTitleChange() {
+  const title = document.getElementById('post-title').value;
+  const slug = title.toLowerCase()
+    .replace(/[^a-z0-9\s-]/g, '')
+    .replace(/\s+/g, '-')
+    .replace(/-+/g, '-')
+    .replace(/^-|-$/g, '');
+  document.getElementById('post-slug').value = slug;
+  updateSlugPreview();
+  updateSchemaPreview();
+}
+
+function updateSlugPreview() {
+  const slug = document.getElementById('post-slug').value || '…';
+  document.getElementById('slug-preview').innerHTML =
+    `URL: <strong>crestmoreresearch.com/research/${slug}</strong>`;
+  updateSchemaPreview();
+}
+
+// ── TAGS ──────────────────────────────────────────────────
+function onTagKeydown(e) {
+  if (e.key === 'Enter' || e.key === ',') {
+    e.preventDefault();
+    const val = e.target.value.trim().replace(/,$/, '');
+    if (val && !tags.includes(val)) {
+      tags.push(val);
+      renderTags();
+    }
+    e.target.value = '';
+    updateSchemaPreview();
+  }
+}
+
+function renderTags() {
+  const wrap = document.getElementById('tags-wrap');
+  wrap.querySelectorAll('.tag-chip').forEach(el => el.remove());
+  const input = document.getElementById('tag-input');
+  tags.forEach((tag, i) => {
+    const chip = document.createElement('div');
+    chip.className = 'tag-chip';
+    chip.innerHTML = `${tag} <button onclick="removeTag(${i})" title="Remove">×</button>`;
+    wrap.insertBefore(chip, input);
+  });
+}
+
+function removeTag(i) {
+  tags.splice(i, 1);
+  renderTags();
+  updateSchemaPreview();
+}
+
+// ── IMAGE UPLOAD ──────────────────────────────────────────────
+function onDragOver(e, zoneId) {
+  e.preventDefault();
+  document.getElementById(zoneId)?.classList.add('drag-over');
+}
+function onDragLeave(zoneId) {
+  document.getElementById(zoneId)?.classList.remove('drag-over');
+}
+function onDrop(e, type) {
+  e.preventDefault();
+  const files = e.dataTransfer.files;
+  if (type === 'featured' && files[0]) processImage(files[0], 'featured');
+  if (type === 'body') Array.from(files).forEach(f => processBodyImage(f));
+}
+
+function onFileSelect(e, type) {
+  if (e.target.files[0]) processImage(e.target.files[0], type);
+}
+
+function processImage(file, type) {
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    const base64 = e.target.result.split(',')[1];
+    if (type === 'featured') {
+      featuredFileData = { file, base64, filename: file.name };
+      document.getElementById('featured-img').src = e.target.result;
+      document.getElementById('featured-preview').style.display = 'inline-block';
+      document.getElementById('featured-name').textContent = file.name;
+    }
+    updateSchemaPreview();
+  };
+  reader.readAsDataURL(file);
+}
+
+function clearImage(type) {
+  if (type === 'featured') {
+    featuredFileData = null;
+    document.getElementById('featured-preview').style.display = 'none';
+    document.getElementById('featured-file').value = '';
+  }
+  updateSchemaPreview();
+}
+
+function onBodyFilesSelect(e) {
+  Array.from(e.target.files).forEach(f => processBodyImage(f));
+}
+
+function processBodyImage(file) {
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    const base64 = e.target.result.split(',')[1];
+    const data = { file, base64, filename: file.name };
+    bodyFilesData.push(data);
+    renderBodyImages();
+  };
+  reader.readAsDataURL(file);
+}
+
+function renderBodyImages() {
+  const list = document.getElementById('body-images-list');
+  list.innerHTML = '';
+  bodyFilesData.forEach((d, i) => {
+    const div = document.createElement('div');
+    div.style.cssText = 'border:1px solid var(--border);border-radius:8px;padding:10px;text-align:center;max-width:160px;';
+    div.innerHTML = `
+      <img src="data:image/*;base64,${d.base64}" style="max-width:120px;max-height:80px;border-radius:4px;" />
+      <div style="font-size:0.72rem;color:var(--muted);margin-top:4px;word-break:break-all">/images/${d.filename}</div>
+      <div style="font-family:monospace;font-size:0.68rem;background:var(--bg);padding:3px 6px;border-radius:4px;margin-top:4px;cursor:pointer" onclick="copyPath('/images/${d.filename}')">
+        ![alt](/images/${d.filename})
+      </div>
+      <button onclick="removeBodyImage(${i})" style="margin-top:6px;font-size:0.72rem;color:var(--red);background:none;border:none;cursor:pointer">Remove</button>
+    `;
+    list.appendChild(div);
+  });
+}
+
+function copyPath(path) {
+  navigator.clipboard.writeText(path);
+}
+
+function removeBodyImage(i) {
+  bodyFilesData.splice(i, 1);
+  renderBodyImages();
+}
+
+// ── SCHEMA ──────────────────────────────────────────────────
+function toggleSchemaPreview() {
+  const wrap = document.getElementById('schema-preview-wrap');
+  wrap.style.display = wrap.style.display === 'none' ? 'block' : 'none';
+  updateSchemaPreview();
+}
+
+function updateSchemaPreview() {
+  const title = document.getElementById('post-title')?.value || 'Untitled';
+  const desc = document.getElementById('post-description')?.value || '';
+  const author = document.getElementById('post-author')?.value || '';
+  const date = document.getElementById('post-date')?.value || new Date().toISOString().split('T')[0];
+  const slug = document.getElementById('post-slug')?.value || 'slug';
+  const imgPath = featuredFileData ? `/images/${featuredFileData.filename}` : '/images/og-default.jpg';
+  const articleType = document.getElementById('schema-article-type')?.value || 'Article';
+  const extraType = document.getElementById('schema-extra-type')?.value || '';
+
+  const schemas = [];
+
+  // Article schema
+  const article = {
+    '@context': 'https://schema.org',
+    '@type': articleType,
+    headline: title,
+    description: desc,
+    author: { '@type': 'Person', name: author.split(',')[0]?.trim() || author },
+    datePublished: new Date(date).toISOString(),
+    image: `https://crestmoreresearch.com${imgPath}`,
+    url: `https://crestmoreresearch.com/research/${slug}`,
+    publisher: {
+      '@type': 'Organization',
+      name: 'Crestmore Research',
+      url: 'https://crestmoreresearch.com'
+    },
+    keywords: tags.join(', ')
+  };
+  schemas.push(article);
+
+  // FAQ schema
+  if (extraType === 'faq' && faqItems.length > 0) {
+    schemas.push({
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      mainEntity: faqItems.map(faq => ({
+        '@type': 'Question',
+        name: faq.q,
+        acceptedAnswer: { '@type': 'Answer', text: faq.a }
+      }))
+    });
+  }
+
+  // Breadcrumb
+  schemas.push({
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://crestmoreresearch.com' },
+      { '@type': 'ListItem', position: 2, name: 'Research', item: 'https://crestmoreresearch.com/research' },
+      { '@type': 'ListItem', position: 3, name: title, item: `https://crestmoreresearch.com/research/${slug}` }
+    ]
+  });
+
+  document.getElementById('schema-preview-text').textContent =
+    schemas.map(s => JSON.stringify(s, null, 2)).join('\n\n');
+}
+
+// ── FAQ BUILDER ──────────────────────────────────────────────
+function addFaqItem() {
+  faqItems.push({ q: '', a: '' });
+  renderFaqItems();
+}
+
+function renderFaqItems() {
+  const list = document.getElementById('faq-list');
+  list.innerHTML = '';
+  faqItems.forEach((faq, i) => {
+    const div = document.createElement('div');
+    div.style.cssText = 'border:1px solid var(--border);border-radius:8px;padding:14px;margin-bottom:10px;';
+    div.innerHTML = `
+      <div class="form-group" style="margin-bottom:10px">
+        <label>Question ${i+1}</label>
+        <input type="text" value="${faq.q.replace(/"/g,'&quot;')}" placeholder="e.g. What methodology does Crestmore use?"
+          oninput="faqItems[${i}].q=this.value;updateSchemaPreview()" style="width:100%;padding:8px 12px;border:1.5px solid var(--border);border-radius:6px;font-family:inherit;font-size:0.85rem;" />
+      </div>
+      <div class="form-group" style="margin-bottom:0">
+        <label>Answer ${i+1}</label>
+        <textarea placeholder="Full answer…" oninput="faqItems[${i}].a=this.value;updateSchemaPreview()"
+          style="width:100%;padding:8px 12px;border:1.5px solid var(--border);border-radius:6px;font-family:inherit;font-size:0.85rem;min-height:60px;resize:vertical">${faq.a}</textarea>
+      </div>
+      <button onclick="removeFaqItem(${i})" style="margin-top:8px;font-size:0.75rem;color:var(--red);background:none;border:none;cursor:pointer">Remove</button>
+    `;
+    list.appendChild(div);
+  });
+}
+
+function removeFaqItem(i) {
+  faqItems.splice(i, 1);
+  renderFaqItems();
+  updateSchemaPreview();
+}
+
+document.getElementById('schema-extra-type').addEventListener('change', function() {
+  document.getElementById('faq-builder').style.display = this.value === 'faq' ? 'block' : 'none';
+  updateSchemaPreview();
+});
+
+// ── GITHUB API ──────────────────────────────────────────────
+async function ghRequest(method, path, body) {
+  const resp = await fetch(`https://api.github.com/repos/${cfg.repo}/contents/${path}`, {
+    method,
+    headers: {
+      Authorization: `token ${cfg.pat}`,
+      'Content-Type': 'application/json',
+      Accept: 'application/vnd.github.v3+json'
+    },
+    body: body ? JSON.stringify(body) : undefined
+  });
+  const data = await resp.json();
+  if (!resp.ok) throw new Error(data.message || resp.statusText);
+  return data;
+}
+
+async function ghGetSha(path) {
+  try {
+    const data = await ghRequest('GET', path);
+    return data.sha;
+  } catch {
+    return null; // file doesn't exist yet
+  }
+}
+
+async function ghPutFile(path, content64, message, sha) {
+  const body = { message, content: content64, branch: cfg.branch };
+  if (sha) body.sha = sha;
+  return ghRequest('PUT', path, body);
+}
+
+// ── PUBLISH ──────────────────────────────────────────────────
+function setProgress(pct, msg, cls) {
+  document.getElementById('progress-fill').style.width = pct + '%';
+  const el = document.getElementById('submit-status');
+  el.textContent = msg;
+  el.className = 'submit-status' + (cls ? ' ' + cls : '');
+}
+
+async function publishPost() {
+  // Validate
+  const title = document.getElementById('post-title').value.trim();
+  const slug = document.getElementById('post-slug').value.trim();
+  const date = document.getElementById('post-date').value;
+  const author = document.getElementById('post-author').value.trim();
+  const category = document.getElementById('post-category').value;
+  const description = document.getElementById('post-description').value.trim();
+  const body = mde.value().trim();
+
+  if (!title || !slug || !date || !author || !category || !description || !body) {
+    setProgress(0, '⚠️ Please fill all required fields', 'error');
+    return;
+  }
+  if (!cfg.pat) {
+    setProgress(0, '⚠️ GitHub PAT not set — go to Settings', 'error');
+    return;
+  }
+
+  const btn = document.getElementById('submit-btn');
+  btn.disabled = true;
+
+  try {
+    setProgress(10, 'Preparing content…');
+
+    // Build frontmatter
+    const tagsStr = tags.map(t => `"${t}"`).join(', ');
+    const imgPath = featuredFileData ? `/images/${featuredFileData.filename}` : '';
+    const imgLine = imgPath ? `\nfeatured_image: "${imgPath}"` : '';
+
+    // Build custom schema injection if needed
+    const extraType = document.getElementById('schema-extra-type').value;
+    let schemaExtra = '';
+    if (extraType === 'faq' && faqItems.length > 0) {
+      const faqSchema = {
+        '@context': 'https://schema.org',
+        '@type': 'FAQPage',
+        mainEntity: faqItems.map(faq => ({
+          '@type': 'Question',
+          name: faq.q,
+          acceptedAnswer: { '@type': 'Answer', text: faq.a }
+        }))
+      };
+      schemaExtra = `\n<!-- schema:faq -->\n<script type="application/ld+json">${JSON.stringify(faqSchema)}<\/script>`;
+    }
+
+    const articleType = document.getElementById('schema-article-type').value;
+    const articleTypeLine = articleType !== 'Article' ? `\nschema_type: "${articleType}"` : '';
+
+    const mdContent = `---
+title: "${title.replace(/"/g, '\\"')}"
+date: ${date}
+author: "${author.replace(/"/g, '\\"')}"
+category: "${category}"
+tags: [${tagsStr}]
+description: "${description.replace(/"/g, '\\"')}"${imgLine}${articleTypeLine}
+---
+${schemaExtra}
+${body}`;
+
+    const mdBase64 = btoa(unescape(encodeURIComponent(mdContent)));
+    const mdPath = `src/content/research/${slug}.md`;
+
+    setProgress(20, 'Uploading article file…');
+    const existingSha = await ghGetSha(mdPath);
+    await ghPutFile(mdPath, mdBase64, `feat(content): publish "${title}"`, existingSha);
+
+    setProgress(50, 'Uploading images…');
+
+    // Upload featured image
+    if (featuredFileData) {
+      const imgGhPath = `public/images/${featuredFileData.filename}`;
+      const imgSha = await ghGetSha(imgGhPath);
+      await ghPutFile(imgGhPath, featuredFileData.base64, `feat(images): add ${featuredFileData.filename}`, imgSha);
+    }
+
+    // Upload body images
+    for (let i = 0; i < bodyFilesData.length; i++) {
+      const bd = bodyFilesData[i];
+      const imgGhPath = `public/images/${bd.filename}`;
+      const imgSha = await ghGetSha(imgGhPath);
+      await ghPutFile(imgGhPath, bd.base64, `feat(images): add ${bd.filename}`, imgSha);
+      setProgress(50 + Math.round((i+1)/bodyFilesData.length * 30), `Uploading image ${i+1}/${bodyFilesData.length}…`);
+    }
+
+    setProgress(85, 'Triggering rebuild…');
+
+    // Trigger GitHub Actions workflow_dispatch
+    await fetch(`https://api.github.com/repos/${cfg.repo}/actions/workflows/build-deploy.yml/dispatches`, {
+      method: 'POST',
+      headers: {
+        Authorization: `token ${cfg.pat}`,
+        Accept: 'application/vnd.github.v3+json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ ref: cfg.branch })
+    });
+
+    setProgress(100, `✅ Published! "${title}" is building now (live in ~2 min)`, 'success');
+
+  } catch (err) {
+    setProgress(0, `❌ Error: ${err.message}`, 'error');
+    console.error(err);
+  } finally {
+    btn.disabled = false;
+  }
+}
+
+// ── POSTS LIST ──────────────────────────────────────────────
+async function loadPosts() {
+  const container = document.getElementById('posts-list-container');
+  container.innerHTML = '<div class="no-posts">Loading…</div>';
+  try {
+    const files = await ghRequest('GET', 'src/content/research');
+    const mdFiles = files.filter(f => f.name.endsWith('.md'));
+    if (mdFiles.length === 0) {
+      container.innerHTML = '<div class="no-posts">No posts found.</div>';
+      return;
+    }
+    let html = '<div class="posts-list">';
+    for (const f of mdFiles) {
+      const slug = f.name.replace('.md', '');
+      html += `<div class="post-row">
+        <div>
+          <div class="post-row-title">${slug.replace(/-/g,' ').replace(/\b\w/g,c=>c.toUpperCase())}</div>
+          <div class="post-row-meta">/research/${slug} · ${f.name}</div>
+        </div>
+        <div style="display:flex;gap:8px;align-items:center">
+          <a href="https://crestmoreresearch.com/research/${slug}" target="_blank" class="btn-outline" style="font-size:0.78rem;padding:6px 14px;text-decoration:none">View Live ↗</a>
+          <span class="post-row-badge">Published</span>
+        </div>
+      </div>`;
+    }
+    html += '</div>';
+    container.innerHTML = html;
+  } catch (err) {
+    container.innerHTML = `<div class="no-posts">Error loading posts: ${err.message}. Check your GitHub PAT in Settings.</div>`;
+  }
+}
+
+// ── SETTINGS ──────────────────────────────────────────────────
+function saveSettings() {
+  cfg.repo = document.getElementById('s-repo').value.trim();
+  cfg.branch = document.getElementById('s-branch').value.trim() || 'main';
+  cfg.pat = document.getElementById('s-pat').value.trim();
+  saveConfig();
+  const saved = document.getElementById('settings-saved');
+  saved.style.display = 'inline';
+  setTimeout(() => saved.style.display = 'none', 2000);
+}
+
+async function changePassword() {
+  const np = document.getElementById('s-new-pw').value;
+  const cp = document.getElementById('s-confirm-pw').value;
+  const msg = document.getElementById('pw-msg');
+  if (!np) { msg.style.color='var(--red)'; msg.textContent='Enter a password.'; msg.style.display='inline'; return; }
+  if (np !== cp) { msg.style.color='var(--red)'; msg.textContent='Passwords do not match.'; msg.style.display='inline'; return; }
+  cfg.pwHash = await sha256(np);
+  saveConfig();
+  msg.style.color = 'var(--green)';
+  msg.textContent = '✓ Password updated';
+  msg.style.display = 'inline';
+  document.getElementById('s-new-pw').value = '';
+  document.getElementById('s-confirm-pw').value = '';
+  setTimeout(() => msg.style.display = 'none', 2500);
+}
+
+// ── RESET FORM ──────────────────────────────────────────────
+function resetForm() {
+  document.getElementById('post-title').value = '';
+  document.getElementById('post-slug').value = '';
+  document.getElementById('post-date').value = new Date().toISOString().split('T')[0];
+  document.getElementById('post-author').value = '';
+  document.getElementById('post-category').value = '';
+  document.getElementById('post-description').value = '';
+  if (mde) mde.value('');
+  featuredFileData = null;
+  bodyFilesData = [];
+  tags = [];
+  faqItems = [];
+  renderTags();
+  renderBodyImages();
+  clearImage('featured');
+  updateSlugPreview();
+  updateSchemaPreview();
+  setProgress(0, 'Ready to publish', '');
+}
+
+// Show submit bar for new post
+document.getElementById('submit-bar').style.display = 'flex';
+loadConfig();
+</script>
+</body>
 </html>
