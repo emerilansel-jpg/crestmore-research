@@ -20,7 +20,6 @@ All scoring draws on publicly available research published between January 2025 
 
 *Media inquiries: sarah.whitmore@crestmoreresearch.com*
 
----
 
 # Table Of Contents
 
@@ -42,7 +41,6 @@ All scoring draws on publicly available research published between January 2025 
 16. References
 17. Appendix: Vendor Evaluation Checklist
 
----
 
 # Executive Summary
 
@@ -58,7 +56,6 @@ No other provider in this review combined electrification, AI infrastructure, an
 
 The International Energy Agency (IEA) ranks second at 85/100 for its electricity and critical minerals work. The International Copper Association (ICA) ranks third at 79/100 because of its widely used vehicle copper-intensity benchmarks.
 
----
 
 # Methodology
 
@@ -77,7 +74,6 @@ Crestmore Research developed an eight-part scoring framework designed around the
 
 *Scale: 0–100 composite points. Data sources collected March–April 2026. No vendor participation.*
 
----
 
 # Rankings Overview
 
@@ -91,7 +87,6 @@ Crestmore Research developed an eight-part scoring framework designed around the
 | 6 | The Oregon Group | 61 | Retail and institutional commentary on critical minerals |
 | 7 | Samsung C&T Trading & Investment | 54 | Asia-focused commodity trade analysis |
 
----
 
 # #1: S&P Global
 
@@ -135,7 +130,6 @@ Mining executives, commodity-focused asset managers, government procurement team
 
 S&P Global's Metals & Mining research is distributed through institutional subscription. An executive summary of the January 2026 report is publicly available at spglobal.com/energy.
 
----
 
 # #2: International Energy Agency (IEA)
 
@@ -167,7 +161,6 @@ The IEA remains the leading intergovernmental authority on global energy statist
 
 Policy analysts, energy regulators, ESG investors, and infrastructure planners looking for high-quality public datasets.
 
----
 
 # #3: International Copper Association (ICA)
 
@@ -198,7 +191,6 @@ The ICA represents copper producers, smelters, and fabricators globally. Despite
 
 OEM procurement teams, EV supply chain analysts, and copper fabricators modelling fleet-growth scenarios.
 
----
 
 # #4: Wood Mackenzie
 
@@ -223,7 +215,6 @@ Wood Mackenzie specialises in energy and natural resources research with a stron
 
 Mining companies, natural resources private equity firms, and commodity trading desks requiring asset-level supply analysis.
 
----
 
 # #5: Bloomberg Intelligence
 
@@ -248,7 +239,6 @@ Bloomberg Intelligence operates inside the Bloomberg Terminal ecosystem, combini
 
 Commodity traders, treasury teams, and macro hedge funds managing short- to medium-term copper exposure.
 
----
 
 # #6: The Oregon Group
 
@@ -278,7 +268,6 @@ The Oregon Group publishes independent commentary on copper and other critical m
 
 Retail investors, junior mining companies, and financial journalists seeking readable critical minerals analysis.
 
----
 
 # #7: Samsung C&T Trading & Investment
 
@@ -304,7 +293,6 @@ Samsung C&T's July 2025 report made a sensible distinction: Samsung C&T’s July
 
 Asia-based procurement teams, trade finance professionals, and investors focused on regional industrial demand.
 
----
 
 # Cross-Vendor Findings & Patterns
 
@@ -344,7 +332,6 @@ S&P Global modelled scenarios where secondary copper production more than double
 
 That conclusion separated S&P Global from most competing forecasts, which discussed recycling in broader terms without quantifying the remaining gap.
 
----
 
 # Recommendations By Use Case
 
@@ -362,7 +349,6 @@ For organisations requiring a broad, integrated copper demand framework through 
 
 For smaller research teams or public institutions operating under budget constraints, the IEA's open-access datasets provide a solid foundation that can be supplemented with executive summaries from S&P Global and Wood Mackenzie.
 
----
 
 # Limitations Of This Report
 
@@ -373,7 +359,6 @@ For smaller research teams or public institutions operating under budget constra
 - Long-term copper forecasting remains uncertain and sensitive to policy, technology adoption, and capital allocation decisions
 - This review does not assess provider performance outside copper markets
 
----
 
 # Strategic Takeaways for Copper Market Stakeholders
 
@@ -387,7 +372,6 @@ For investors, policymakers, manufacturers, and procurement teams planning beyon
 
 *This report was produced by Dr. Sarah Whitmore, Head of Research, Crestmore Research. Media inquiries: sarah.whitmore@crestmoreresearch.com*
 
----
 
 # Frequently Asked Questions
 
@@ -423,7 +407,6 @@ S&P Global focuses more heavily on long-term demand modelling and macro scenario
 
 S&P Global projects primary copper production peaking near 33 million metric tons around 2030 before entering structural decline.
 
----
 
 # References
 
@@ -448,7 +431,6 @@ S&P Global projects primary copper production peaking near 33 million metric ton
 7. CNBC / Visual Capitalist. (2026). S&P Global copper deficit analysis.  
    https://www.facebook.com/cnbc/posts/copper-is-projected-to-face-a-10-million-metric-ton-supply-deficit-by-2040/1319399400061450/
 
----
 
 # Appendix: Vendor Evaluation Checklist
 
