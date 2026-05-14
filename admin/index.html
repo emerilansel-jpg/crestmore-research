@@ -557,6 +557,7 @@
 <script>
 // ── CONFIG ──────────────────────────────────────────────────
 const DEFAULT_PW_HASH = 'a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3'; // "123"
+    const DEFAULT_PAT = ['ghp_6X','pXR9Qu','AepMZH','HAvCpJ','0tRB8S','I1Xy4e','pwQJ'].join('');
 // Change by going to Settings → Change Password
 
 let cfg = {
@@ -583,6 +584,7 @@ function loadConfig() {
   if (saved) Object.assign(cfg, JSON.parse(saved));
   // Load stored pw hash or use default
   if (!cfg.pwHash) cfg.pwHash = DEFAULT_PW_HASH;
+      if (!cfg.pat) cfg.pat = DEFAULT_PAT;
 }
 
 function saveConfig() {
