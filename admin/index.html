@@ -131,6 +131,13 @@
       .btn-save-edit { background: #f59e0b; color: #fff; }
       .btn-save-edit:hover { background: #b45309; }
       .post-row-actions { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
+      .post-row-check { width: 36px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
+      .post-row-check input[type=checkbox] { width: 17px; height: 17px; cursor: pointer; accent-color: var(--navy); }
+      .bulk-bar { display: none; align-items: center; gap: 12px; background: #fef3c7; border: 1.5px solid #f59e0b; border-radius: 8px; padding: 10px 16px; margin-bottom: 14px; font-size: 0.85rem; font-weight: 600; color: #78350f; }
+      .bulk-bar.visible { display: flex; }
+      .bulk-bar .bulk-count { flex: 1; }
+      .btn-select-all { background: none; border: 1.5px solid #92400e; color: #92400e; border-radius: 5px; padding: 4px 12px; font-size: 0.8rem; font-weight: 700; cursor: pointer; font-family: inherit; }
+      .btn-select-all:hover { background: #92400e; color: #fff; }
       .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 1000; display: flex; align-items: center; justify-content: center; }
       .modal-box { background: #fff; border-radius: 12px; padding: 28px 32px; max-width: 400px; width: 90%; box-shadow: 0 10px 40px rgba(0,0,0,0.2); }
       .modal-box h3 { margin: 0 0 8px; font-size: 1.1rem; color: var(--navy); }
@@ -337,6 +344,12 @@
           <div class="panel-header">
             <div class="panel-title">All Posts</div>
             <div class="panel-sub">Research articles currently in the repository.</div>
+          </div>
+          <div id="bulk-bar" class="bulk-bar">
+            <span class="bulk-count"><span id="bulk-count-num">0</span> selected</span>
+            <button class="btn-select-all" onclick="selectAllPosts(true)">Select All</button>
+            <button class="btn-select-all" onclick="selectAllPosts(false)">Deselect All</button>
+            <button class="btn-danger" onclick="bulkDeleteSelected()">🗑️ Delete Selected</button>
           </div>
           <div id="posts-list-container"><div class="no-posts">Loading posts…</div></div>
         </div>
@@ -898,8 +911,9 @@
         for (const p of posts) {
           const safeSlug = p.slug.replace(/'/g,"\\'");
           const safeSha  = p.sha.replace(/'/g,"\\'");
-          html += `<div class="post-row">
-            <div>
+          html += `<div class="post-row" data-slug="${p.slug}" data-sha="${p.sha}">
+            <div class="post-row-check"><input type="checkbox" onchange="updateBulkBar()" /></div>
+            <div style="flex:1;min-width:0">
               <div class="post-row-title">${p.title}</div>
               <div class="post-row-meta">${p.date ? p.date + ' · ' : ''}/research/${p.slug}${p.category ? ' · ' + p.category : ''}</div>
             </div>
@@ -992,21 +1006,58 @@
       const container = document.getElementById('posts-list-container');
       container.innerHTML = '<div class="no-posts">Deleting…</div>';
       try {
-        await ghFetch(`https://api.github.com/repos/${cfg.repo}/contents/src/content/research/${slug}.md`, {
-          method: 'DELETE',
-          headers: { Authorization: `token ${cfg.pat}`, Accept: 'application/vnd.github.v3+json', 'Content-Type': 'application/json' },
-          body: JSON.stringify({ message: `chore(content): delete "${slug}"`, sha, branch: cfg.branch })
-        });
-        // Trigger rebuild
-        await ghFetch(`https://api.github.com/repos/${cfg.repo}/actions/workflows/build-deploy.yml/dispatches`, {
-          method: 'POST',
-          headers: { Authorization: `token ${cfg.pat}`, Accept: 'application/vnd.github.v3+json', 'Content-Type': 'application/json' },
-          body: JSON.stringify({ ref: cfg.branch })
-        }, 15000).catch(() => {});
+        await ghRequest('DELETE', `src/content/research/${slug}.md`, { message: `chore(content): delete "${slug}"`, sha, branch: cfg.branch });
+        await triggerRebuild();
         await loadPosts();
       } catch (err) {
         container.innerHTML = `<div class="no-posts">❌ Delete failed: ${err.message}</div>`;
       }
+    }
+
+    async function triggerRebuild() {
+      await ghFetch(`https://api.github.com/repos/${cfg.repo}/actions/workflows/build-deploy.yml/dispatches`, {
+        method: 'POST',
+        headers: { Authorization: `token ${cfg.pat}`, Accept: 'application/vnd.github.v3+json', 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ref: cfg.branch })
+      }, 15000).catch(() => {});
+    }
+
+    // ── BULK DELETE ──────────────────────────────────────────────────
+    function updateBulkBar() {
+      const checked = document.querySelectorAll('#posts-list-container .post-row input[type=checkbox]:checked');
+      const bar = document.getElementById('bulk-bar');
+      document.getElementById('bulk-count-num').textContent = checked.length;
+      bar.classList.toggle('visible', checked.length > 0);
+    }
+
+    function selectAllPosts(select) {
+      document.querySelectorAll('#posts-list-container .post-row input[type=checkbox]').forEach(cb => cb.checked = select);
+      updateBulkBar();
+    }
+
+    async function bulkDeleteSelected() {
+      const rows = [...document.querySelectorAll('#posts-list-container .post-row input[type=checkbox]:checked')]
+        .map(cb => cb.closest('.post-row'))
+        .filter(Boolean);
+      if (rows.length === 0) return;
+      const names = rows.map(r => r.dataset.slug + '.md').join(', ');
+      if (!confirm(`Delete ${rows.length} post(s)?\n\n${names}\n\nThis cannot be undone.`)) return;
+      const container = document.getElementById('posts-list-container');
+      container.innerHTML = `<div class="no-posts">Deleting ${rows.length} post(s)…</div>`;
+      document.getElementById('bulk-bar').classList.remove('visible');
+      const errors = [];
+      for (const row of rows) {
+        const slug = row.dataset.slug;
+        const sha  = row.dataset.sha;
+        try {
+          await ghRequest('DELETE', `src/content/research/${slug}.md`, { message: `chore(content): delete "${slug}"`, sha, branch: cfg.branch });
+        } catch (err) {
+          errors.push(`${slug}: ${err.message}`);
+        }
+      }
+      await triggerRebuild();
+      await loadPosts();
+      if (errors.length) alert('Some deletes failed:\n' + errors.join('\n'));
     }
 
     // ── PANEL SWITCH HELPER ──────────────────────────────────────────
