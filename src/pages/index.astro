@@ -7,7 +7,7 @@ import { getCollection } from 'astro:content';
 const allPosts = await getCollection('research');
 const posts = allPosts.sort(
   (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
-).slice(0, 6);
+).slice(0, 3);
 
 // Enhanced stats for authority
 const stats = [
@@ -489,7 +489,7 @@ const whyPoints = [
             <div class="sector-card__meta">
               <span class="sector-card__reports">{sector.reports} reports published</span>
             </div>
-            <a href="/coverage" class="sector-card__link">Explore sector →</a>
+            <a href={`/sectors/${sector.id}`} class="sector-card__link">Explore sector →</a>
           </div>
         ))}
       </div>
@@ -515,7 +515,7 @@ const whyPoints = [
               <div class="report-card__pages">{report.pages} pages</div>
             </div>
             <div class="report-card__footer">
-              <a href="/contact" class="btn btn--small btn--gold">Download Sample</a>
+              <a href={`/research/${report.slug}`} class="btn btn--small btn--gold">Download Sample</a>
             </div>
           </div>
         ))}
@@ -525,6 +525,37 @@ const whyPoints = [
       </div>
     </div>
   </section>
+
+  <!-- ═══════════════════════════════════════════════
+       LATEST INTELLIGENCE — 3 most recent posts
+  ═══════════════════════════════════════════════ -->
+  {posts.length > 0 && (
+    <section class="section section--latest-intelligence section--bg-soft" aria-labelledby="latest-title">
+      <div class="container">
+        <div class="section__header section__header--center">
+          <p class="section__eyebrow">Fresh Intelligence</p>
+          <h2 class="section__title section__title--center" id="latest-title">Latest Research</h2>
+          <p class="section__subtitle">Our most recent publications — independent analysis across commodities, markets, and country risk.</p>
+        </div>
+        <div class="article-grid">
+          {posts.map(post => (
+            <ArticleCard
+              title={post.data.title}
+              slug={post.slug}
+              category={post.data.category}
+              description={post.data.description}
+              author={post.data.author}
+              date={post.data.date}
+              featured_image={post.data.featured_image}
+            />
+          ))}
+        </div>
+        <div class="section__cta-center" style="margin-top: 40px;">
+          <a href="/research" class="btn btn--navy">View All Research →</a>
+        </div>
+      </div>
+    </section>
+  )}
 
   <!-- ═══════════════════════════════════════════════
        SERVICES GRID
@@ -807,7 +838,7 @@ const whyPoints = [
       </div>
       <div class="insights-list">
         {insights.map(insight => (
-          <a href="/insights" class="insight-item">
+          <a href={`/insights/${insight.slug}`} class="insight-item">
             <span class="insight-item__cat">{insight.cat}</span>
             <span class="insight-item__title">{insight.title}</span>
             <span class="insight-item__date">{insight.date}</span>
