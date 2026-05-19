@@ -1063,11 +1063,12 @@
     // ── PANEL SWITCH HELPER ──────────────────────────────────────────
     function showPanelById(id) {
       document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
-      document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+      document.querySelectorAll('.sidebar-item').forEach(n => n.classList.remove('active'));
       const panel = document.getElementById(id);
       if (panel) panel.classList.add('active');
-      const navItem = document.querySelector(`.nav-item[onclick*="${id}"]`);
-      if (navItem) navItem.classList.add('active');
+      const sidebarItem = document.querySelector(`.sidebar-item[onclick*="${id.replace('panel-','')}"]`);
+      if (sidebarItem) sidebarItem.classList.add('active');
+      document.getElementById('submit-bar').style.display = id === 'panel-new-post' ? 'flex' : 'none';
     }
 
     // ── SETTINGS ──────────────────────────────────────────────────
