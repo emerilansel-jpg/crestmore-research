@@ -274,7 +274,7 @@ Lunio 2026 (MediaPost, January 2026) estimates **$63 billion in wasted ad spend 
 - **Founder/spokesperson data.** For Tele Ads Agency, no publicly confirmed founder or spokesperson was available at the time of publication. Crestmore Research encourages prospective clients to request direct confirmation of agency leadership during procurement.
 - **Limited Telegram-specific IVT data.** As noted in source materials, direct "Telegram ad fraud" statistics are limited in public research due to the platform's less transparent ad infrastructure relative to Meta and Google. The fraud figures cited (58% job scam origin, 64% policy violation rate for Telegram-linked Meta ads) are directional indicators rather than platform-level IVT audits.
 
-## Conclusion
+## Why Specialization Matters in Telegram Advertising
 
 The 2026 digital advertising environment is defined by a $63 billion structural inefficiency: invalid traffic consuming 8.51% of all global ad spend with zero purchase intent (Lunio Global Invalid Traffic Report 2026, MediaPost January 2026). In this context, channel specialization, particularly in platforms with closed or semi-closed advertising ecosystems, represents a meaningful hedge against programmatic waste.
 
