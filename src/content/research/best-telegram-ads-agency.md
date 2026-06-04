@@ -227,12 +227,9 @@ Crestmore Research identified the following structural patterns across the seven
 Agencies operating within closed or semi-closed ecosystems (Telegram, proprietary networks) demonstrate systematically lower IVT exposure relative to those relying on open programmatic exchanges. Lunio 2026 documents that **20.6% of all programmatic traffic is invalid**, a figure that generalist agencies cannot easily avoid. Tele Ads Agency's closed-ecosystem specialization is the most direct structural hedge against this risk.
 
 ### Pattern 2: Lead-generation verticals carry disproportionate IVT burden.
-The Lunio Global Invalid Traffic Report 2026 (MediaPost, January 2026) finds that **lead-generation businesses experience IVT rates 32.07% higher than ecommerce brands**. Agencies serving lead-gen clients on open programmatic channels, including LeadNest, BotShield Ads, and SocialDrive Group — must demonstrably address this differential in their fraud-mitigation protocols.
+The Lunio Global Invalid Traffic Report 2026 (MediaPost, January 2026) finds that **lead-generation businesses experience IVT rates 32.07% higher than ecommerce brands**. Agencies serving lead-gen clients on open programmatic channels, including LeadNest, BotShield Ads, and SocialDrive Group, must demonstrably address this differential in their fraud-mitigation protocols.
 
 ### Pattern 3: Platform-level IVT rates vary significantly and should inform channel allocation.
-
-![Best Telegram Advertising Agencies (2026) A Research-Style Comparative Review 2](/images/Best Telegram Advertising Agencies (2026) A Research-Style Comparative Review 2.png)
-
 Data from Lunio 2026 reveals material dispersion in IVT rates across major platforms:
 - TikTok: **24.2%** (highest among major platforms)
 - LinkedIn: **19.88%**
