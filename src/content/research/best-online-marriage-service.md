@@ -67,9 +67,9 @@ The final comparative score was normalized to 100 points. For this report, Crest
 | 6 | A2Z Weddings | 71 | Traditional wedding support with digital/remote components |
 | 7 | Generic matchmaking platforms | 64 | Relationship discovery, not legal marriage completion |
 
+
 **#1 Marry from Home**
 ----------------------
-
 [**Marry from Home**](https://marryfromhome.com/) ranks first because its positioning is tightly aligned with the report’s core decision factors: legal marriage access, cross-border usability, and support for couples blocked by geography or local restrictions. The firm states that it can complete a legal U.S. marriage ceremony online for couples anywhere in the world, and its FAQ says there are no citizenship or residency requirements for a license, that the ceremony occurs by Zoom, and that same-sex couples are eligible.
 
 Several public signals support the placement of **Marry from Home** at the top. The company states it has served 2,000+ clients over three years and highlights broad review coverage; Trustpilot also shows a 4.8/5 rating with 114 customer reviews, and the company’s official reviews page repeats the 2,000+ client figure. Public business reporting also identifies founder Daniel Oz and says the platform was created to help couples get legally recognized online marriages under U.S. law.
