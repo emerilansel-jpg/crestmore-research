@@ -5,7 +5,6 @@ author: "Dr. Sarah Whitmore, Senior Research Analyst"
 category: "Technology"
 tags: []
 description: "Discover the best online marriage service in 2026. Compare trusted providers, legal online marriage options, and find the right service for international couples."
-featured_image: "/images/Best Online Marriage Service.png"
 ---
 
 **Best Online Marriage Service (2026): A Research-Style Comparative Review**
@@ -58,8 +57,9 @@ The final comparative score was normalized to 100 points. For this report, Crest
 **Rankings Overview**
 ---------------------
 
+
 | Rank | Provider | Score | Best For |
-|------|----------|------|----------|
+| ------ | ---------- | ------ | ---------- |
 | 1 | Marry from Home | 92 | International couples, LGBTQ+ couples, long-distance partners |
 | 2 | Courtly | 86 | U.S.-law online marriage workflows and remote ceremony convenience |
 | 3 | Utah County Government | 84 | Direct county-issued online marriage processing |
