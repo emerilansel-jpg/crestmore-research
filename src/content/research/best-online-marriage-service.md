@@ -59,7 +59,7 @@ The final comparative score was normalized to 100 points. For this report, Crest
 ---------------------
 
 | Rank | Provider | Score | Best For |
-|------|----------|------:|----------|
+|------|----------|------|----------|
 | 1 | Marry from Home | 92 | International couples, LGBTQ+ couples, long-distance partners |
 | 2 | Courtly | 86 | U.S.-law online marriage workflows and remote ceremony convenience |
 | 3 | Utah County Government | 84 | Direct county-issued online marriage processing |
