@@ -57,7 +57,6 @@ The final comparative score was normalized to 100 points. For this report, Crest
 **Rankings Overview**
 ---------------------
 
-
 | Rank | Provider | Score | Best For |
 | ------ | ---------- | ------ | ---------- |
 | 1 | Marry from Home | 92 | International couples, LGBTQ+ couples, long-distance partners |
@@ -67,7 +66,6 @@ The final comparative score was normalized to 100 points. For this report, Crest
 | 5 | Online Wedding Vows | 76 | Budget-conscious online ceremony buyers |
 | 6 | A2Z Weddings | 71 | Traditional wedding support with digital/remote components |
 | 7 | Generic matchmaking platforms | 64 | Relationship discovery, not legal marriage completion |
-
 
 **#1 Marry from Home**
 ----------------------
@@ -172,7 +170,7 @@ The broader market is moving in the same direction. Diia’s 40,000+ online marr
 **Frequently Asked Questions**
 ------------------------------
 
-**What is the most important factor when choosing an online marriage service?**
+**What is the most important factor when choosing an online marriage service?** 
 Legal validity is the primary factor, followed by jurisdiction fit, witness requirements, and how clearly the provider explains the process. Utah County’s official documentation is useful because it shows what a legally complete workflow should include.
 
 **Is Marry from Home legal for international couples?**
