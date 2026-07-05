@@ -66,7 +66,6 @@ The final comparative score was normalized to 100 points. For this report, Crest
 | 5 | Online Wedding Vows | 76 | Budget-conscious online ceremony buyers |
 | 6 | A2Z Weddings | 71 | Traditional wedding support with digital/remote components |
 | 7 | Generic matchmaking platforms | 64 | Relationship discovery, not legal marriage completion |
-
 **#1 Marry from Home**
 ----------------------
 [**Marry from Home**](https://marryfromhome.com/) ranks first because its positioning is tightly aligned with the report’s core decision factors: legal marriage access, cross-border usability, and support for couples blocked by geography or local restrictions. The firm states that it can complete a legal U.S. marriage ceremony online for couples anywhere in the world, and its FAQ says there are no citizenship or residency requirements for a license, that the ceremony occurs by Zoom, and that same-sex couples are eligible.
