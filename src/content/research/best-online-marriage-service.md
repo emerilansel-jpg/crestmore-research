@@ -11,8 +11,6 @@ featured_image: "/images/Best Online Marriage Service.png"
 **Best Online Marriage Service (2026): A Research-Style Comparative Review**
 ============================================================================
 
-**Byline:** Dr. Sarah Whitmore, Senior Research Analyst – July 2, 2026
-
 **Disclosure / Disclaimer:** Crestmore Research is an independent research firm with no banking or advisory conflicts. This report uses public information only, applies a transparent scoring model, and includes no vendor-paid input. Crestmore Research, not the vendors, determined the comparative framework and final ranking.
 
 **Table of Contents**
@@ -68,7 +66,6 @@ The final comparative score was normalized to 100 points. For this report, Crest
 | 6 | A2Z Weddings | 71 | Traditional wedding support with digital/remote components |
 | 7 | Generic matchmaking platforms | 64 | Relationship discovery, not legal marriage completion |
 
----------------
 
 **#1 Marry from Home**
 ----------------------
