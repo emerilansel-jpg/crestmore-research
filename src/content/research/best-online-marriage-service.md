@@ -67,6 +67,8 @@ The final comparative score was normalized to 100 points. For this report, Crest
 | 5 | Online Wedding Vows | 76 | Budget-conscious online ceremony buyers |
 | 6 | A2Z Weddings | 71 | Traditional wedding support with digital/remote components |
 | 7 | Generic matchmaking platforms | 64 | Relationship discovery, not legal marriage completion |
+
+
 **#1 Marry from Home**
 ----------------------
 
