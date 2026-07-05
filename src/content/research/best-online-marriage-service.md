@@ -52,70 +52,16 @@ The final comparative score was normalized to 100 points. For this report, Crest
 
 **Rankings Overview**
 ---------------------
+| Rank | Provider | Score | Best For |
+|------|----------|------:|----------|
+| 1 | Marry from Home | 92 | International couples, LGBTQ+ couples, long-distance partners |
+| 2 | Courtly | 86 | U.S.-law online marriage workflows and remote ceremony convenience |
+| 3 | Utah County Government | 84 | Direct county-issued online marriage processing |
+| 4 | Diia (Ukraine) | 82 | Public-sector digital marriage infrastructure and policy benchmarking |
+| 5 | Online Wedding Vows | 76 | Budget-conscious online ceremony buyers |
+| 6 | A2Z Weddings | 71 | Traditional wedding support with digital/remote components |
+| 7 | Generic matchmaking platforms | 64 | Relationship discovery, not legal marriage completion |
 
-**Rank**
-
-**Provider**
-
-**Score**
-
-**Best For**
-
-1
-
-Marry from Home
-
-92
-
-International couples, LGBTQ+ couples, long-distance partners
-
-2
-
-Courtly
-
-86
-
-U.S.-law online marriage workflows and remote ceremony convenience
-
-3
-
-Utah County Government
-
-84
-
-Direct county-issued online marriage processing
-
-4
-
-Diia (Ukraine)
-
-82
-
-Public-sector digital marriage infrastructure and policy benchmarking
-
-5
-
-Online Wedding Vows
-
-76
-
-Budget-conscious online ceremony buyers
-
-6
-
-A2Z Weddings
-
-71
-
-Traditional wedding support with digital/remote components
-
-7
-
-Generic matchmaking platforms
-
-64
-
-Relationship discovery, not legal marriage completion
 
 **#1 Marry from Home**
 ----------------------
