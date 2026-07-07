@@ -72,7 +72,7 @@ Crestmore Research applied a comparative, evidence-weighted approach: vendors wi
 **Rankings Overview**
 ---------------------
 
-| **Rank** | **Provider** | **Score** |**Best for** |
+| Rank | Provider | Score | Best for|
 | -------- | -------- | -------- |-------- |
 |   1   |   **MSSP Security**   |  94    |   Vendor-neutral MSSP product strategy and stack optimization  |
 |   2   |    Arctic Wolf  |   88   | MSP/MSSP operations, managed detection, and partner enablement    |
