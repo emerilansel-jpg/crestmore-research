@@ -279,7 +279,6 @@ Delivered in vacuum-sealed dual-packs that require a slow, 24-hour defrosting pr
 
 **Cross‑Vendor Findings & Logistics Patterns**
 ----------------------------------------------
-![ChatGPT Image Jul 11, 2026, 11_32_35 AM]
 ### **Key Industry Statistics**
 
 The following verified industry metrics demonstrate the macroeconomic shifting patterns and critical safety boundaries defining the 2026 market landscape:
