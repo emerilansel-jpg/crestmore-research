@@ -453,6 +453,10 @@
       const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(str));
       return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,'0')).join('');
     }
+    function escapeHtml(text) {
+      if (text == null) return '';
+      return String(text).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#039;');
+    }
     function loadConfig() {
       const saved = localStorage.getItem('crestmore_cfg');
       if (saved) Object.assign(cfg, JSON.parse(saved));
@@ -544,7 +548,12 @@
     }
     function updateSlugPreview() {
       const slug = document.getElementById('post-slug').value || '…';
-      document.getElementById('slug-preview').innerHTML = `URL: <strong>crestmoreresearch.com/research/${slug}</strong>`;
+      const wrap = document.getElementById('slug-preview');
+      wrap.textContent = '';
+      wrap.appendChild(document.createTextNode('URL: '));
+      const strong = document.createElement('strong');
+      strong.textContent = `crestmoreresearch.com/research/${slug}`;
+      wrap.appendChild(strong);
       updateSchemaPreview();
     }
 
@@ -565,7 +574,12 @@
       tags.forEach((tag, i) => {
         const chip = document.createElement('div');
         chip.className = 'tag-chip';
-        chip.innerHTML = `${tag} <button onclick="removeTag(${i})" title="Remove">×</button>`;
+        chip.appendChild(document.createTextNode(tag + ' '));
+        const btn = document.createElement('button');
+        btn.setAttribute('onclick', `removeTag(${i})`);
+        btn.setAttribute('title', 'Remove');
+        btn.textContent = '×';
+        chip.appendChild(btn);
         wrap.insertBefore(chip, input);
       });
     }
@@ -620,17 +634,32 @@
       bodyFilesData.forEach((d, i) => {
         const div = document.createElement('div');
         div.style.cssText = 'border:1px solid var(--border);border-radius:8px;padding:10px;text-align:center;max-width:180px;';
-        div.innerHTML = `
-          <img src="data:image/*;base64,${d.base64}" style="max-width:120px;max-height:80px;border-radius:4px;" />
-          <div style="font-size:0.72rem;color:var(--muted);margin-top:4px;word-break:break-all">/images/${d.filename}</div>
-          <div class="insert-hint" style="margin-top:6px">
-            <div style="font-size:0.72rem;margin-bottom:4px">Insert into article at cursor position:</div>
-            <button class="insert-btn" onclick="insertImageIntoEditor('/images/${d.filename}', '${d.filename.replace(/\.[^.]+$/, '')}')">
-              + Insert into editor
-            </button>
-          </div>
-          <button onclick="removeBodyImage(${i})" style="margin-top:6px;font-size:0.72rem;color:var(--red);background:none;border:none;cursor:pointer">Remove</button>
-        `;
+        const img = document.createElement('img');
+        img.src = `data:image/*;base64,${d.base64}`;
+        img.style.cssText = 'max-width:120px;max-height:80px;border-radius:4px;';
+        div.appendChild(img);
+        const pathDiv = document.createElement('div');
+        pathDiv.style.cssText = 'font-size:0.72rem;color:var(--muted);margin-top:4px;word-break:break-all';
+        pathDiv.textContent = `/images/${d.filename}`;
+        div.appendChild(pathDiv);
+        const hint = document.createElement('div');
+        hint.className = 'insert-hint';
+        hint.style.marginTop = '6px';
+        const hintText = document.createElement('div');
+        hintText.style.cssText = 'font-size:0.72rem;margin-bottom:4px';
+        hintText.textContent = 'Insert into article at cursor position:';
+        hint.appendChild(hintText);
+        const insertBtn = document.createElement('button');
+        insertBtn.className = 'insert-btn';
+        insertBtn.setAttribute('onclick', `insertImageIntoEditor('/images/${d.filename}', '${d.filename.replace(/\.[^.]+$/, '')}')`);
+        insertBtn.textContent = '+ Insert into editor';
+        hint.appendChild(insertBtn);
+        div.appendChild(hint);
+        const removeBtn = document.createElement('button');
+        removeBtn.setAttribute('onclick', `removeBodyImage(${i})`);
+        removeBtn.style.cssText = 'margin-top:6px;font-size:0.72rem;color:var(--red);background:none;border:none;cursor:pointer';
+        removeBtn.textContent = 'Remove';
+        div.appendChild(removeBtn);
         list.appendChild(div);
       });
     }
@@ -701,18 +730,38 @@
       faqItems.forEach((faq, i) => {
         const div = document.createElement('div');
         div.style.cssText = 'border:1px solid var(--border);border-radius:8px;padding:14px;margin-bottom:10px;';
-        div.innerHTML = `
-          <div class="form-group" style="margin-bottom:10px"><label>Question ${i+1}</label>
-            <input type="text" value="${faq.q.replace(/"/g,'&quot;')}" placeholder="e.g. What methodology does Crestmore use?"
-              oninput="faqItems[${i}].q=this.value;updateSchemaPreview()"
-              style="width:100%;padding:8px 12px;border:1.5px solid var(--border);border-radius:6px;font-family:inherit;font-size:0.85rem;" />
-          </div>
-          <div class="form-group" style="margin-bottom:0"><label>Answer ${i+1}</label>
-            <textarea placeholder="Full answer…" oninput="faqItems[${i}].a=this.value;updateSchemaPreview()"
-              style="width:100%;padding:8px 12px;border:1.5px solid var(--border);border-radius:6px;font-family:inherit;font-size:0.85rem;min-height:60px;resize:vertical">${faq.a}</textarea>
-          </div>
-          <button onclick="removeFaqItem(${i})" style="margin-top:8px;font-size:0.75rem;color:var(--red);background:none;border:none;cursor:pointer">Remove</button>
-        `;
+        const qGroup = document.createElement('div');
+        qGroup.className = 'form-group';
+        qGroup.style.marginBottom = '10px';
+        const qLabel = document.createElement('label');
+        qLabel.textContent = `Question ${i+1}`;
+        qGroup.appendChild(qLabel);
+        const qInput = document.createElement('input');
+        qInput.type = 'text';
+        qInput.value = faq.q;
+        qInput.placeholder = 'e.g. What methodology does Crestmore use?';
+        qInput.setAttribute('oninput', `faqItems[${i}].q=this.value;updateSchemaPreview()`);
+        qInput.style.cssText = 'width:100%;padding:8px 12px;border:1.5px solid var(--border);border-radius:6px;font-family:inherit;font-size:0.85rem;';
+        qGroup.appendChild(qInput);
+        div.appendChild(qGroup);
+        const aGroup = document.createElement('div');
+        aGroup.className = 'form-group';
+        aGroup.style.marginBottom = '0';
+        const aLabel = document.createElement('label');
+        aLabel.textContent = `Answer ${i+1}`;
+        aGroup.appendChild(aLabel);
+        const aText = document.createElement('textarea');
+        aText.placeholder = 'Full answer…';
+        aText.setAttribute('oninput', `faqItems[${i}].a=this.value;updateSchemaPreview()`);
+        aText.style.cssText = 'width:100%;padding:8px 12px;border:1.5px solid var(--border);border-radius:6px;font-family:inherit;font-size:0.85rem;min-height:60px;resize:vertical';
+        aText.value = faq.a;
+        aGroup.appendChild(aText);
+        div.appendChild(aGroup);
+        const removeBtn = document.createElement('button');
+        removeBtn.setAttribute('onclick', `removeFaqItem(${i})`);
+        removeBtn.style.cssText = 'margin-top:8px;font-size:0.75rem;color:var(--red);background:none;border:none;cursor:pointer';
+        removeBtn.textContent = 'Remove';
+        div.appendChild(removeBtn);
         list.appendChild(div);
       });
     }
@@ -764,19 +813,32 @@
     // ── TEST CONNECTION ──────────────────────────────────────────────────
     async function testConnection() {
       const resultEl = document.getElementById('conn-result');
-      resultEl.innerHTML = '<span class="conn-badge checking">⏳ Testing…</span>';
+      resultEl.innerHTML = '';
+      const checking = document.createElement('span');
+      checking.className = 'conn-badge checking';
+      checking.textContent = '⏳ Testing…';
+      resultEl.appendChild(checking);
       try {
         const resp = await ghFetch('https://api.github.com/user', {
           headers: { Authorization: `token ${cfg.pat}`, Accept: 'application/vnd.github.v3+json' }
         }, 15000);
         const data = await resp.json();
+        resultEl.innerHTML = '';
+        const badge = document.createElement('span');
         if (resp.ok) {
-          resultEl.innerHTML = `<span class="conn-badge ok">✓ Connected as ${data.login}</span>`;
+          badge.className = 'conn-badge ok';
+          badge.textContent = `✓ Connected as ${data.login}`;
         } else {
-          resultEl.innerHTML = `<span class="conn-badge fail">✗ ${data.message || 'Auth failed'}</span>`;
+          badge.className = 'conn-badge fail';
+          badge.textContent = `✗ ${data.message || 'Auth failed'}`;
         }
+        resultEl.appendChild(badge);
       } catch (err) {
-        resultEl.innerHTML = `<span class="conn-badge fail">✗ ${err.message}</span>`;
+        resultEl.innerHTML = '';
+        const badge = document.createElement('span');
+        badge.className = 'conn-badge fail';
+        badge.textContent = `✗ ${err.message}`;
+        resultEl.appendChild(badge);
       }
     }
 
@@ -907,27 +969,63 @@
         }));
 
         posts.sort((a,b) => (b.date > a.date ? 1 : -1));
-        let html = '<div class="posts-list">';
+        const listWrap = document.createElement('div');
+        listWrap.className = 'posts-list';
         for (const p of posts) {
           const safeSlug = p.slug.replace(/'/g,"\\'");
           const safeSha  = p.sha.replace(/'/g,"\\'");
-          html += `<div class="post-row" data-slug="${p.slug}" data-sha="${p.sha}">
-            <div class="post-row-check"><input type="checkbox" onchange="updateBulkBar()" /></div>
-            <div style="flex:1;min-width:0">
-              <div class="post-row-title">${p.title}</div>
-              <div class="post-row-meta">${p.date ? p.date + ' · ' : ''}/research/${p.slug}${p.category ? ' · ' + p.category : ''}</div>
-            </div>
-            <div class="post-row-actions">
-              <button class="btn-edit" onclick="editPost('${safeSlug}','${safeSha}')">✏️ Edit</button>
-              <a href="https://crestmoreresearch.com/research/${p.slug}" target="_blank" class="btn-outline" style="font-size:0.78rem;padding:5px 12px;text-decoration:none">↗ View</a>
-              <button class="btn-danger" onclick="deletePost('${safeSlug}','${safeSha}')">🗑️ Delete</button>
-            </div>
-          </div>`;
+          const row = document.createElement('div');
+          row.className = 'post-row';
+          row.setAttribute('data-slug', p.slug);
+          row.setAttribute('data-sha', p.sha);
+          const check = document.createElement('div');
+          check.className = 'post-row-check';
+          const cb = document.createElement('input');
+          cb.type = 'checkbox';
+          cb.setAttribute('onchange', 'updateBulkBar()');
+          check.appendChild(cb);
+          row.appendChild(check);
+          const info = document.createElement('div');
+          info.style.cssText = 'flex:1;min-width:0';
+          const titleDiv = document.createElement('div');
+          titleDiv.className = 'post-row-title';
+          titleDiv.textContent = p.title;
+          info.appendChild(titleDiv);
+          const metaDiv = document.createElement('div');
+          metaDiv.className = 'post-row-meta';
+          metaDiv.textContent = (p.date ? p.date + ' · ' : '') + '/research/' + p.slug + (p.category ? ' · ' + p.category : '');
+          info.appendChild(metaDiv);
+          row.appendChild(info);
+          const actions = document.createElement('div');
+          actions.className = 'post-row-actions';
+          const editBtn = document.createElement('button');
+          editBtn.className = 'btn-edit';
+          editBtn.setAttribute('onclick', `editPost('${safeSlug}','${safeSha}')`);
+          editBtn.textContent = '✏️ Edit';
+          actions.appendChild(editBtn);
+          const viewLink = document.createElement('a');
+          viewLink.href = `https://crestmoreresearch.com/research/${p.slug}`;
+          viewLink.target = '_blank';
+          viewLink.className = 'btn-outline';
+          viewLink.style.cssText = 'font-size:0.78rem;padding:5px 12px;text-decoration:none';
+          viewLink.textContent = '↗ View';
+          actions.appendChild(viewLink);
+          const delBtn = document.createElement('button');
+          delBtn.className = 'btn-danger';
+          delBtn.setAttribute('onclick', `deletePost('${safeSlug}','${safeSha}')`);
+          delBtn.textContent = '🗑️ Delete';
+          actions.appendChild(delBtn);
+          row.appendChild(actions);
+          listWrap.appendChild(row);
         }
-        html += '</div>';
-        container.innerHTML = html;
+        container.innerHTML = '';
+        container.appendChild(listWrap);
       } catch (err) {
-        container.innerHTML = `<div class="no-posts">Error: ${err.message}. Check your GitHub PAT in Settings.</div>`;
+        container.innerHTML = '';
+        const div = document.createElement('div');
+        div.className = 'no-posts';
+        div.textContent = `Error: ${err.message}. Check your GitHub PAT in Settings.`;
+        container.appendChild(div);
       }
     }
 
@@ -1010,7 +1108,11 @@
         await triggerRebuild();
         await loadPosts();
       } catch (err) {
-        container.innerHTML = `<div class="no-posts">❌ Delete failed: ${err.message}</div>`;
+        container.innerHTML = '';
+        const div = document.createElement('div');
+        div.className = 'no-posts';
+        div.textContent = `❌ Delete failed: ${err.message}`;
+        container.appendChild(div);
       }
     }
 
@@ -1043,7 +1145,11 @@
       const names = rows.map(r => r.dataset.slug + '.md').join(', ');
       if (!confirm(`Delete ${rows.length} post(s)?\n\n${names}\n\nThis cannot be undone.`)) return;
       const container = document.getElementById('posts-list-container');
-      container.innerHTML = `<div class="no-posts">Deleting ${rows.length} post(s)…</div>`;
+      container.innerHTML = '';
+      const deleting = document.createElement('div');
+      deleting.className = 'no-posts';
+      deleting.textContent = `Deleting ${rows.length} post(s)…`;
+      container.appendChild(deleting);
       document.getElementById('bulk-bar').classList.remove('visible');
       const errors = [];
       for (const row of rows) {
