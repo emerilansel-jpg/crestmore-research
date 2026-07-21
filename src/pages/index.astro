@@ -859,10 +859,24 @@ const whyPoints = [
           <p class="newsletter-box__subtitle">The most important market intelligence, distilled into 5 minutes</p>
           <p class="newsletter-box__desc">Every Friday, our analysts synthesize the week's most significant market developments, policy shifts, and data releases. Personalized briefings for subscribers across commodities, emerging markets, country risk, and capital flows.</p>
 
-          <form class="newsletter-form" method="POST" action="/api/newsletter-subscribe">
+          <form id="newsletter-form" class="newsletter-form" method="GET" action="/newsletter-subscribe">
             <input type="email" name="email" placeholder="Your institutional email" required class="newsletter-form__input" />
+            <input type="text" name="company" class="newsletter-form__input newsletter-form__honeypot" tabindex="-1" autocomplete="off" aria-hidden="true" />
             <button type="submit" class="btn btn--gold btn--lg">Subscribe</button>
           </form>
+
+          <script>
+            (function() {
+              const form = document.getElementById('newsletter-form');
+              if (!form) return;
+              form.addEventListener('submit', function (e) {
+                const honeypot = form.querySelector('input[name="company"]');
+                if (honeypot && honeypot.value.trim() !== '') {
+                  e.preventDefault();
+                }
+              });
+            })();
+          </script>
 
           <div class="newsletter-stats">
             <span class="newsletter-stats__item">4,200+ institutional subscribers</span>
@@ -1993,11 +2007,23 @@ const whyPoints = [
     margin-bottom: 2rem;
   }
 
-  .newsletter-form {
-    display: flex;
-    gap: 0.5rem;
-    margin-bottom: 2rem;
-  }
+.newsletter-form {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 2rem;
+}
+
+.newsletter-form__honeypot {
+  position: absolute;
+  left: -9999px;
+  opacity: 0;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+  overflow: hidden;
+  padding: 0;
+  border: 0;
+}
 
   .newsletter-form__input {
     flex: 1;

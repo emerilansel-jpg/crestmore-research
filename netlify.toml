@@ -4,3 +4,20 @@
 
 [build.environment]
   NODE_VERSION = "22"
+
+# Catch-all redirects for dead dynamic links that Astro cannot redirect to a static route.
+[[redirects]]
+  from = "/sectors/:slug"
+  to = "/research"
+  status = 301
+
+[[redirects]]
+  from = "/insights/:slug"
+  to = "/research"
+  status = 301
+
+[[redirects]]
+  from = "/research/:slug"
+  to = "/research"
+  status = 301
+

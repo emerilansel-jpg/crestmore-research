@@ -1,0 +1,60 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="Thank You — Crestmore Research"
+  description="Thank you for contacting Crestmore Research. We will be in touch shortly."
+  pageType="default"
+>
+  <section class="page-hero">
+    <div class="container">
+      <div class="page-hero__content">
+        <p class="section__eyebrow section__eyebrow--gold">Enquiry Received</p>
+        <h1 class="page-hero__title">Thank You, We'll Be in Touch</h1>
+        <p class="page-hero__sub">Your message has been received. Our team reviews every institutional enquiry and responds within one business day.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="thank-you-box">
+        <p class="thank-you-text">
+          If your request is urgent, please call our New York office directly at
+          <a href="tel:+12125550190">+1 (212) 555-0190</a>.
+        </p>
+        <a href="/" class="btn btn--gold">Back to homepage</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+.thank-you-box {
+  max-width: 640px;
+  margin: 0 auto;
+  text-align: center;
+  padding: 48px 32px;
+  background: #ffffff;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+}
+
+.thank-you-text {
+  font-family: 'Inter', sans-serif;
+  font-size: 16px;
+  color: var(--text-secondary);
+  line-height: 1.7;
+  margin-bottom: 32px;
+}
+
+.thank-you-text a {
+  color: var(--accent);
+  text-decoration: underline;
+}
+
+@media (max-width: 600px) {
+  .thank-you-box { padding: 32px 24px; }
+}
+</style>

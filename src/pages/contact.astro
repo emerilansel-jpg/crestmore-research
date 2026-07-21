@@ -29,7 +29,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
           <h2 class="contact-section-title">Request a Research Brief</h2>
           <p class="contact-section-sub">Tell us about your research need and we will propose the right service structure. All enquiries are treated in strict confidence.</p>
 
-          <form class="contact-form" action="/contact-success" method="POST" novalidate>
+          <form id="contact-form" class="contact-form" action="/contact-success" method="GET" novalidate>
             <div class="form-row form-row--2">
               <div class="form-field">
                 <label for="first-name" class="form-label">First Name <span aria-hidden="true">*</span></label>
@@ -77,9 +77,53 @@ import BaseLayout from '../layouts/BaseLayout.astro';
                 <span>I agree to Crestmore Research's <a href="/privacy">Privacy Policy</a> and consent to being contacted in relation to my enquiry.</span>
               </label>
             </div>
+            <div class="form-field form-field--honeypot" aria-hidden="true">
+              <label for="contact-website" class="form-label">Website</label>
+              <input type="text" id="contact-website" name="website" class="form-input" tabindex="-1" autocomplete="off" />
+            </div>
             <button type="submit" class="btn btn--gold btn--lg form-submit">Submit Enquiry</button>
             <p class="form-note">We respond within one business day. All enquiries are confidential.</p>
           </form>
+
+          <script>
+            (function() {
+              const form = document.getElementById('contact-form');
+              if (!form) return;
+
+              form.addEventListener('submit', function (e) {
+                const honeypot = form.querySelector('input[name="website"]');
+                if (honeypot && honeypot.value.trim() !== '') {
+                  e.preventDefault();
+                  return;
+                }
+
+                e.preventDefault();
+
+                const data = new FormData(form);
+                const firstName = data.get('first_name') || '';
+                const lastName = data.get('last_name') || '';
+                const email = data.get('email') || '';
+                const organisation = data.get('organisation') || '';
+                const jobTitle = data.get('job_title') || '';
+                const service = data.get('service') || '';
+                const message = data.get('message') || '';
+
+                const subject = `Research enquiry from ${firstName} ${lastName}`.trim();
+                const body = [
+                  `Name: ${firstName} ${lastName}`.trim(),
+                  `Email: ${email}`,
+                  `Organisation: ${organisation}`,
+                  `Job Title: ${jobTitle || 'Not provided'}`,
+                  `Area of Interest: ${service || 'Not selected'}`,
+                  '',
+                  'Message:',
+                  message,
+                ].join('\n');
+
+                window.location.href = `mailto:research@crestmoreresearch.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+              });
+            })();
+          </script>
         </div>
 
         <!-- Contact info -->
@@ -237,6 +281,16 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 .form-checkbox a { color: var(--accent); text-decoration: underline; }
 
 .form-submit { align-self: flex-start; }
+
+.form-field--honeypot {
+  position: absolute;
+  left: -9999px;
+  opacity: 0;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
 
 .form-note {
   font-family: 'Inter', sans-serif;
