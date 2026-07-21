@@ -17,4 +17,12 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       <a href="/" class="btn" style="display: inline-block;">Back to Home</a>
     </div>
   </section>
+  <script is:inline>
+    (function() {
+      var path = window.location.pathname;
+      if (path.indexOf('/sectors/') === 0 || path.indexOf('/insights/') === 0 || path.indexOf('/research/') === 0) {
+        window.location.replace('/research');
+      }
+    })();
+  </script>
 </BaseLayout>
