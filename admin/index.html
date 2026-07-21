@@ -358,7 +358,7 @@
         <div class="panel" id="panel-settings">
           <div class="panel-header">
             <div class="panel-title">Settings</div>
-            <div class="panel-sub">Configure GitHub connection and admin credentials.</div>
+            <div class="panel-sub">Configure repository and branch.</div>
           </div>
           <div class="card">
             <div class="card-title">GitHub Connection</div>
@@ -371,11 +371,6 @@
                 <label>Source Branch</label>
                 <input type="text" id="s-branch" placeholder="main" />
               </div>
-              <div class="form-group span-2">
-                <label>GitHub Personal Access Token (PAT)</label>
-                <input type="password" id="s-pat" placeholder="ghp_xxxxxxxxxxxxxxxxxx" />
-                <div class="form-hint">Needs <strong>repo → contents:write</strong> scope. Stored only in your browser (localStorage).</div>
-              </div>
             </div>
             <div style="display:flex; gap:12px; align-items:center; flex-wrap:wrap">
               <button class="btn-save" onclick="saveSettings()" style="width:auto; padding:10px 24px">Save Settings</button>
@@ -383,21 +378,6 @@
               <span id="settings-saved" style="font-size:0.82rem; color:var(--green); display:none">✓ Saved</span>
               <span id="conn-result"></span>
             </div>
-          </div>
-          <div class="card">
-            <div class="card-title">Change Admin Password</div>
-            <div class="grid-2">
-              <div class="form-group">
-                <label>New Password</label>
-                <input type="password" id="s-new-pw" placeholder="Enter new password" />
-              </div>
-              <div class="form-group">
-                <label>Confirm Password</label>
-                <input type="password" id="s-confirm-pw" placeholder="Confirm new password" />
-              </div>
-            </div>
-            <button class="btn-save" onclick="changePassword()" style="width:auto; padding:10px 24px">Update Password</button>
-            <span id="pw-msg" style="margin-left:12px; font-size:0.82rem; display:none"></span>
           </div>
           <div class="card">
             <div class="card-title">Deploy Status</div>
@@ -437,9 +417,8 @@
   <script src="https://unpkg.com/easymde/dist/easymde.min.js"></script>
   <script>
     // ── CONFIG ──────────────────────────────────────────────────
-    const DEFAULT_PW_HASH = '39d84021219d58035c12c62d151d3129adbc904f270db1aba8624dd84ed99dd9'; // jdp123
-    const DEFAULT_PAT = ['ghp_6X','pXR9Qu','AepMZH','HAvCpJ','0tRB8S','I1Xy4e','pwQJ'].join('');
-    let cfg = { repo: 'emerilansel-jpg/crestmore-research', branch: 'main', pat: '', pwHash: '' };
+    const API_BASE = 'https://research-api.n311311.workers.dev';
+    let cfg = { repo: 'emerilansel-jpg/crestmore-research', branch: 'main' };
     let mde = null;
     let featuredFileData = null;
     let bodyFilesData = [];
@@ -449,37 +428,40 @@
     let deletePending = { slug: null, sha: null };
 
     // ── HELPERS ──────────────────────────────────────────────────
-    async function sha256(str) {
-      const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(str));
-      return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,'0')).join('');
-    }
-    function escapeHtml(text) {
-      if (text == null) return '';
-      return String(text).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#039;');
-    }
     function loadConfig() {
       const saved = localStorage.getItem('crestmore_cfg');
       if (saved) Object.assign(cfg, JSON.parse(saved));
-      if (!cfg.pwHash) cfg.pwHash = DEFAULT_PW_HASH;
-      if (!cfg.pat) cfg.pat = DEFAULT_PAT;
     }
     function saveConfig() { localStorage.setItem('crestmore_cfg', JSON.stringify(cfg)); }
 
     // ── AUTH ──────────────────────────────────────────────────
+    function getToken() { return localStorage.getItem('crestmore_token'); }
+    function setToken(token) { localStorage.setItem('crestmore_token', token); }
+    function removeToken() { localStorage.removeItem('crestmore_token'); }
+
     async function doLogin() {
-      loadConfig();
       const pw = document.getElementById('login-password').value;
-      const hash = await sha256(pw);
-      if (hash === cfg.pwHash) {
+      const errEl = document.getElementById('login-error');
+      try {
+        const resp = await fetch(`${API_BASE}/api/auth/login`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ password: pw })
+        });
+        const data = await resp.json().catch(() => ({}));
+        if (!resp.ok) throw new Error(data.error || 'Login failed');
+        setToken(data.token);
         document.getElementById('login-screen').style.display = 'none';
         document.getElementById('app').style.display = 'block';
         initApp();
-      } else {
-        document.getElementById('login-error').style.display = 'block';
+      } catch (err) {
+        errEl.textContent = err.message || 'Login failed';
+        errEl.style.display = 'block';
       }
     }
     document.getElementById('login-password').addEventListener('keydown', e => { if (e.key === 'Enter') doLogin(); });
     function doLogout() {
+      removeToken();
       document.getElementById('app').style.display = 'none';
       document.getElementById('login-screen').style.display = 'flex';
       document.getElementById('login-password').value = '';
@@ -509,7 +491,6 @@
       }
       document.getElementById('s-repo').value = cfg.repo;
       document.getElementById('s-branch').value = cfg.branch;
-      document.getElementById('s-pat').value = cfg.pat;
       updateSlugPreview();
       updateSchemaPreview();
     }
@@ -526,7 +507,6 @@
       if (id === 'settings') {
         document.getElementById('s-repo').value = cfg.repo;
         document.getElementById('s-branch').value = cfg.branch;
-        document.getElementById('s-pat').value = cfg.pat;
       }
     }
 
@@ -771,12 +751,21 @@
       updateSchemaPreview();
     });
 
-    // ── GITHUB API (with timeout) ──────────────────────────────────────────────────
-    async function ghFetch(url, options = {}, timeoutMs = 20000) {
+    // ── BACKEND API CLIENT ──────────────────────────────────────────────────
+    async function apiFetch(path, options = {}, timeoutMs = 20000) {
       const controller = new AbortController();
       const timer = setTimeout(() => controller.abort(), timeoutMs);
+      const url = path.startsWith('http') ? path : `${API_BASE}${path}`;
       try {
-        const resp = await fetch(url, { ...options, signal: controller.signal });
+        const resp = await fetch(url, {
+          ...options,
+          headers: {
+            ...(options.headers || {}),
+            'Authorization': `Bearer ${getToken()}`,
+            'Content-Type': 'application/json'
+          },
+          signal: controller.signal
+        });
         clearTimeout(timer);
         return resp;
       } catch (err) {
@@ -785,29 +774,17 @@
         throw err;
       }
     }
-
-    async function ghRequest(method, path, body) {
-      const resp = await ghFetch(`https://api.github.com/repos/${cfg.repo}/contents/${path}`, {
-        method,
-        headers: {
-          Authorization: `token ${cfg.pat}`,
-          'Content-Type': 'application/json',
-          Accept: 'application/vnd.github.v3+json'
-        },
-        body: body ? JSON.stringify(body) : undefined
-      });
-      const data = await resp.json();
-      if (!resp.ok) throw new Error(data.message || `HTTP ${resp.status}`);
+    async function apiGet(path) {
+      const resp = await apiFetch(path, { method: 'GET' });
+      const data = await resp.json().catch(() => ({}));
+      if (!resp.ok) throw new Error(data.error || data.message || `HTTP ${resp.status}`);
       return data;
     }
-    async function ghGetSha(path) {
-      try { const data = await ghRequest('GET', path); return data.sha; }
-      catch { return null; }
-    }
-    async function ghPutFile(path, content64, message, sha) {
-      const body = { message, content: content64, branch: cfg.branch };
-      if (sha) body.sha = sha;
-      return ghRequest('PUT', path, body);
+    async function apiPost(path, body) {
+      const resp = await apiFetch(path, { method: 'POST', body: JSON.stringify(body) });
+      const data = await resp.json().catch(() => ({}));
+      if (!resp.ok) throw new Error(data.error || data.message || `HTTP ${resp.status}`);
+      return data;
     }
 
     // ── TEST CONNECTION ──────────────────────────────────────────────────
@@ -819,19 +796,11 @@
       checking.textContent = '⏳ Testing…';
       resultEl.appendChild(checking);
       try {
-        const resp = await ghFetch('https://api.github.com/user', {
-          headers: { Authorization: `token ${cfg.pat}`, Accept: 'application/vnd.github.v3+json' }
-        }, 15000);
-        const data = await resp.json();
+        await apiGet(`/api/cms/posts?repo=${encodeURIComponent(cfg.repo)}&branch=${encodeURIComponent(cfg.branch)}&path=src/content/research`);
         resultEl.innerHTML = '';
         const badge = document.createElement('span');
-        if (resp.ok) {
-          badge.className = 'conn-badge ok';
-          badge.textContent = `✓ Connected as ${data.login}`;
-        } else {
-          badge.className = 'conn-badge fail';
-          badge.textContent = `✗ ${data.message || 'Auth failed'}`;
-        }
+        badge.className = 'conn-badge ok';
+        badge.textContent = '✓ Connected to backend';
         resultEl.appendChild(badge);
       } catch (err) {
         resultEl.innerHTML = '';
@@ -886,8 +855,8 @@
         setProgress(0, '⚠️ Please fill in all highlighted fields', 'error');
         return;
       }
-      if (!cfg.pat) {
-        setProgress(0, '⚠️ GitHub PAT not set — go to Settings', 'error');
+      if (!getToken()) {
+        setProgress(0, '⚠️ Not authenticated — please sign in again', 'error');
         return;
       }
 
@@ -913,33 +882,42 @@
         const mdBase64 = btoa(unescape(encodeURIComponent(mdContent)));
         const mdPath = `src/content/research/${slug}.md`;
 
-        setProgress(20, 'Checking existing file…');
-        const existingSha = await ghGetSha(mdPath);
-        setProgress(35, 'Uploading article…');
-        await ghPutFile(mdPath, mdBase64, editMode.active ? `edit(content): update "${title}"` : `feat(content): publish "${title}"`, existingSha);
+        setProgress(20, 'Uploading article…');
+        const articleBody = {
+          repo: cfg.repo,
+          branch: cfg.branch,
+          path: mdPath,
+          content: mdBase64,
+          message: editMode.active ? `edit(content): update "${title}"` : `feat(content): publish "${title}"`
+        };
+        if (editMode.active && editMode.sha) articleBody.sha = editMode.sha;
+        await apiPost('/api/cms/publish', articleBody);
         setProgress(55, 'Uploading images…');
 
         if (featuredFileData) {
-          const imgGhPath = `public/images/${featuredFileData.filename}`;
-          const imgSha = await ghGetSha(imgGhPath);
-          await ghPutFile(imgGhPath, featuredFileData.base64, `feat(images): add ${featuredFileData.filename}`, imgSha);
+          const imgPath = `public/images/${featuredFileData.filename}`;
+          await apiPost('/api/cms/upload', {
+            repo: cfg.repo,
+            branch: cfg.branch,
+            path: imgPath,
+            content: featuredFileData.base64,
+            message: `feat(images): add ${featuredFileData.filename}`
+          });
         }
         for (let i = 0; i < bodyFilesData.length; i++) {
           const bd = bodyFilesData[i];
-          const imgGhPath = `public/images/${bd.filename}`;
-          const imgSha = await ghGetSha(imgGhPath);
-          await ghPutFile(imgGhPath, bd.base64, `feat(images): add ${bd.filename}`, imgSha);
+          const imgPath = `public/images/${bd.filename}`;
+          await apiPost('/api/cms/upload', {
+            repo: cfg.repo,
+            branch: cfg.branch,
+            path: imgPath,
+            content: bd.base64,
+            message: `feat(images): add ${bd.filename}`
+          });
           setProgress(55 + Math.round((i+1)/bodyFilesData.length * 25), `Uploading image ${i+1}/${bodyFilesData.length}…`);
         }
 
-        setProgress(85, 'Triggering rebuild…');
-        await ghFetch(`https://api.github.com/repos/${cfg.repo}/actions/workflows/build-deploy.yml/dispatches`, {
-          method: 'POST',
-          headers: { Authorization: `token ${cfg.pat}`, Accept: 'application/vnd.github.v3+json', 'Content-Type': 'application/json' },
-          body: JSON.stringify({ ref: cfg.branch })
-        }, 15000).catch(() => {}); // non-fatal if dispatch fails
-
-        setProgress(100, editMode.active ? `✅ Updated! "${title}" is rebuilding (live in ~2 min)` : `✅ Published! "${title}" is building now (live in ~2 min)`, 'success');
+        setProgress(100, editMode.active ? `✅ Updated! "${title}" saved` : `✅ Published! "${title}" saved`, 'success');
         if (editMode.active) { setTimeout(() => cancelEdit(), 1500); }
       } catch (err) {
         setProgress(0, `❌ Error: ${err.message}`, 'error');
@@ -954,14 +932,13 @@
       const container = document.getElementById('posts-list-container');
       container.innerHTML = '<div class="no-posts">Loading…</div>';
       try {
-        const files = await ghRequest('GET', 'src/content/research');
+        const files = await apiGet(`/api/cms/posts?repo=${encodeURIComponent(cfg.repo)}&branch=${encodeURIComponent(cfg.branch)}&path=src/content/research`);
         const mdFiles = files.filter(f => f.name.endsWith('.md'));
         if (mdFiles.length === 0) { container.innerHTML = '<div class="no-posts">No posts yet. Create your first post!</div>'; return; }
 
-        // Fetch metadata for all posts in parallel to get SHA + date
         const posts = await Promise.all(mdFiles.map(async f => {
           try {
-            const data = await ghRequest('GET', `src/content/research/${f.name}`);
+            const data = await apiGet(`/api/cms/posts?repo=${encodeURIComponent(cfg.repo)}&branch=${encodeURIComponent(cfg.branch)}&path=${encodeURIComponent('src/content/research/' + f.name)}`);
             const raw = decodeURIComponent(escape(atob(data.content.replace(/\n/g,''))));
             const fm = parseFrontmatter(raw);
             return { slug: f.name.replace('.md',''), sha: data.sha, title: fm.title || f.name.replace('.md','').replace(/-/g,' ').replace(/\b\w/g,c=>c.toUpperCase()), date: fm.date || '', category: fm.category || '' };
@@ -1046,7 +1023,7 @@
       showPanelById('panel-new-post');
       setProgress(10, 'Loading post content…');
       try {
-        const data = await ghRequest('GET', `src/content/research/${slug}.md`);
+        const data = await apiGet(`/api/cms/posts?repo=${encodeURIComponent(cfg.repo)}&branch=${encodeURIComponent(cfg.branch)}&path=${encodeURIComponent('src/content/research/' + slug + '.md')}`);
         const raw = decodeURIComponent(escape(atob(data.content.replace(/\n/g,''))));
         const fm = parseFrontmatter(raw);
         const bodyMatch = raw.match(/^---[\s\S]*?---\r?\n([\s\S]*)$/);
@@ -1104,8 +1081,13 @@
       const container = document.getElementById('posts-list-container');
       container.innerHTML = '<div class="no-posts">Deleting…</div>';
       try {
-        await ghRequest('DELETE', `src/content/research/${slug}.md`, { message: `chore(content): delete "${slug}"`, sha, branch: cfg.branch });
-        await triggerRebuild();
+        await apiPost('/api/cms/delete', {
+          repo: cfg.repo,
+          branch: cfg.branch,
+          path: `src/content/research/${slug}.md`,
+          sha,
+          message: `chore(content): delete "${slug}"`
+        });
         await loadPosts();
       } catch (err) {
         container.innerHTML = '';
@@ -1114,14 +1096,6 @@
         div.textContent = `❌ Delete failed: ${err.message}`;
         container.appendChild(div);
       }
-    }
-
-    async function triggerRebuild() {
-      await ghFetch(`https://api.github.com/repos/${cfg.repo}/actions/workflows/build-deploy.yml/dispatches`, {
-        method: 'POST',
-        headers: { Authorization: `token ${cfg.pat}`, Accept: 'application/vnd.github.v3+json', 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ref: cfg.branch })
-      }, 15000).catch(() => {});
     }
 
     // ── BULK DELETE ──────────────────────────────────────────────────
@@ -1156,12 +1130,17 @@
         const slug = row.dataset.slug;
         const sha  = row.dataset.sha;
         try {
-          await ghRequest('DELETE', `src/content/research/${slug}.md`, { message: `chore(content): delete "${slug}"`, sha, branch: cfg.branch });
+          await apiPost('/api/cms/delete', {
+            repo: cfg.repo,
+            branch: cfg.branch,
+            path: `src/content/research/${slug}.md`,
+            sha,
+            message: `chore(content): delete "${slug}"`
+          });
         } catch (err) {
           errors.push(`${slug}: ${err.message}`);
         }
       }
-      await triggerRebuild();
       await loadPosts();
       if (errors.length) alert('Some deletes failed:\n' + errors.join('\n'));
     }
@@ -1179,28 +1158,13 @@
 
     // ── SETTINGS ──────────────────────────────────────────────────
     function saveSettings() {
-      cfg.repo = document.getElementById('s-repo').value.trim();
+      cfg.repo = document.getElementById('s-repo').value.trim() || 'emerilansel-jpg/crestmore-research';
       cfg.branch = document.getElementById('s-branch').value.trim() || 'main';
-      cfg.pat = document.getElementById('s-pat').value.trim();
       saveConfig();
       const saved = document.getElementById('settings-saved');
       saved.style.display = 'inline';
       setTimeout(() => saved.style.display = 'none', 2000);
     }
-    async function changePassword() {
-      const np = document.getElementById('s-new-pw').value;
-      const cp = document.getElementById('s-confirm-pw').value;
-      const msg = document.getElementById('pw-msg');
-      if (!np) { msg.style.color='var(--red)'; msg.textContent='Enter a password.'; msg.style.display='inline'; return; }
-      if (np !== cp) { msg.style.color='var(--red)'; msg.textContent='Passwords do not match.'; msg.style.display='inline'; return; }
-      cfg.pwHash = await sha256(np);
-      saveConfig();
-      msg.style.color = 'var(--green)'; msg.textContent = '✓ Password updated'; msg.style.display = 'inline';
-      document.getElementById('s-new-pw').value = '';
-      document.getElementById('s-confirm-pw').value = '';
-      setTimeout(() => msg.style.display = 'none', 2500);
-    }
-
     // ── RESET FORM ──────────────────────────────────────────────────
     function resetForm() {
       document.getElementById('post-title').value = '';
@@ -1225,8 +1189,13 @@
       document.getElementById('submit-btn').classList.remove('btn-save-edit');
     }
 
-    document.getElementById('submit-bar').style.display = 'flex';
     loadConfig();
+    if (getToken()) {
+      document.getElementById('login-screen').style.display = 'none';
+      document.getElementById('app').style.display = 'block';
+      initApp();
+      document.getElementById('submit-bar').style.display = 'flex';
+    }
   </script>
   </body>
 </html>
