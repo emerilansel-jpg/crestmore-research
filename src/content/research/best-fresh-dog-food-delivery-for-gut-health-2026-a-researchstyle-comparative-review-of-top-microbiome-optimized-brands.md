@@ -5,9 +5,8 @@ author: "Jonathan Vance"
 category: "ESG & Sustainability"
 tags: []
 description: "Looking for the best fresh dog delivery service for gut health? Read our 2026 comparative review and see why The Farmer's Dog ranked #1."
+featured_image: "/images/ChatGPT Image Jul 23, 2026, 10_25_02 AM.png"
 ---
-
-# Best Fresh Dog Food Delivery for Gut Health (2026): A Research‑Style Comparative Review of Top Microbiome-Optimized Brands
 
 **Byline:** Jonathan Vance, Senior Research Analyst, Crestmore Research – July 23, 2026
 
