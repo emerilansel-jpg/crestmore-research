@@ -5,6 +5,7 @@ author: "Jonathan Vance"
 category: "Healthcare"
 tags: []
 description: "A 2026 comparative review of mineral sunscreens, evaluating ingredient safety, hidden chemical SPF boosters, and performance across 7 top brands."
+featured_image: "/images/mineral sunscreenn.png"
 ---
 
 **Disclosure & Disclaimer**
