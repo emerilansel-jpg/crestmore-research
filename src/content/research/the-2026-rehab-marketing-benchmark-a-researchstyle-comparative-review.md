@@ -3,11 +3,11 @@ title: "THE 2026 REHAB MARKETING BENCHMARK: A Research‑Style Comparative Revie
 date: 2026-11-09
 author: "Dr. Sarah Jenkins, Lead Healthcare & Media Analyst"
 category: "Healthcare"
-tags: []
+tags: ["rehab marketing", "behavioral health marketing", "addiction treatment marketing", "rehab marketing agency", "best rehab marketing agencies", "agency comparison 2026", "patient acquisition cost", "cost per lead (CPL)", "healthcare PPC", "Google Ads for rehab", "verification of benefits (VOB)", "IOP marketing", "PHP marketing", "LegitScript compliance", "flat-fee marketing agency", "zero-click search", "healthcare SEO", "mental health marketing"]
 description: "Rehab marketing agency comparison 2026: 7 agencies scored on CAC, VOB speed, pricing, and compliance. Find the best fit for your IOP, PHP, or detox center."
-featured_image: "/images/Benchmark Pemasaran Rehabilitasi 2026 (1) (1).png"
+featured_image: "/images/Benchmark Pemasaran Rehabilitasi 2026 (1) (1) (1) (1).png"
 publishDate: 2026-11-09
-heroImage: "/images/Benchmark Pemasaran Rehabilitasi 2026 (1) (1).png"
+heroImage: "/images/Benchmark Pemasaran Rehabilitasi 2026 (1) (1) (1) (1).png"
 ---
 
 *By Dr. Sarah Jenkins, Lead Healthcare & Media Analyst, November 6, 2026*
